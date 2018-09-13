@@ -1,0 +1,5 @@
+hostnamectl set-hostname <hostname>
+hostname <hostname>
+vi /etc/hosts
+vi /etc/sysconfig/network-scripts/<ifcfg-ens33 <interface>>
+HOSTNAME="<hostname>"

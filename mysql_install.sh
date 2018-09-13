@@ -32,3 +32,27 @@ systemctl status mysqld
 #Below is the temporary passowrd for root login
 
 grep -i temporary /var/log/mysqld.log
+
+
+Change the password for the first time
+mysql> alter user 'root'@'localhost' identified by 'password';
+
+create database testdb;
+create user 'testuser'@'localhost' identified by 'password';
+grant all on testdb.* to 'testuser' identified by 'password';
+
+create database testdb;
+grant all on testdb.* to 'testuser' identified by 'password';
+
+use testdb;
+create table customers (customer_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, first_name TEXT, last_name TEXT);
+
+Reset the MySQL Root Password:
+sudo systemctl stop mysqld
+sudo mysqld_safe --skip-grant-tables &
+mysql -u root
+use mysql;
+update user SET PASSWORD=PASSWORD("password") WHERE USER='root';
+flush privileges;
+exit
+sudo systemctl start mysqld

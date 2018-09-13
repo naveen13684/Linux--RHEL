@@ -1,0 +1,16 @@
+
+
+1) On hosting machine, in file explorer, go to
+
+Control Panel\All Control Panel Items\Windows Firewall\Allowed apps
+
+The above path is for windows 8, other windows version may differ slightly.
+
+Look for application name (eg. Virtual Box is "Oracle VM VirtualBox"). There are 3 check boxes for the application, 
+check mark them all, restart your app and it should work.
+
+2) Make sure you select Bridged network in Adapter settings of VM
+
+3) Disable SELinux to use websites outside Virtual box
+
+4) Add firewall exception to port and service using firewall-cmd commands

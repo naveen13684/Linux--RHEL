@@ -1,0 +1,26 @@
+https://www.linuxtechi.com/install-configure-jenkins-on-centos-7-rhel-7/
+
+#sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+#rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+#yum install jenkins java
+#systemctl enable jenkins
+#systemctl start jenkins
+#firewall-cmd --zone=public --add-port=8080/tcp --permanent
+#firewall-cmd --zone=public --add-service=http --permanent
+#firewall-cmd --reload
+
+-Access the URL : http://<Ip-Address-of-your-Server>:8080
+
+# grep -A 5 password /var/log/jenkins/jenkins.log
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+98a3c1fe05b746a4a46177cbd0cbd91b
+
+This may also be found at: /var/lib/jenkins/secrets/initialAdminPassword
+[root@centos-master rpms]#
+
+-In the next windows Select the option : Install suggested plugins
+-create Admin User  admin/admin123
+-Click on Save and Finish
+-click on “Start using Jenkins”

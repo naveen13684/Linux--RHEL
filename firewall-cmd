@@ -294,6 +294,21 @@ success
 [root@master services]#
 
 
+How to remove a firewall rule
+--------------------------------
+$ firewall-cmd --zone=public --remove-port=10050/tcp
+$ firewall-cmd --runtime-to-permanent 
+$ firewall-cmd --reload
+
+# firewall-cmd --zone=public --remove-port=12345/tcp --permanent
+# firewall-cmd --reload
+
+$ firewall-cmd --zone=public --remove-port=10050/tcp
+$ firewall-cmd --runtime-to-permanent
+$ firewall-cmd --reload
+$ systemctl restart firewalld
+$ firewall-cmd --zone=public --list-ports
+
 How to list firewall rules for all zones:
 ------------------------------------------
 

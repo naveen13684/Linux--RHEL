@@ -14,3 +14,6 @@ check mark them all, restart your app and it should work.
 3) Disable SELinux to use websites outside Virtual box
 
 4) Add firewall exception to port and service using firewall-cmd commands
+
+5) tip : use different adapter for each machine, you have 4 adapter in OracleVirtual box., DHCP will not work if you same adapter
+each VM will get same address.

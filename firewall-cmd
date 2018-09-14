@@ -1,0 +1,435 @@
+how to check status of current firewall:
+----------------------------------------
+[root@slave ~]# firewall-cmd --state
+running
+
+how to add port expection to public zone in firewall:
+-----------------------------------------------------
+[root@master rpms]# firewall-cmd --zone=public --add-port=8080/tcp --permanent
+success
+
+how to add service to firewall exception:
+-----------------------------------------
+[root@master rpms]# firewall-cmd --zone=public --add-service=http --permanent
+Warning: ALREADY_ENABLED: http
+success
+
+how to check defult firewall zone:
+-----------------------------------
+[root@master rpms]# firewall-cmd --get-default-zone
+public
+
+How to check all active zones:
+------------------------------
+[root@master rpms]# firewall-cmd --get-active-zones
+public
+  interfaces: enp0s3
+
+How to check all expections of firewall:
+----------------------------------------
+[root@master rpms]#  firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources:
+  services: ssh dhcpv6-client http
+  ports: 80/tcp 8080/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+How to check available zones in firewall:
+----------------------------------------
+[root@master rpms]# firewall-cmd --get-zones
+block dmz drop external home internal public trusted work
+
+[root@master rpms]# firewall-cmd --zone=home --list-all
+home
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh mdns samba-client dhcpv6-client
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@master rpms]# firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources:
+  services: ssh dhcpv6-client http
+  ports: 80/tcp 8080/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@master rpms]#
+
+How to set default zone:
+=======================
+#sudo firewall-cmd --set-default-zone=home
+output
+success
+
+How to get list of available services:
+=-------------------------------------
+[root@master rpms]# firewall-cmd --get-services
+
+RH-Satellite-6 amanda-client amanda-k5-client bacula bacula-client bitcoin bitcoin-rpc bitcoin-testnet bitcoin-testnet-rpc 
+ceph ceph-mon cfengine cockpit condor-collector ctdb dhcp dhcpv6 dhcpv6-client dns docker-registry dropbox-lansync elasticsearch
+freeipa-ldap freeipa-ldaps freeipa-replication freeipa-trust ftp ganglia-client ganglia-master high-availability http https 
+imap imaps ipp ipp-client ipsec iscsi-target kadmin kerberos kibana klogin kpasswd kshell ldap ldaps libvirt libvirt-tls
+managesieve mdns mosh mountd ms-wbt mssql mysql nfs nfs3 nrpe ntp openvpn ovirt-imageio ovirt-storageconsole ovirt-vmconsole 
+pmcd pmproxy pmwebapi pmwebapis pop3 pop3s postgresql privoxy proxy-dhcp ptp pulseaudio puppetmaster quassel radius rpc-bind 
+rsh rsyncd samba samba-client sane sip sips smtp smtp-submission smtps snmp snmptrap spideroak-lansync squid ssh synergy syslog 
+syslog-tls telnet tftp tftp-client tinc tor-socks transmission-client vdsm vnc-server wbem-https xmpp-bosh xmpp-client xmpp-local
+xmpp-server
+[root@master rpms]#
+
+How to check which services are added to firewall in public zone
+----------------------------------------------------------------
+[root@master rpms]# firewall-cmd --zone=public --list-services
+ssh dhcpv6-client http
+[root@master rpms]#
+
+How to check permament serivces list in zone: 
+--------------------------------------------
+[root@master rpms]# firewall-cmd --zone=public --permanent --list-services
+ssh dhcpv6-client http
+[root@master rpms]#
+
+Not permanent:
+-------------
+sudo firewall-cmd --zone=public --add-service=https
+
+Permanent:
+----------
+sudo firewall-cmd --zone=public --permanent --add-service=https
+
+
+How to reload firewall serivce
+------------------------------
+[root@master rpms]# firewall-cmd --reload
+success
+[root@master rpms]#
+
+
+how to specifiy tcp/udp port expection:
+----------------------------------------
+#firewall-cmd --zone=public --add-port=5000/tcp
+
+How to check how many ports are in firewall in a zone:
+------------------------------------------------------
+[root@master rpms]# firewall-cmd --zone=public --list-ports
+80/tcp 8080/tcp
+[root@master rpms]#
+
+How to add range of ports
+-------------------------
+[root@master rpms]# sudo firewall-cmd --zone=public --permanent --add-port=5000/tcp
+success
+[root@master rpms]# sudo firewall-cmd --zone=public --permanent --add-port=4990-4999/udp
+success
+[root@master rpms]# sudo firewall-cmd --zone=public --permanent --list-ports
+80/tcp 8080/tcp 5000/tcp 4990-4999/udp
+[root@master rpms]#
+
+
+Changing Zone interface:
+-------------------------
+#firewall-cmd --zone=home --change-interface=eth0
+
+
+#firewall-cmd --get-active-zones
+output
+home
+  interfaces: eth0
+public
+  interfaces: eth1
+
+
+Manually working with firewall serivce using xml files:
+------------------------------------------------------
+[root@master services]# pwd
+/usr/lib/firewalld/services
+[root@master services]# cat ssh.xml
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>SSH</short>
+  <description>Secure Shell (SSH) is a protocol for logging into and executing commands on remote machines. It provides secure encrypted communications. If you plan on accessing your machine remotely via SSH over a firewalled interface, enable this option. You need the openssh-server package installed for this option to be useful.</description>
+  <port protocol="tcp" port="22"/>
+</service>
+[root@master services]#
+
+Creating Own Zones
+------------------
+[root@master services]# firewall-cmd --permanent --new-zone=publicNaveenHS
+success
+[root@master services]# firewall-cmd --permanent --new-zone=publicWEB
+success
+[root@master services]# firewall-cmd --permanent --new-zone=publicDNS
+success
+[root@master services]#
+
+[root@master services]#  firewall-cmd --permanent --get-zones
+block dmz drop external home internal public publicDNS publicNaveenHS publicWEB trusted work
+[root@master services]#
+
+[root@master services]# firewall-cmd --get-zones
+block dmz drop external home internal public trusted work
+
+[root@master services]# firewall-cmd --reload
+success
+[root@master services]# firewall-cmd --get-zones
+block dmz drop external home internal public publicDNS publicNaveenHS publicWEB trusted work
+[root@master services]#
+
+
+Start adding ports and services to your own zone:
+------------------------------------------------
+[root@master services]# sudo firewall-cmd --zone=publicWEB --add-service=ssh
+success
+[root@master services]# sudo firewall-cmd --zone=publicWEB --add-service=http
+success
+[root@master services]# sudo firewall-cmd --zone=publicWEB --add-service=https
+success
+[root@master services]# sudo firewall-cmd --zone=publicWEB --list-all
+publicWEB
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh http https
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@master services]#
+
+
+[root@master services]# sudo firewall-cmd --zone=publicDNS --add-service=dns
+success
+[root@master services]# sudo firewall-cmd --zone=publicDNS --list-all
+publicDNS
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: dns
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@master services]#
+
+
+[root@master services]# sudo firewall-cmd --zone=publicWEB --change-interface=eth0
+success
+[root@master services]# sudo firewall-cmd --zone=publicDNS --change-interface=eth1
+success
+[root@master services]#
+
+
+[root@master services]# sudo firewall-cmd --zone=publicWEB --permanent --add-service=ssh
+success
+[root@master services]# sudo firewall-cmd --zone=publicWEB --permanent --add-service=http
+success
+[root@master services]# sudo firewall-cmd --zone=publicWEB --permanent --add-service=https
+success
+[root@master services]# sudo firewall-cmd --zone=publicDNS --permanent --add-service=dns
+success
+[root@master services]#
+
+
+How to restart network and firewall
+-----------------------------------
+[root@master services]# sudo systemctl restart network
+[root@master services]# sudo systemctl reload firewalld
+[root@master services]#
+
+
+[root@master services]# firewall-cmd --get-active-zones
+publicDNS
+  interfaces: eth1
+public
+  interfaces: enp0s3
+publicWEB
+  interfaces: eth0
+[root@master services]#
+
+
+[root@master services]# sudo firewall-cmd --zone=publicWEB --list-services
+ssh http https
+[root@master services]#
+[root@master services]# sudo firewall-cmd --zone=publicDNS --list-services
+dns
+[root@master services]#
+
+how to set your custom zone as default
+--------------------------------------
+[root@master services]# sudo firewall-cmd --set-default-zone=publicWEB
+success
+[root@master services]#
+
+
+How to list firewall rules for all zones:
+------------------------------------------
+
+[root@master rpms]# sudo firewall-cmd --list-all-zones
+block
+  target: %%REJECT%%
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services:
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+dmz
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+drop
+  target: DROP
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services:
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+external
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh
+  ports:
+  protocols:
+  masquerade: yes
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+home
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh mdns samba-client dhcpv6-client
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+internal
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh mdns samba-client dhcpv6-client
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources:
+  services: ssh dhcpv6-client http
+  ports: 80/tcp 8080/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+trusted
+  target: ACCEPT
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services:
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+work
+  target: default
+  icmp-block-inversion: no
+  interfaces:
+  sources:
+  services: ssh dhcpv6-client
+  ports:
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+

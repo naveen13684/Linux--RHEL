@@ -3,3 +3,10 @@ hostname <hostname>
 vi /etc/hosts
 vi /etc/sysconfig/network-scripts/<ifcfg-ens33 <interface>>
 HOSTNAME="<hostname>"
+
+[root@master ~]# nmcli general hostname
+master
+[root@master ~]# nmcli general hostname master1
+[root@master ~]# nmcli general hostname
+master1
+

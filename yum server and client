@@ -60,4 +60,31 @@ Sqlite DBs complete
 Client Site settings
 ====================
 
+1) Disable iptables
+2) Disable selinux
+3) create yum repo
+
+[root@localhost yum.repos.d]# cat yumserver.repo
+[yumserverbase]
+name=base
+baseurl=ftp://192.168.0.110/pub/
+enabled=1
+gpgcheck=0
+[root@localhost yum.repos.d]#
+
+4) add below line to yum.conf
+metadata_expire=1m
+
+5) run below command
+yum clean expire-cache
+
+[root@localhost yum.repos.d]# yum list all|wc -l
+3979
+[root@localhost yum.repos.d]#
+
+TEST : Now you copy new rpm package in Server and see if client receives it
+==============================================================================
+1) copy new package to /var/ftp/pub
+2) try downloading it in slave
+
 

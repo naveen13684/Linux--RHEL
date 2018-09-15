@@ -16,3 +16,31 @@ select "Set System Hostname" Option
 
 4) Edit /etc/hostname
 This is simple but requires a reboot of the server to take effect.
+
+
+
+[root@master ~]# nmcli
+enp0s3: connected to enp0s3
+        "Intel 82540EM Gigabit Ethernet Controller (PRO/1000 MT Desktop Adapter)"
+        ethernet (e1000), 08:00:27:DF:99:87, hw, mtu 1500
+        ip4 default
+        inet4 192.168.0.110/24
+        route4 192.168.0.0/24
+        route4 0.0.0.0/0
+        inet6 fe80::8ff9:c4d9:b934:dbde/64
+        route6 ff00::/8
+        route6 fe80::/64
+        route6 fe80::/64
+
+docker0: connected to docker0
+        "docker0"
+        bridge, 02:42:04:99:A0:FC, sw, mtu 1500
+        inet4 172.17.0.1/16
+        route4 172.17.0.0/16
+
+virbr0: connected to virbr0
+        "virbr0"
+        bridge, 52:54:00:7D:DE:EE, sw, mtu 1500
+        inet4 192.168.122.1/24
+        route4 192.168.122.0/24
+

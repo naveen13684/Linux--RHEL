@@ -1,2 +1,63 @@
 YUM SERVER Configuration
 ========================
+
+1) Install yum, yum utils, createrepo, vsftpd packages on Server
+
+2) Disable below in /etc/vsftpd.conf
+
+anonymous_enable=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+idle_session_timeout=600
+data_connection_timeout=120
+
+3)Mount CD drive and copy all Packages from "Packages" folder from cd to /var/ftp/pub
+
+[root@localhost Packages]# mount /dev/cdrom /media   # Mount the RHEL Installation media in /media Directory
+[root@localhost Packages]#cd /media/CentOS-6.8-x86_64-bin-DVD1/Packages   # Change the Directory to Packages
+[root@localhost Packages]# cp * -rfv /var/ftp/pub/   # Copy all the rpm Packages to FTP default directory
+
+4) restart vsftpd
+
+5) Got /etc/yum.repos.d/ and move all repo's to data directory 
+    create new repo using createrepo command
+
+[root@localhost ~]# cd /etc/yum.repos.d/   # Change the Directory to /etc/yum.respo.d
+[root@localhost yum.repos.d]# ls
+CentOS-Base.repo       CentOS-fasttrack.repo  CentOS-Vault.repo   # Default .repo files
+CentOS-Debuginfo.repo  CentOS-Media.repo
+
+# Here I created a Directory to move Sample .repo Files
+
+[root@localhost yum.repos.d]# mkdir /data    
+[root@localhost yum.repos.d]# mv CentOS* /data/
+[root@localhost yum.repos.d]# touch file.repo   # Create a new .repo file
+
+6) vi /etc/repos.d/YUMServer_Base.repo
+
+[base]
+name=base
+baseurl=ftp://192.168.1.100/pub/
+enabled=1
+gpgcheck=0
+
+7) create repo
+
+[root@master13684 yum.repos.d]# createrepo /var/ftp/pub
+Spawning worker 0 with 3894 pkgs
+Workers Finished
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+[root@master13684 yum.repos.d]#
+
+8) restart vsftpd again
+[root@master13684 yum.repos.d]# systemctl restart vsftpd
+
+
+Client Site settings
+====================
+
+

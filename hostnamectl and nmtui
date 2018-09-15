@@ -1,12 +1,18 @@
-hostnamectl set-hostname <hostname>
+1) hostnamectl set-hostname <hostname>
 hostname <hostname>
 vi /etc/hosts
 vi /etc/sysconfig/network-scripts/<ifcfg-ens33 <interface>>
 HOSTNAME="<hostname>"
 
-[root@master ~]# nmcli general hostname
+2) [root@master ~]# nmcli general hostname
 master
 [root@master ~]# nmcli general hostname master1
 [root@master ~]# nmcli general hostname
 master1
+[root@master ~]# systemctl restart systemd-hostnamed
 
+3) #nmtui
+select "Set System Hostname" Option
+
+4) Edit /etc/hostname
+This is simple but requires a reboot of the server to take effect.

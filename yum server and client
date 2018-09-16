@@ -85,6 +85,54 @@ yum clean expire-cache
 TEST : Now you copy new rpm package in Server and see if client receives it
 ==============================================================================
 1) copy new package to /var/ftp/pub
-2) try downloading it in slave
+2) delete repo and recreate repo
+3) yum clean expire-cache
+4) add "metadata_expire=1m" line to /etc/yum.conf to auto refresh yum repo on client
+5) try downloading it in master or slave
+
+Ex:
+# cd /var/ftp/pub
+
+# wget < link to some package - like ansible >
+
+[root@master13684 pub]# ls -l|grep -i ansible
+-rw-r--r-- 1 root root   7968876 Jan 30  2018 ansible-2.4.2.0-2.el7.noarch.rpm
+
+[root@master13684 pub]# ls -l|grep -i chef
+-rw-r--r-- 1 root root     38268 Sep 15 09:54 cachefilesd-0.10.9-1.el7.x86_64.rpm
+-rw-r--r-- 1 root root  49881525 Sep 15 16:29 chef-14.4.56-1.el7.x86_64.rpm
+-rw-r--r-- 1 root root 117242869 Sep 15 16:30 chefdk-3.2.30-1.el7.x86_64.rpm
+-rw-r--r-- 1 root root 271347292 Sep 15 16:30 chef-server-core-12.17.33-1.el7.x86_64.rpm
+-rw-r--r-- 1 root root 112557863 Sep 15 16:30 chef-workstation-0.1.162-1.el6.x86_64.rpm
+[root@master13684 pub]#
+
+# yum list all |grep -i ansible
+--- ansible package will not list nothing lists
+
+# yum list all |grep -i chef 
+---- nothing lists
+
+# cd /var/ftp/pub/
+
+# rm -rf repodata/
+
+# cd /var/ftp/pub
+# createrepo .
+---- this will create repodata again
+
+# yum clean expire-cache
+
+--- Now if you check yum list in master and client, you can see the package.
+[root@master13684 pub]#  yum list all |grep -i chef
+cachefilesd.x86_64                     0.10.9-1.el7              yum_server_base
+chef.x86_64                            14.4.56-1.el7             yum_server_base
+chef-server-core.x86_64                12.17.33-1.el7            yum_server_base
+chef-workstation.x86_64                0.1.162-1.el6             yum_server_base
+chefdk.x86_64                          3.2.30-1.el7              yum_server_base
+[root@master13684 pub]#  yum list all |grep -i ansible
+ansible.noarch                         2.4.2.0-2.el7             yum_server_base
+[root@master13684 pub]#
+
+
 
 

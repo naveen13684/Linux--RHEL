@@ -56,6 +56,9 @@ Sqlite DBs complete
 8) restart vsftpd again
 [root@master13684 yum.repos.d]# systemctl restart vsftpd
 
+How to use particular repot to install package *****
+====================================================
+yum install --disablerepo="*" --enablerepo="localrepo" httpd
 
 Client Site settings
 ====================

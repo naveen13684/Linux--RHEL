@@ -3,6 +3,17 @@ how to check status of current firewall:
 [root@slave ~]# firewall-cmd --state
 running
 
+how to check defult firewall zone:
+-----------------------------------
+[root@master rpms]# firewall-cmd --get-default-zone
+public
+
+How to check all active zones:
+------------------------------
+[root@master rpms]# firewall-cmd --get-active-zones
+public
+  interfaces: enp0s3
+
 how to add port expection to public zone in firewall:
 -----------------------------------------------------
 [root@master rpms]# firewall-cmd --zone=public --add-port=8080/tcp --permanent
@@ -14,16 +25,6 @@ how to add service to firewall exception:
 Warning: ALREADY_ENABLED: http
 success
 
-how to check defult firewall zone:
------------------------------------
-[root@master rpms]# firewall-cmd --get-default-zone
-public
-
-How to check all active zones:
-------------------------------
-[root@master rpms]# firewall-cmd --get-active-zones
-public
-  interfaces: enp0s3
 
 How to check all expections of firewall:
 ----------------------------------------

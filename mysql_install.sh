@@ -69,3 +69,15 @@ update user SET PASSWORD=PASSWORD("password") WHERE USER='root';
 flush privileges;
 exit
 sudo systemctl start mysqld
+
+
+message from server: "Host '192.168.1.7' is not allowed to connect to this MySQL server"
+mysql 8+ onwards :
+========================================================================================
+mysql> CREATE USER 'root'@'%' IDENTIFIED BY 'root';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+OpenSSL unable to load Public Key
+=====================================
+useSSL = false
+

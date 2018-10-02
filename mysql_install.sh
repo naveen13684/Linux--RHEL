@@ -37,9 +37,22 @@ grep -i temporary /var/log/mysqld.log
 Change the password for the first time
 mysql> alter user 'root'@'localhost' identified by 'password';
 
+mysql>  alter user 'root'@'localhost' identified by 'Redhat@123';
+Query OK, 0 rows affected (0.07 sec)
+mysql> 
+
+
 create database testdb;
 create user 'testuser'@'localhost' identified by 'password';
 grant all on testdb.* to 'testuser' identified by 'password';
+
+
+mysql> create user 'master'@'localhost' identified by 'Redhat@123';
+Query OK, 0 rows affected (0.08 sec)
+mysql>
+
+
+
 
 create database testdb;
 grant all on testdb.* to 'testuser' identified by 'password';

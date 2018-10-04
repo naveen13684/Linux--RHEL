@@ -81,3 +81,47 @@ OpenSSL unable to load Public Key
 =====================================
 useSSL = false
 
+List TABLES
+===========
+
+show tables;
+
+list COLUMN and VALUES inside TABLE
+====================================
+
+select * from customers;
+
+INSERT row into table
+======================
+insert into customers(first_name,last_name,displayname,age) VALUES('Deepak','Gowda','Deepak Gowda',18);
+insert into customers(first_name,last_name,displayname,age) VALUES('Vijay','kumar','Vijay Kumar',35);
+insert into customers(first_name,last_name,displayname,age) VALUES('Sathesh','Raghunathan','Sathesh Raghunathan',35);
+insert into customers(first_name,last_name,displayname,age) VALUES('Anil','Dora','Anil Dora',35);
+
+how to change the data TYPE
+============================
+
+alter table customers MODIFY  phone long;
+
+update customers SET phone = '9945911787', year_join = '2018' where customer_id =7
+
+select * from customers
+
+delete a ROW
+=============
+
+DELETE from customers where customer_id=7
+
+Add new COLUMN
+==============
+
+alter table customers add COLUMN year_join int after age
+
+alter table customers add COLUMN phone int after age
+
+insert into customers(phone,year_join) VALUES(9945911766,2010) where customer_id=1
+
+CREATE TABLE IF NOT EXISTS vendors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255)
+);

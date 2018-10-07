@@ -77,6 +77,61 @@ mysql 8+ onwards :
 mysql> CREATE USER 'root'@'%' IDENTIFIED BY 'root';
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
+null,  message from server: "Host '192.168.0.102' is not allowed to connect to this MySQL server"
+=================================================================================================
+
+mysql>  CREATE USER 'root'@'%' IDENTIFIED BY 'Redhat@123';
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE USER 'master'@'%' IDENTIFIED BY 'Redhat@123';
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'master'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+
+
+Access denied for user 'master'@'192.168.0.102' (using password: YES)
+=====================================================================
+
+
+
+The server time zone value 'EDT' is unrecognized or represents more than one time zone. 
+You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support.
+==================================================================================================================================================================================
+[root@localhost ~]# timedatectl status
+      Local time: Sun 2018-10-07 11:50:30 EDT
+  Universal time: Sun 2018-10-07 15:50:30 UTC
+        RTC time: Sun 2018-10-07 15:47:07
+       Time zone: America/New_York (EDT, -0400)
+     NTP enabled: yes
+NTP synchronized: no
+ RTC in local TZ: no
+      DST active: yes
+ Last DST change: DST began at
+                  Sun 2018-03-11 01:59:59 EST
+                  Sun 2018-03-11 03:00:00 EDT
+ Next DST change: DST ends (the clock jumps one hour backwards) at
+                  Sun 2018-11-04 01:59:59 EDT
+                  Sun 2018-11-04 01:00:00 EST
+
+[root@localhost ~]# timedatectl set-timezone Asia/Kolkata
+[root@localhost ~]# timedatectl status
+      Local time: Sun 2018-10-07 21:29:29 IST
+  Universal time: Sun 2018-10-07 15:59:29 UTC
+        RTC time: Sun 2018-10-07 15:55:24
+       Time zone: Asia/Kolkata (IST, +0530)
+     NTP enabled: yes
+NTP synchronized: no
+ RTC in local TZ: no
+      DST active: n/a
+[root@localhost ~]# date
+Sun Oct  7 21:29:33 IST 2018
+
 OpenSSL unable to load Public Key
 =====================================
 useSSL = false

@@ -80,3 +80,21 @@ naveen1:x:1006:1006:No login:/home/naveen1:/sbin/nologin
 [root@rhel-master ~]# grep naveen1 /etc/shadow
 naveen1:!!:17823:0:99999:7:::
 [root@rhel-master ~]#
+
+rename the user but home directory remains same
+================================================
+
+[root@rhel-master ~]# usermod -l naveen3 naveen1
+[root@rhel-master ~]# ls -l /home
+total 4
+drwx------   3 joy1     joy1       78 Oct 19 18:46 joy1
+drwx------   3 joy2     joy2       78 Oct 19 18:46 joy2
+drwx------   3 naveen   naveen     78 Oct 19 19:59 naveen
+drwx------   3 naveen3  naveen1    78 Oct 19 20:37 naveen1
+drwx------   3 packager packager   78 Oct 16 20:56 packager
+drwx------. 15 student  student  4096 Oct 19 17:21 student
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# grep naveen3 /etc/passwd
+naveen3:x:1006:1006:No login:/home/naveen1:/sbin/nologin
+[root@rhel-master ~]#

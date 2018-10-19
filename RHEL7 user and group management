@@ -1,3 +1,40 @@
+List of files / dir 
+=============
+/etc/passwd
+/etc/shadow
+/etc/group
+/etc/gshadow
+/home/<username>
+/etc/login.defs
+/etc/default/useradd
+
+[root@rhel-master default]# cat useradd
+# useradd defaults file
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+
+/etc/skel
+=========
+The /etc/skel directory contains files and directories that are automatically copied over to a new user's home directory 
+when such user is created by the useradd program.
+[root@rhel-master default]# cd /etc/skel
+[root@rhel-master skel]# ls
+[root@rhel-master skel]# ls -la
+total 28
+drwxr-xr-x.   3 root root    78 Oct  1 20:19 .
+drwxr-xr-x. 146 root root 12288 Oct 19 21:11 ..
+-rw-r--r--.   1 root root    18 May 22 19:20 .bash_logout
+-rw-r--r--.   1 root root   193 May 22 19:20 .bash_profile
+-rw-r--r--.   1 root root   231 May 22 19:20 .bashrc
+drwxr-xr-x.   4 root root    39 Oct  1 20:18 .mozilla
+[root@rhel-master skel]#
+
+
 Create User and set expire dates
 ===================================
 

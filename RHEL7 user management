@@ -30,3 +30,24 @@ Minimum number of days between password change          : 10
 Maximum number of days between password change          : 90
 Number of days of warning before password expires       : 7
 [root@rhel-master ~]#
+
+[root@rhel-master ~]# chage naveen
+Changing the aging information for naveen
+Enter the new value, or press ENTER for the default
+
+        Minimum Password Age [10]: 30
+        Maximum Password Age [90]: 90
+        Last Password Change (YYYY-MM-DD) [2018-10-19]: 2018-11-19
+        Password Expiration Warning [7]: 10
+        Password Inactive [30]: 5
+        Account Expiration Date (YYYY-MM-DD) [2018-11-20]: 2018-12-30
+        
+[root@rhel-master ~]# chage naveen -l
+Last password change                                    : Nov 19, 2018
+Password expires                                        : Feb 17, 2019
+Password inactive                                       : Feb 22, 2019
+Account expires                                         : Dec 30, 2018
+Minimum number of days between password change          : 30
+Maximum number of days between password change          : 90
+Number of days of warning before password expires       : 10
+[root@rhel-master ~]#

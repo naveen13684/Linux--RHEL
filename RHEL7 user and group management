@@ -98,3 +98,38 @@ drwx------. 15 student  student  4096 Oct 19 17:21 student
 [root@rhel-master ~]# grep naveen3 /etc/passwd
 naveen3:x:1006:1006:No login:/home/naveen1:/sbin/nologin
 [root@rhel-master ~]#
+
+
+Lock user
+============
+!xxxxxx = ! followed by password means user is locked
+!! = means password not set
+
+[root@rhel-master ~]# usermod -L naveen3
+[root@rhel-master ~]# grep naveen3 /etc/shadow
+naveen3:!$6$yQ1RGCrL$nDoixjlo/pIeBFmAGNQzWTkHspMWNd9I0U3TpO75TISORGJYUbWFNkTH/jAQoZGYd2YaXNSHOujN.Q7GrnaDA.:17823:0:99999:7:::
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# grep naveen3 /etc/shadow
+naveen3:!!:17823:0:99999:7:::
+[root@rhel-master ~]#
+
+
+Unlock user
+============
+[root@rhel-master ~]# usermod -U naveen3
+[root@rhel-master ~]# grep naveen3 /etc/shadow
+naveen3:$6$yQ1RGCrL$nDoixjlo/pIeBFmAGNQzWTkHspMWNd9I0U3TpO75TISORGJYUbWFNkTH/jAQoZGYd2YaXNSHOujN.Q7GrnaDA.:17823:0:99999:7:::
+[root@rhel-master ~]#
+
+How to remove user password
+===========================
+naveen3:$6$yQ1RGCrL$nDoixjlo/pIeBFmAGNQzWTkHspMWNd9I0U3TpO75TISORGJYUbWFNkTH/jAQoZGYd2YaXNSHOujN.Q7GrnaDA.:17823:0:99999:7:::
+[root@rhel-master ~]# passwd -d naveen3
+Removing password for user naveen3.
+passwd: Success
+[root@rhel-master ~]# grep naveen3 /etc/shadow
+naveen3::17823:0:99999:7:::
+[root@rhel-master ~]#
+
+

@@ -51,3 +51,32 @@ Minimum number of days between password change          : 30
 Maximum number of days between password change          : 90
 Number of days of warning before password expires       : 10
 [root@rhel-master ~]#
+
+[root@rhel-master ~]# usermod -c "Naveen will become superuser soon" -d /home/naveen1 -e 2018-12-31 -f 100 naveen
+
+[root@rhel-master ~]# chage naveen -l
+Last password change                                    : Nov 19, 2018
+Password expires                                        : Feb 17, 2019
+Password inactive                                       : May 28, 2019
+Account expires                                         : Dec 31, 2018
+Minimum number of days between password change          : 30
+Maximum number of days between password change          : 90
+Number of days of warning before password expires       : 10
+
+[root@rhel-master ~]# grep naveen /etc/shadown
+grep: /etc/shadown: No such file or directory
+[root@rhel-master ~]# grep naveen /etc/shadow
+naveen:!!:17854:30:90:10:100:17896:
+[root@rhel-master ~]#
+
+
+how to create nologin users
+============================
+[root@rhel-master ~]# useradd -d /home/naveen1 -c "No login" -s /sbin/nologin -m naveen1
+
+[root@rhel-master ~]# grep naveen1 /etc/passwd
+naveen:x:1005:1005:Naveen will become superuser soon:/home/naveen1:/bin/bash
+naveen1:x:1006:1006:No login:/home/naveen1:/sbin/nologin
+[root@rhel-master ~]# grep naveen1 /etc/shadow
+naveen1:!!:17823:0:99999:7:::
+[root@rhel-master ~]#

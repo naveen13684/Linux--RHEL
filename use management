@@ -1,0 +1,32 @@
+Create User and set expire dates
+===================================
+
+[root@rhel-master ~]# useradd -d /home/naveen -u 1005 -U -c "Naveen Redhat Admin User" -s /bin/bash -e 2018-11-19 -f 100 -m naveen
+
+[root@rhel-master ~]# chage naveen -l
+Last password change                                    : Oct 19, 2018
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : Nov 19, 2018
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+[root@rhel-master ~]# grep naveen /etc/passwd
+naveen:x:1005:1005:Naveen Redhat Admin User:/home/naveen:/bin/bash
+
+[root@rhel-master ~]# grep naveen /etc/shadow
+naveen:!!:17823:10:90:7:30:17855:
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# chage -E 2018-11-20 -I 30 naveen -M 90 -m 10
+
+[root@rhel-master ~]# chage naveen -l
+Last password change                                    : Oct 19, 2018
+Password expires                                        : Jan 17, 2019
+Password inactive                                       : Feb 16, 2019
+Account expires                                         : Nov 20, 2018
+Minimum number of days between password change          : 10
+Maximum number of days between password change          : 90
+Number of days of warning before password expires       : 7
+[root@rhel-master ~]#

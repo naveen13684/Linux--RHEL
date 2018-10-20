@@ -142,3 +142,80 @@ you can access ftp site
 
 ftp://192.168.0.106/pub from browser 
 
+How to downgrade package versions
+=================================
+[root@rhel-master ~]# yum list --showduplicates php php-cli php-common
+Loaded plugins: langpacks, product-id, replace, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Installed Packages
+php.x86_64                                                                                   5.4.16-46.el7                                                                             @rhel7
+php-cli.x86_64                                                                               5.4.16-46.el7                                                                             @rhel7
+php-common.x86_64                                                                            5.4.16-46.el7                                                                             @rhel7
+Available Packages
+php.x86_64                                                                                   5.4.16-45.el7                                                                             centOS
+php.x86_64                                                                                   5.4.16-46.el7                                                                             rhel7
+php-cli.x86_64                                                                               5.4.16-45.el7                                                                             centOS
+php-cli.x86_64                                                                               5.4.16-46.el7                                                                             rhel7
+php-common.x86_64                                                                            5.4.16-45.el7                                                                             centOS
+php-common.x86_64                                                                            5.4.16-46.el7                                                                             rhel7
+[root@rhel-master ~]# yum downgrade php php-cli php-common
+Loaded plugins: langpacks, product-id, replace, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package php.x86_64 0:5.4.16-45.el7 will be a downgrade
+---> Package php.x86_64 0:5.4.16-46.el7 will be erased
+---> Package php-cli.x86_64 0:5.4.16-45.el7 will be a downgrade
+---> Package php-cli.x86_64 0:5.4.16-46.el7 will be erased
+---> Package php-common.x86_64 0:5.4.16-45.el7 will be a downgrade
+---> Package php-common.x86_64 0:5.4.16-46.el7 will be erased
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================================================
+ Package                                       Arch                                      Version                                             Repository                                 Size
+=============================================================================================================================================================================================
+Downgrading:
+ php                                           x86_64                                    5.4.16-45.el7                                       centOS                                    1.4 M
+ php-cli                                       x86_64                                    5.4.16-45.el7                                       centOS                                    2.7 M
+ php-common                                    x86_64                                    5.4.16-45.el7                                       centOS                                    565 k
+
+Transaction Summary
+=============================================================================================================================================================================================
+Downgrade  3 Packages
+
+Total download size: 4.7 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/3): php-cli-5.4.16-45.el7.x86_64.rpm                                                                                                                               | 2.7 MB  00:00:07
+(2/3): php-5.4.16-45.el7.x86_64.rpm                                                                                                                                   | 1.4 MB  00:00:08
+(3/3): php-common-5.4.16-45.el7.x86_64.rpm                                                                                                                            | 565 kB  00:00:00
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                        538 kB/s | 4.7 MB  00:00:08
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : php-common-5.4.16-45.el7.x86_64                                                                                                                                           1/6
+  Installing : php-cli-5.4.16-45.el7.x86_64                                                                                                                                              2/6
+  Installing : php-5.4.16-45.el7.x86_64                                                                                                                                                  3/6
+  Cleanup    : php-5.4.16-46.el7.x86_64                                                                                                                                                  4/6
+  Cleanup    : php-cli-5.4.16-46.el7.x86_64                                                                                                                                              5/6
+  Cleanup    : php-common-5.4.16-46.el7.x86_64                                                                                                                                           6/6
+  Verifying  : php-common-5.4.16-45.el7.x86_64                                                                                                                                           1/6
+  Verifying  : php-5.4.16-45.el7.x86_64                                                                                                                                                  2/6
+  Verifying  : php-cli-5.4.16-45.el7.x86_64                                                                                                                                              3/6
+  Verifying  : php-cli-5.4.16-46.el7.x86_64                                                                                                                                              4/6
+  Verifying  : php-5.4.16-46.el7.x86_64                                                                                                                                                  5/6
+  Verifying  : php-common-5.4.16-46.el7.x86_64                                                                                                                                           6/6
+
+Removed:
+  php.x86_64 0:5.4.16-46.el7                                 php-cli.x86_64 0:5.4.16-46.el7                                 php-common.x86_64 0:5.4.16-46.el7
+
+Installed:
+  php.x86_64 0:5.4.16-45.el7                                 php-cli.x86_64 0:5.4.16-45.el7                                 php-common.x86_64 0:5.4.16-45.el7
+
+Complete!
+[root@rhel-master ~]#
+

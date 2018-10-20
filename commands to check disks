@@ -1,0 +1,138 @@
+#fdisk -l
+#fdisk -l -um   # to show in mb
+#cfdisk
+#cfdisk /dev/sdb/
+#parted -l
+#lsblk
+#blkid
+
+
+fdisk -l
+===========
+[root@rhel-master ~]# fdisk -l
+
+Disk /dev/sda: 26.8 GB, 26843545600 bytes, 52428800 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000c3ac8
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048    25167871    12582912   83  Linux
+/dev/sda2        25167872    29362175     2097152   82  Linux swap / Solaris
+/dev/sda3        29362176    30386175      512000   83  Linux
+/dev/sda4        30386176    52428799    11021312    5  Extended
+/dev/sda5        30388224    31412223      512000   83  Linux
+/dev/sda6        31414272    32438271      512000   83  Linux
+
+Disk /dev/sdb: 10.7 GB, 10737418240 bytes, 20971520 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x323144d1
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    20971519    10484736   83  Linux
+[root@rhel-master ~]#
+
+cfdisk 
+======
+
+                                                                                 cfdisk (util-linux 2.23.2)
+
+                                                                                    Disk Drive: /dev/sda
+                                                                              Size: 26843545600 bytes, 26.8 GB
+                                                                    Heads: 255   Sectors per Track: 63   Cylinders: 3263
+
+         Name                        Flags                       Part Type               FS Type                                [Label]                           Size (MB)
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                         Unusable                                                                      1.05                 *
+         sda1                        Boot                         Primary                xfs                                                                       12884.91                 *
+         sda2                                                     Primary                swap                                                                       2147.49                 *
+         sda3                                                     Primary                ext4                                                                        524.29                 *
+         sda5                        NC                           Logical                ext4                                                                        525.34                 *
+         sda6                        NC                           Logical                Linux                                                                       525.34                 *
+                                                                  Logical                Free Space                                                                10235.16                 *
+
+
+
+
+
+           [   Help   ]  [  Print   ]  [   Quit   ]  [  Units   ]  [  Write   ]
+
+
+                                                                                      Print help screen
+
+
+# parted
+==========
+[root@rhel-master ~]# parted -l
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sda: 26.8GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags:
+
+Number  Start   End     Size    Type      File system     Flags
+ 1      1049kB  12.9GB  12.9GB  primary   xfs             boot
+ 2      12.9GB  15.0GB  2147MB  primary   linux-swap(v1)
+ 3      15.0GB  15.6GB  524MB   primary   ext4
+ 4      15.6GB  26.8GB  11.3GB  extended
+ 5      15.6GB  16.1GB  524MB   logical   ext4
+ 6      16.1GB  16.6GB  524MB   logical
+
+
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 10.7GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags:
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      1049kB  10.7GB  10.7GB  primary  xfs
+
+
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0
+has been opened read-only.
+Model: VBOX CD-ROM (scsi)
+Disk /dev/sr0: 4408MB
+Sector size (logical/physical): 2048B/2048B
+Partition Table: msdos
+Disk Flags:
+
+Number  Start   End     Size    Type     File system  Flags
+ 2      1803MB  1838MB  35.7MB  primary
+
+
+[root@rhel-master ~]#
+
+
+
+lsblk
+=========
+
+[root@rhel-master ~]# lsblk
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   25G  0 disk
+├─sda1   8:1    0   12G  0 part /
+├─sda2   8:2    0    2G  0 part [SWAP]
+├─sda3   8:3    0  500M  0 part /sda3
+├─sda4   8:4    0    1K  0 part
+└─sda5   8:5    0  500M  0 part /sda5
+sdb      8:16   0   10G  0 disk
+└─sdb1   8:17   0   10G  0 part /naveen
+sr0     11:0    1  4.1G  0 rom  /packages
+[root@rhel-master ~]#
+
+blkid
+========
+[root@rhel-master ~]# blkid
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+/dev/sda1: UUID="e7d373f9-4212-41b9-81da-678d91e4a5a0" TYPE="xfs"
+/dev/sda2: UUID="69101414-c48b-49b4-9805-80a7e5b84882" TYPE="swap"
+/dev/sda3: UUID="0f230ada-1d72-4cb4-ae23-4c7bfb30bc93" TYPE="ext4"
+/dev/sda5: UUID="c698d7ed-abce-44b1-8919-4dbfa0c02431" TYPE="ext4"
+/dev/sdb1: UUID="9b621901-b190-4ad3-9b7d-82b4a5ffb1b0" TYPE="xfs"
+[root@rhel-master ~]#

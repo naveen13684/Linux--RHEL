@@ -219,3 +219,10 @@ Installed:
 Complete!
 [root@rhel-master ~]#
 
+
+
+ignore gpg check while installing yum
+=====================================
+
+# yum install jenkins --nogpgcheck
+

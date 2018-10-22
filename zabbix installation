@@ -1,3 +1,97 @@
+https://tecadmin.net/install-zabbix-network-monitoring-on-centos-rhel-and-fedora/
+
+Step 1 – SetUp Apache, MySQL and PHP
+====================================
+yum install httpd httpd-devel
+yum install mysql mysql-server
+yum install php php-devel php-bcmath  php-pear php-gd php-mbstring php-mysql php-xml
+service httpd start
+service mysqld start
+mysql_secure_installation  # not required
+
+
+Step 2 – Configure Yum Repository
+==================================
+rpm -Uvh http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
+
+Step 3 – Install Zabbix Server with MySQL
+==========================================
+yum install zabbix-server-mysql zabbix-web-mysql zabbix-proxy-mysql
+
+
+Step 4 – Setup Zabbix Apache Configuration
+===========================================
+/etc/httpd/conf.d/zabbix.conf
+php_value date.timezone Asia/Kolkata
+
+[root@rhel-master zabbix-proxy-mysql-4.0.0]# cat /etc/httpd/conf.d/zabbix.conf|grep -i php
+# Zabbix monitoring system php web frontend
+    <IfModule mod_php5.c>
+        php_value max_execution_time 300
+        php_value memory_limit 128M
+        php_value post_max_size 16M
+        php_value upload_max_filesize 2M
+        php_value max_input_time 300
+        php_value max_input_vars 10000
+        php_value always_populate_raw_post_data -1
+        # php_value date.timezone Europe/Riga
+        php_value date.timezone Asia/Kolkata
+[root@rhel-master zabbix-proxy-mysql-4.0.0]#
+
+service httpd restart
+
+Step 5 – Configure MySQL Database for Zabbix
+============================================
+mysql -u root -p
+
+mysql> CREATE DATABASE zabbixdb CHARACTER SET UTF8;
+mysql> GRANT ALL PRIVILEGES on zabbixdb.* to zabbix@localhost IDENTIFIED BY 'password';
+mysql> FLUSH PRIVILEGES;
+mysql> quit
+
+PATH:
+/usr/share/doc/zabbix-server-mysql-4.0.0/create.sql.gz
+/usr/share/doc/zabbix-proxy-mysql-4.0.0/schema.sql.gz
+
+zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uroot -p zabbixdb
+zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uroot -p zabbixdb
+
+
+/etc/zabbix/zabbix_server.conf
+  DBHost=localhost
+  DBName=zabbixdb
+  DBUser=zabbix
+  DBPassword=password
+  
+Step 6 – Start Zabbix Server
+=============================
+service zabbix-server start
+
+[root@rhel-master zabbix-proxy-mysql-4.0.0]# systemctl status zabbix-server
+● zabbix-server.service - Zabbix Server
+   Loaded: loaded (/usr/lib/systemd/system/zabbix-server.service; enabled; vendor preset: disabled)
+   Active: inactive (dead)
+[root@rhel-master zabbix-proxy-mysql-4.0.0]# systemctl start zabbix-server
+[root@rhel-master zabbix-proxy-mysql-4.0.0]# systemctl status zabbix-server
+● zabbix-server.service - Zabbix Server
+   Loaded: loaded (/usr/lib/systemd/system/zabbix-server.service; enabled; vendor preset: disabled)
+   Active: active (running) since Mon 2018-10-22 20:14:36 IST; 1s ago
+  Process: 8748 ExecStart=/usr/sbin/zabbix_server -c $CONFFILE (code=exited, status=0/SUCCESS)
+ Main PID: 5960 (zabbix_server)
+    Tasks: 0
+   CGroup: /system.slice/zabbix-server.service
+           ‣ 5960 zabbix_server
+
+Oct 22 20:14:36 rhel-master systemd[1]: Starting Zabbix Server...
+Oct 22 20:14:36 rhel-master systemd[1]: Started Zabbix Server.
+[root@rhel-master zabbix-proxy-mysql-4.0.0]#
+
+Step 7 – Complete Zabbix Web Installer Wizzard
+==============================================
+http://localhost/zabbix
+  
+
+
 how to Install zabbix and configure 
 ====================================
 
@@ -43,6 +137,10 @@ Installing for dependencies:
 Transaction Summary
 =============================================================================================================================================================================================
 
+# service httpd restart
+
+
+
 Error connecting to ZabbixDB
 =============================
 1) Error connecting to database: Authentication plugin 'caching_sha2_password' cannot be loaded: /usr/lib64/mysql/plugin/caching_sha2_password.so: cannot open shared object file: No such file or directory
@@ -53,11 +151,39 @@ CREATE USER 'zabbix'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Redha
 my.cnf 
 default-authentication-plugin=mysql_native_password
 
+mysql> CREATE USER 'zabbix'@'%' IDENTIFIED BY 'Redhat@123';
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'zabbix'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> ALTER USER zabbix IDENTIFIED WITH mysql_native_password BY 'Redhat@123';
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> use zabbixdb;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------------------+
+| Tables_in_zabbixdb         |
++----------------------------+
+| acknowledges               |
+| actions                    |
+
+
 2) The frontend does not match Zabbix database.
 
+for mysql dB:
+-------------
 [root@rhel-master zabbix-server-mysql-4.0.0]# zcat /usr/share/doc/zabbix-server-mysql-4.0.0/create.sql.gz | mysql -uroot zabbixdb -p
 Enter password:
 [root@rhel-master zabbix-server-mysql-4.0.0]#
+
+for fgsql DB:
+------------
+zcat /usr/share/doc/zabbix-server-pgsql-4.0.0/create.sql.gz | mysql -uroot zabbixdb -p
 
 mysql> use zabbixdb;
 Reading table information for completion of table and column names
@@ -113,3 +239,17 @@ configuration files
 /etc/zabbix/web/zabbix.conf.php
 /etc/zabbix/zabbix_agentd.conf
 /etc/zabbix/zabbix_server.conf
+
+/etc/zabbix/zabbix_server.conf
+  DBHost=localhost
+  DBName=zabbixdb
+  DBUser=zabbix
+  DBPassword=password
+  
+  
+yum install http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-proxy-mysql-4.0.0-2.el7.x86_64.rpm
+
+[root@rhel-master zabbix-proxy-mysql-4.0.0]# zcat /usr/share/doc/zabbix-proxy-mysql-4.0.0/schema.sql.gz| mysql -uroot zabbixdb -p
+Enter password:
+ERROR 1050 (42S01) at line 1: Table 'users' already exists
+[root@rhel-master zabbix-proxy-mysql-4.0.0]#

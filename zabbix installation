@@ -43,4 +43,73 @@ Installing for dependencies:
 Transaction Summary
 =============================================================================================================================================================================================
 
+Error connecting to ZabbixDB
+=============================
+1) Error connecting to database: Authentication plugin 'caching_sha2_password' cannot be loaded: /usr/lib64/mysql/plugin/caching_sha2_password.so: cannot open shared object file: No such file or directory
 
+ALTER USER zabbix IDENTIFIED WITH mysql_native_password BY 'Redhat@123';
+CREATE USER 'zabbix'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Redhat@123';
+
+my.cnf 
+default-authentication-plugin=mysql_native_password
+
+2) The frontend does not match Zabbix database.
+
+[root@rhel-master zabbix-server-mysql-4.0.0]# zcat /usr/share/doc/zabbix-server-mysql-4.0.0/create.sql.gz | mysql -uroot zabbixdb -p
+Enter password:
+[root@rhel-master zabbix-server-mysql-4.0.0]#
+
+mysql> use zabbixdb;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------------------+
+| Tables_in_zabbixdb         |
++----------------------------+
+| acknowledges               |
+| actions                    |
+| alerts                     |
+| application_discovery      |
+| application_prototype      |
+| application_template       |
+| applications               |
+| auditlog                   |
+| auditlog_details           |
+| autoreg_host               |
+| conditions                 |
+| config                     |
+| corr_condition             |
+| corr_condition_group       |
+| corr_condition_tag         |
+| corr_condition_tagpair     |
+| corr_condition_tagvalue    |
+
+
+Zabbix-Web Final installation
+=============================
+Pre-installation summary
+Please check configuration parameters. If all is correct, press "Next step" button, or "Back" button to change configuration parameters.
+
+Database type	MySQL
+Database server	10.182.241.235
+Database port	3306
+Database name	zabbixdb
+Database user	zabbix
+Database password	**********
+ 	
+Zabbix server	localhost
+Zabbix server port	10051
+Zabbix server name	Zabbix-Server
+
+Default password for web console
+=============================
+user : admin
+password: zabbix
+
+configuration files
+====================
+/etc/zabbix/web/zabbix.conf.php
+/etc/zabbix/zabbix_agentd.conf
+/etc/zabbix/zabbix_server.conf

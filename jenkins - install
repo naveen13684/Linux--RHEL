@@ -24,3 +24,29 @@ This may also be found at: /var/lib/jenkins/secrets/initialAdminPassword
 -create Admin User  admin/admin123
 -Click on Save and Finish
 -click on “Start using Jenkins”
+
+
+How to recover lost admin password
+==================================
+1) stop the jenkins process
+[root@rhel-master ~]# systemctl stop jenkins
+
+2) generate new password
+# echo -n 'redhat123{admin}' | sha256sum
+user=admin  password=redhat123
+
+[root@rhel-master ~]# echo -n 'redhat123{admin}' | sha256sum
+fa07d3c817ef87304397161ed03c49b9d6d2700647556d09bd2ab8b36829d9c1  -
+[root@rhel-master ~]#
+
+3) locate passwordHard line from config.xml file and replace it with the new password 
+[root@rhel-master ~]# grep -i password /var/lib/jenkins/users/admin/config.xml
+      <passwordHash>#jbcrypt:$2a$10$fL81Xm.qUoYCboVJY7as2Ox5UUEUhkAPQTHhDSc0keDNsN54BPu.K</passwordHash>
+[root@rhel-master ~]# 
+
+[root@rhel-master ~]#  grep -i password /var/lib/jenkins/users/admin/config.xml
+      <passwordHash>admin:fa07d3c817ef87304397161ed03c49b9d6d2700647556d09bd2ab8b36829d9c1</passwordHash>
+[root@rhel-master ~]#
+
+4) start the jenkins process
+[root@rhel-master ~]# systemctl start jenkins

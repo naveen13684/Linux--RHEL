@@ -1,0 +1,86 @@
+Step1: configure yum repo 
+======
+[root@rhel-master yum.repos.d]# cat puppet.repo
+[puppet]
+name=Puppet
+baseurl=https://yum.puppetlabs.com/puppet6/el/7/x86_64/
+enabled=1
+gpgcheck=0
+[root@rhel-master yum.repos.d]#
+
+Step2: Install puppet master,agent,db,bolt
+======
+#yum --disablerepo=epel install puppetserver puppet-agent puppet-bolt puppetdb
+
+Step3: Enable puppet server and puppet agent
+======
+[root@rhel-master yum.repos.d]# systemctl enable puppetserver
+Created symlink from /etc/systemd/system/multi-user.target.wants/puppetserver.service to /usr/lib/systemd/system/puppetserver.service.
+
+[root@rhel-master yum.repos.d]# systemctl enable puppet
+Created symlink from /etc/systemd/system/multi-user.target.wants/puppet.service to /usr/lib/systemd/system/puppet.service.
+[root@rhel-master yum.repos.d]#
+
+[root@rhel-master yum.repos.d]# systemctl start puppetserver
+[root@rhel-master yum.repos.d]# systemctl start puppet
+
+[root@rhel-master yum.repos.d]# systemctl status puppetserver
+● puppetserver.service - puppetserver Service
+   Loaded: loaded (/usr/lib/systemd/system/puppetserver.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2018-10-26 19:47:43 IST; 7min ago
+  Process: 5906 ExecStart=/opt/puppetlabs/server/apps/puppetserver/bin/puppetserver start (code=exited, status=0/SUCCESS)
+ Main PID: 5913 (java)
+    Tasks: 39
+   CGroup: /system.slice/puppetserver.service
+           └─5913 /usr/bin/java -Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger -Djava.security.egd=/dev/urandom -XX:OnOutOfMemoryError=kill -9 %p -cp...
+
+Oct 26 19:44:59 rhel-master systemd[1]: Starting puppetserver Service...
+Oct 26 19:47:43 rhel-master systemd[1]: Started puppetserver Service.
+[root@rhel-master yum.repos.d]#
+
+
+Error starting puppet server-1
+============================
+-- Unit puppetserver.service has begun starting up.
+Oct 26 19:09:25 rhel-master puppetserver[31896]: Exception in thread "main" java.lang.Error: Not enough available RAM (1,459MB) 
+to safely accommodate the configured JVM heap size of 1,979MB
+
+https://puppet.com/docs/pe/2017.3/config_java_args.html
+
+Service	Default heap size	New heap size	JSON string
+pe-console-services	256 MB	512 MB	{"Xmx": "512m", "Xms": "512m"}
+Puppet Server	2 GB	4 GB	{"Xmx": "4096m", "Xms": "4096m"}
+orchestration-services	192 MB	1000 MB	{"Xmx": "1000m", "Xms": "1000m"}
+PuppetDB	256 MB	512 MB	{"Xmx": "512m", "Xms": "512m"}
+ActiveMQ	512 MB	1024 MB	{"Xmx": "1024m", "Xms": "1024m"}
+
+[root@rhel-master yum.repos.d]# vi /etc/sysconfig/puppetserver
+modify belo lines 
+# Modify this if you'd like to change the memory allocation, enable JMX, etc
+#JAVA_ARGS="-Xms2g -Xmx2g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+JAVA_ARGS="-Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+
+
+Error starting puppet server-2
+============================
+Oct 26 19:44:59 rhel-master systemd[1]: Unit puppetserver.service entered failed state.
+Oct 26 19:44:59 rhel-master systemd[1]: puppetserver.service failed.
+Oct 26 19:44:59 rhel-master polkitd[597]: Unregistered Authentication Agent for unix-process:5808:30159070 (system bus name :1.1767, object path /org/freedesktop/PolicyKit1/AuthenticationAg
+Oct 26 19:44:59 rhel-master systemd[1]: puppetserver.service holdoff time over, scheduling restart.
+
+Policykit is a system daemon and policykit authentication agent is used to verify identity of the user before executing actions. 
+The messages logged in /var/log/secure show that an authentication agent is registered when user logs in and it gets unregistered when user logs out. 
+These messages are harmless and can be safely ignored.
+
+
+Step-4
+======
+[root@rhel-master yum.repos.d]# yum install ntp ntpdate
+
+[root@rhel-master yum.repos.d]# systemctl enable ntpd
+Created symlink from /etc/systemd/system/multi-user.target.wants/ntpd.service to /usr/lib/systemd/system/ntpd.service.
+[root@rhel-master yum.repos.d]# systemctl start ntpd
+[root@rhel-master yum.repos.d]#
+
+
+

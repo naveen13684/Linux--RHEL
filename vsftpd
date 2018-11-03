@@ -1,3 +1,5 @@
+by defult ftp points to /var/ftp/pub directory
+
 Configurtion files
 ====================
 
@@ -43,6 +45,7 @@ anonymous_enable=NO    # Disable anonymous users | if YES then all users are all
 local_enable=YES
 write_enable=YES
 local_umask=022
+anon_root=/opt # to change the defaul directoy other than pub
 dirmessage_enable=YES
 xferlog_enable=YES
 connect_from_port_20=YES

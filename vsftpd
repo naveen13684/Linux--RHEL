@@ -1,0 +1,65 @@
+
+Install
+
+#yum install vsftpd
+
+#systemctl enable vsftpd
+
+#systemctl start vsftpd
+
+[root@rhel-master html]# rpm -qc httpd
+/etc/httpd/conf.d/autoindex.conf
+/etc/httpd/conf.d/userdir.conf
+/etc/httpd/conf.d/welcome.conf
+/etc/httpd/conf.modules.d/00-base.conf
+/etc/httpd/conf.modules.d/00-dav.conf
+/etc/httpd/conf.modules.d/00-lua.conf
+/etc/httpd/conf.modules.d/00-mpm.conf
+/etc/httpd/conf.modules.d/00-proxy.conf
+/etc/httpd/conf.modules.d/00-systemd.conf
+/etc/httpd/conf.modules.d/01-cgi.conf
+/etc/httpd/conf/httpd.conf
+/etc/httpd/conf/magic
+/etc/logrotate.d/httpd
+/etc/sysconfig/htcacheclean
+/etc/sysconfig/httpd
+
+[root@rhel-master html]# netstat -ntl |grep -i 21
+tcp        0      0 0.0.0.0:21              0.0.0.0:*               LISTEN
+[root@rhel-master html]#
+
+
+Disable anonymous user
+=====================
+
+
+How to access
+=============
+ftp://username@192.168.5.20/
+ftp://username:password@192.168.5.20/
+
+
+[root@rhel-master vsftpd]# cat vsftpd.conf |grep -v "#"
+local_root=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+userlist_deny=NO       # /etc/vsftpd/user_list | userlist_deny=YES then all users in this file will be denied access 
+                                               | userlist_deny=NO then all users in this file will be allwed access
+
+anonymous_enable=NO    # Disable anonymous users | if YES then all users are allowed
+local_enable=YES
+write_enable=YES
+local_umask=022
+dirmessage_enable=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+xferlog_std_format=YES
+ascii_upload_enable=YES
+ascii_download_enable=YES
+chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd/chroot_list
+ls_recurse_enable=YES
+listen=YES
+pam_service_name=vsftpd
+userlist_enable=YES
+tcp_wrappers=YES

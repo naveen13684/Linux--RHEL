@@ -44,3 +44,49 @@ virbr0: connected to virbr0
         inet4 192.168.122.1/24
         route4 192.168.122.0/24
 
+
+[root@rhel-master ~]# nmcli connection show
+NAME     UUID                                  TYPE      DEVICE
+enp0s10  a993d7a0-d2a1-4e2e-a545-9a3887378798  ethernet  enp0s10
+virbr0   f5d12e8d-dc70-4556-a1fa-906753592690  bridge    virbr0
+enp0s3   8769898c-64bc-4d62-824d-8d15da8d07f3  ethernet  --
+[root@rhel-master ~]# 
+
+[root@rhel-master ~]# nmcli connection add con-name home type ethernet ifname enp0s10 ipv4.addresses 192.168.0.2/24
+Connection 'home' (ffe211e5-8f1f-454d-b5ea-8622bc505d38) successfully added.
+
+[root@rhel-master ~]# nmcli connection sh
+NAME     UUID                                  TYPE      DEVICE
+enp0s10  a993d7a0-d2a1-4e2e-a545-9a3887378798  ethernet  enp0s10
+virbr0   f5d12e8d-dc70-4556-a1fa-906753592690  bridge    virbr0
+enp0s3   8769898c-64bc-4d62-824d-8d15da8d07f3  ethernet  --
+home     ffe211e5-8f1f-454d-b5ea-8622bc505d38  ethernet  --
+
+[root@rhel-master ~]# nmcli connection up home
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+
+[root@rhel-master ~]# nmcli connection sh
+NAME     UUID                                  TYPE      DEVICE
+home     ffe211e5-8f1f-454d-b5ea-8622bc505d38  ethernet  enp0s10
+virbr0   f5d12e8d-dc70-4556-a1fa-906753592690  bridge    virbr0
+enp0s10  a993d7a0-d2a1-4e2e-a545-9a3887378798  ethernet  --
+enp0s3   8769898c-64bc-4d62-824d-8d15da8d07f3  ethernet  --
+
+
+[root@rhel-master ~]# nmcli connection delete iiht
+Connection 'iiht' (335a0af6-056a-49ac-983f-4606dd08838e) successfully deleted.
+[root@rhel-master ~]#
+
+
+[root@rhel-master ~]# nmcli connection sh
+NAME     UUID                                  TYPE      DEVICE
+home     ffe211e5-8f1f-454d-b5ea-8622bc505d38  ethernet  enp0s10
+virbr0   f5d12e8d-dc70-4556-a1fa-906753592690  bridge    virbr0
+enp0s10  a993d7a0-d2a1-4e2e-a545-9a3887378798  ethernet  --
+enp0s3   8769898c-64bc-4d62-824d-8d15da8d07f3  ethernet  --
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# nmcli connection
+add      clone    delete   down     edit     export   help     import   load     modify   monitor  reload   show     up
+[root@rhel-master ~]# nmcli connection
+

@@ -1,3 +1,16 @@
+Configurtion files
+====================
+
+[root@rhel-master vsftpd]# rpm -qa vsftpd
+vsftpd-3.0.2-25.el7.x86_64
+[root@rhel-master vsftpd]# rpm -qc vsftpd
+/etc/logrotate.d/vsftpd
+/etc/pam.d/vsftpd
+/etc/vsftpd/ftpusers   # Users that are not allowed to login via ftp
+/etc/vsftpd/user_list  # these users are allowed / denied access depending up on userlist_deny=NO/YES in vsftpd.conf
+/etc/vsftpd/vsftpd.conf # main configuration file
+[root@rhel-master vsftpd]#
+
 
 Install
 
@@ -7,22 +20,6 @@ Install
 
 #systemctl start vsftpd
 
-[root@rhel-master html]# rpm -qc httpd
-/etc/httpd/conf.d/autoindex.conf
-/etc/httpd/conf.d/userdir.conf
-/etc/httpd/conf.d/welcome.conf
-/etc/httpd/conf.modules.d/00-base.conf
-/etc/httpd/conf.modules.d/00-dav.conf
-/etc/httpd/conf.modules.d/00-lua.conf
-/etc/httpd/conf.modules.d/00-mpm.conf
-/etc/httpd/conf.modules.d/00-proxy.conf
-/etc/httpd/conf.modules.d/00-systemd.conf
-/etc/httpd/conf.modules.d/01-cgi.conf
-/etc/httpd/conf/httpd.conf
-/etc/httpd/conf/magic
-/etc/logrotate.d/httpd
-/etc/sysconfig/htcacheclean
-/etc/sysconfig/httpd
 
 [root@rhel-master html]# netstat -ntl |grep -i 21
 tcp        0      0 0.0.0.0:21              0.0.0.0:*               LISTEN

@@ -26,10 +26,6 @@ tcp        0      0 0.0.0.0:21              0.0.0.0:*               LISTEN
 [root@rhel-master html]#
 
 
-Disable anonymous user
-=====================
-
-
 How to access
 =============
 ftp://username@192.168.5.20/

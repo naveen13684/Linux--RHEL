@@ -1,0 +1,7 @@
+command                       extention  unzip
+=======                       =========  ======
+zip                           .zip        unzip
+gzip                          .gz         gunzip
+bzip2                         .bz2        bunzip2
+xz                            .xz         unxz
+tar -cvf <test.tar> file      .tar        tar -xvf <tar file>

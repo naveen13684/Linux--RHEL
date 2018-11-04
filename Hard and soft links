@@ -118,10 +118,11 @@ Soft link
 
 1) Soft links will not share same inode number.
 2) if you delete original file there will be loss of data. It just links the newly created file to original file. soft link exists but you cannot read the file.
-3) you can create 'n' number of hard links from the same file and subsequent files
-4) hard links should be in the same partition or file system. you cannot create hard link across the partition or file system
-6) you cannot see 'l' bit in permission level for hard link files
-7) Disadvantage is it keeps the the multiple copies of data so size consuming
+3) you can create 'n' number of soft links from the same file and subsequent files
+4) Soft links can span across the partition or file system
+6) you can see 'l' bit in permission level for soft link files
+7) advantage is it will not keep the the multiple copies of data so it is not size consuming
+8) you can create soft link of soft link , soft link of hard link.
 
 
 [root@rhel-master naveen]# touch soft

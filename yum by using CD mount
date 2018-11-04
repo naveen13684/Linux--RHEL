@@ -1,0 +1,200 @@
+yum configuration 
+=================
+
+=====================
+Master Configuration:
+=====================
+1) mount CD
+
+Double click the cd imange in windows. 
+Reboot the RHEL VM
+you will see a CD icon on the desktop. That means CD is automatically mounted
+
+To find whether cd is mounted ?
+----------------------------------
+[root@rhel-master ~]# blkid |grep -i iso
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# mount |grep -i iso
+/dev/sr0 on /run/media/root/RHEL-7.6 Server.x86_64 type iso9660 (ro,nosuid,nodev,relatime,uid=0,gid=0,iocharset=utf8,mode=0400,dmode=0500,uhelper=udisks2)
+[root@rhel-master ~]#
+
+[root@rhel-master ~]# df -k |grep RHEL
+/dev/sr0                            4304612  4304612         0 100% /run/media/root/RHEL-7.6 Server.x86_64
+[root@rhel-master ~]#
+
+2) copy the content of the CD to 'pub' directory
+
+mkdir -p /var/ftp/pub
+
+cd "/run/media/root/RHEL-7.6 Server.x86_64"
+cp -rvf * /var/ftp/pub
+
+cd /var/ftp/pub
+ls -l  # verify all files from cd copied
+
+3) Install vsftpd 
+cd /var/ftp/pub/Packages
+rpm -ivh vsftpd-3.0.2-25.el7.x86_64.rpm
+
+make sure vsftpd installed 
+
+[root@rhel-master Packages]# rpm -qa |grep -i vsftpd
+vsftpd-3.0.2-25.el7.x86_64
+[root@rhel-master Packages]#
+
+Enable/start vsftpd
+
+[root@rhel-master Packages]# systemctl enable vsftpd
+[root@rhel-master Packages]# systemctl start vsftpd
+[root@rhel-master Packages]# systemctl status vsftpd
+● vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2018-11-04 07:25:08 IST; 3h 14min ago
+ Main PID: 1172 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─1172 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+Nov 04 07:25:08 rhel-master systemd[1]: Starting Vsftpd ftp daemon...
+Nov 04 07:25:08 rhel-master systemd[1]: Started Vsftpd ftp daemon.
+[root@rhel-master Packages]#
+
+
+4) Stop selnux 
+
+[root@rhel-master Packages]# sestatus
+SELinux status:                 enabled
+[root@rhel-master Packages]#
+
+#vi /etc/selinux/config
+search for SELINUX line and set it to disabled
+
+SELINUX=disabled
+
+Reboot the RHEL VM
+
+check the status
+
+[root@client ~]# sestatus
+SELinux status:                 disabled
+[root@client ~]# 
+
+5) Add firewall rule
+
+[root@client ~]# firewall-cmd --zone=public --add-port=21/tcp --permanent
+success
+[root@client ~]# firewall-cmd --zone=public --add-service=ftp --permanent
+success
+[root@client ~]# firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources:
+  services: ssh dhcpv6-client mysql
+  ports: 22/tcp 3306/tcp 10051/tcp 10050/tcp 10050/udp 10051/udp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@client ~]# firewall-cmd --reload
+success
+[root@client ~]# firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources:
+  services: ssh dhcpv6-client mysql ftp
+  ports: 22/tcp 3306/tcp 10051/tcp 10050/tcp 10050/udp 10051/udp 21/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+
+6) create a yum repo
+
+cd /etc/yum.repos.d
+
+vi master.repo
+[master-repo]
+name= Master Yum Repo
+enabled=1
+gpgcheck=0
+baseurl=ftp://192.168.0.107/pub
+
+# yum clean all
+# yum repolist all
+
+[root@rhel-master yum.repos.d]# yum repolist all |grep -i rhel7
+master-repo                           Master Yum Repo         enabled:  5,141
+[root@rhel-master yum.repos.d]#
+
+TEST:
+
+[root@rhel-master Packages]# yum repolist all
+Loaded plugins: langpacks, product-id, replace, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+repo id                                                                       repo name                                                                                       status
+master-repo                                                                  Master Yum Repo                                                                            enabled:  5,141
+[root@rhel-master Packages]# yum install amanda
+Loaded plugins: langpacks, product-id, replace, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.                                                                                                                                               
+rhel7                                                                                                                                                                 | 4.3 kB  00:00:00                                                                                                                                                            12742/12742
+Resolving Dependencies
+--> Running transaction check
+---> Package amanda.x86_64 0:3.3.3-21.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================================================
+ Package                                     Arch                                        Version                                            Repository                                  Size
+=============================================================================================================================================================================================
+Installing:
+ amanda                                      x86_64                                      3.3.3-21.el7                                       master-repo                                      127 k
+
+Transaction Summary
+=============================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 127 k
+Installed size: 164 k
+Is this ok [y/d/N]: n
+Exiting on user command
+Your transaction was saved, rerun it with:
+ yum load-transaction /tmp/yum_save_tx.2018-11-04.11-12.JDCU6I.yumtx
+ 
+ 
+=====================
+Client Configuration:
+=====================
+
+Below steps same as Master
+1) Install vsftpd
+2) Disable selinux
+3) add firewall rules
+4) ping the master server , do telnet test on port 21
+5) Make sure ftp link works from client server
+6) configure yum repo
+
+cd /etc/yum.repos.d
+
+vi client.repo
+[client-repo]
+name= client Yum Repo
+enabled=1
+gpgcheck=0
+baseurl=ftp://192.168.0.107/pub
+
+# yum clean all
+# yum repolist all
+
+# yum install amanda

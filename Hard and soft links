@@ -1,0 +1,145 @@
+HARD LINK  : ln  file1 file2 
+=========
+1) Hard links shares same inode number
+2) if you delete original file there will be no loss of data. I will keep the exact copy of data in another file.
+3) you can create 'n' number of hard links from the same file and subsequent files
+4) hard links should be in the same partition or file system. you cannot create hard link across the partition or file system
+6) you cannot see 'l' bit in permission level for hard link files
+7) Disadvantage is it keeps the the multiple copies of data so size consuming
+
+[root@rhel-master tmp]# cd /home/naveen
+[root@rhel-master naveen]# ll
+total 0
+[root@rhel-master naveen]# vi s1
+[root@rhel-master naveen]# ll
+total 4
+-rw-r--r-- 1 root root 23 Nov  4 09:18 s1
+
+creating a hard link
+====================
+[root@rhel-master naveen]# ln s1 s2
+[root@rhel-master naveen]# ll
+total 8
+-rw-r--r-- 2 root root 23 Nov  4 09:18 s1
+-rw-r--r-- 2 root root 23 Nov  4 09:18 s2
+[root@rhel-master naveen]#
+[root@rhel-master naveen]#
+
+both hard linked files will be having same data.  Exact xerox copy
+=============================================================
+[root@rhel-master naveen]# cat s1
+hello
+man
+how  are you
+[root@rhel-master naveen]# cat s2
+hello
+man
+how  are you
+[root@rhel-master naveen]# vi s1
+[root@rhel-master naveen]# cat s1
+Naveen Kumar HS
+hello
+man
+how  are you
+[root@rhel-master naveen]# cat s2
+Naveen Kumar HS
+hello
+man
+how  are you
+[root@rhel-master naveen]# ls -li
+total 8
+9434807 -rw-r--r-- 2 root root 39 Nov  4 09:23 s1
+9434807 -rw-r--r-- 2 root root 39 Nov  4 09:23 s2
+
+Removing original file will not loose the data
+==============================================
+[root@rhel-master naveen]# rm -rf s1
+[root@rhel-master naveen]# cat s2
+Naveen Kumar HS
+hello
+man
+how  are you
+[root@rhel-master naveen]# ln s2 s3
+[root@rhel-master naveen]# ll
+total 8
+-rw-r--r-- 2 root root 39 Nov  4 09:23 s2
+-rw-r--r-- 2 root root 39 Nov  4 09:23 s3
+[root@rhel-master naveen]# ln s3 s4
+[root@rhel-master naveen]# ll
+total 12
+-rw-r--r-- 3 root root 39 Nov  4 09:23 s2
+-rw-r--r-- 3 root root 39 Nov  4 09:23 s3
+-rw-r--r-- 3 root root 39 Nov  4 09:23 s4
+
+you can create 'n' of hard links and all files will share same Inode number
+============================================================================
+
+[root@rhel-master naveen]# ls -li
+total 12
+9434807 -rw-r--r-- 3 root root 39 Nov  4 09:23 s2
+9434807 -rw-r--r-- 3 root root 39 Nov  4 09:23 s3
+9434807 -rw-r--r-- 3 root root 39 Nov  4 09:23 s4
+[root@rhel-master naveen]# vi s4
+[root@rhel-master naveen]# cat s2
+Naveen Kumar HS
+hello
+man
+how  are you
+lasjd;lfkjasd;lkj
+[root@rhel-master naveen]# ln s4 /tmp/s5
+[root@rhel-master naveen]# df -k
+Filesystem                        1K-blocks     Used Available Use% Mounted on
+/dev/sda1                          12572672 10547144   2025528  84% /
+devtmpfs                             925712        0    925712   0% /dev
+tmpfs                                941252        0    941252   0% /dev/shm
+tmpfs                                941252     9792    931460   2% /run
+tmpfs                                941252        0    941252   0% /sys/fs/cgroup
+/dev/sdb1                          10474496  4343956   6130540  42% /var/ftp/pub
+/dev/sda6                            487634     2318    455620   1% /sda6
+/dev/sda3                            487634     2318    455620   1% /sda3
+/dev/sda5                            487634     2318    455620   1% /sda5
+/dev/mapper/datashare-datagrouplv    588352      488    557144   1% /mylvm
+tmpfs                                188252        4    188248   1% /run/user/42
+tmpfs                                188252       36    188216   1% /run/user/0
+/dev/sr0                            4304612  4304612         0 100% /run/media/root/RHEL-7.6 Server.x86_64
+[root@rhel-master naveen]# ln /tmp/s
+
+You cannot create hard link across partition 
+============================================
+
+[root@rhel-master naveen]# ln /tmp/s5 /sda6/s6
+ln: failed to create hard link ‘/sda6/s6’ => ‘/tmp/s5’: Invalid cross-device link
+[root@rhel-master naveen]#
+
+
+
+Soft link
+===========
+
+1) Soft links will not share same inode number.
+2) if you delete original file there will be loss of data. It just links the newly created file to original file. soft link exists but you cannot read the file.
+3) you can create 'n' number of hard links from the same file and subsequent files
+4) hard links should be in the same partition or file system. you cannot create hard link across the partition or file system
+6) you cannot see 'l' bit in permission level for hard link files
+7) Disadvantage is it keeps the the multiple copies of data so size consuming
+
+
+[root@rhel-master naveen]# touch soft
+[root@rhel-master naveen]# ln -sf soft soft1
+[root@rhel-master naveen]# ll
+total 12
+-rw-r--r-- 4 root root 57 Nov  4 09:25 s2
+-rw-r--r-- 4 root root 57 Nov  4 09:25 s3
+-rw-r--r-- 4 root root 57 Nov  4 09:25 s4
+-rw-r--r-- 1 root root  0 Nov  4 09:28 soft
+lrwxrwxrwx 1 root root  4 Nov  4 09:28 soft1 -> soft
+[root@rhel-master naveen]# vi soft
+[root@rhel-master naveen]# ls -li
+total 16
+9434807 -rw-r--r-- 4 root root 57 Nov  4 09:25 s2
+9434807 -rw-r--r-- 4 root root 57 Nov  4 09:25 s3
+9434807 -rw-r--r-- 4 root root 57 Nov  4 09:25 s4
+9436929 -rw-r--r-- 1 root root  5 Nov  4 09:29 soft
+8565110 lrwxrwxrwx 1 root root  4 Nov  4 09:28 soft1 -> soft
+[root@rhel-master naveen]#
+

@@ -1,0 +1,105 @@
+
+below optional 
+---------------
+vi /etc/httpd/httpd.conf
+<virtualhost ip>
+serveradmin root@ip
+documentroot /var/www/html
+directoryindex index
+<directory "/var/www/html">
+options indexes
+order allow.deny
+allow from all
+</directory>
+</virtualhost>
+
+Below mandatory
+---------------
+mkdir -p /var/www/html/index
+systemctl start httpd
+systemctl enable httpd
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --reload
+firewall-cmd --list-all
+
+[root@rhel-master yum.repos.d]# firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s10
+  sources:
+  services: ssh dhcpv6-client http https mysql ftp
+  ports: 80/tcp 3306/tcp 27017/tcp 21/tcp 10050/tcp 10051/tcp 8080/tcp 10050/udp 10051/udp 8140/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@rhel-master yum.repos.d]#
+
+
+
+[root@rhel-master html]# cd "/run/media/root/RHEL-7.6 Server.x86_64"
+
+[root@rhel-master RHEL-7.6 Server.x86_64]# rsync -parv Packages /var/www/html/index/
+sending incremental file list
+Packages/
+Packages/389-ds-base-1.3.8.4-9.el7.x86_64.rpm
+Packages/389-ds-base-libs-1.3.8.4-9.el7.x86_64.rpm
+Packages/ElectricFence-2.2.2-39.el7.i686.rpm
+Packages/ElectricFence-2.2.2-39.el7.x86_64.rpm
+Packages/GConf2-3.2.6-8.el7.i686.rpm
+Packages/GConf2-3.2.6-8.el7.x86_64.rpm
+Packages/GeoIP-1.5.0-13.el7.i686.rpm
+Packages/zziplib-0.13.62-9.el7.i686.rpm
+Packages/zziplib-0.13.62-9.el7.x86_64.rpm
+
+sent 3,577,863,842 bytes  received 97,722 bytes  31,804,102.79 bytes/sec
+total size is 3,576,611,478  speedup is 1.00
+[root@rhel-master RHEL-7.6 Server.x86_64]# rsync -parv Packages /var/www/html/index/
+
+
+Open HTTP link : http://192.168.0.107/index/Packages/
+
+Repo configuration
+===================
+[root@rhel-master yum.repos.d]# cat html.repo
+[htmlrepo]
+name= html repo
+enabled=1
+gpgcheck=0
+baseurl=http://192.168.0.107/index/Packages/
+[root@rhel-master yum.repos.d]#
+
+yum clean all
+yum repolist all
+
+TEST
+-----
+[root@rhel-master yum.repos.d]# yum install amanda
+Loaded plugins: langpacks, product-id, replace, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package amanda.x86_64 0:3.3.3-21.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================================================
+ Package                                    Arch                                       Version                                            Repository                                    Size
+=============================================================================================================================================================================================
+Installing:
+ amanda                                     x86_64                                     3.3.3-21.el7                                       htmlrepo                                     127 k
+
+Transaction Summary
+=============================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 127 k
+Installed size: 164 k
+Is this ok [y/d/N]: n
+

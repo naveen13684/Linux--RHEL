@@ -1,0 +1,38 @@
+Files : 
+/etc/sysconfig/nfs
+/etc/fstab
+/etc/exportfs 
+
+/etc/exportfs 
+=====================
+NFS options on /etc/portfs
+ro: With the help of this option we can provide read only access to the shared files i.e client will only be able to read.
+rw: This option allows the client server to both read and write access within the shared directory.
+sync: Sync confirms requests to the shared directory only once the changes have been committed.
+no_subtree_check: This option prevents the subtree checking. When a shared directory is the subdirectory of a larger file system, nfs performs scans of every directory above it, in order to verify its permissions and details. Disabling the subtree check may increase the reliability of NFS, but reduce security.
+no_root_squash: This phrase allows root to connect to the designated directory.
+
+example of exportfs file entry
+=============================
+/nfsshare -rw,sync 192.168.0.0/24
+/nfsshare -ro,sync 192.168.0.0/24
+/nfsshare -rw,sync,no_root_squash 192.168.0.0/24
+/nfsshare -rw,sync,no_root_squash,no_subtree_check 192.168.0.0/24
+
+Commands:
+=========
+showmount -e : Shows the available shares on your local machine
+showmount -e <server-ip or hostname>: Lists the available shares at the remote server
+showmount -d : Lists all the sub directories
+exportfs -v : Displays a list of shares files and options on a server
+exportfs -a : Exports all shares listed in /etc/exports, or given name
+exportfs -u : Unexports all shares listed in /etc/exports, or given name
+exportfs -r : Refresh the server’s list after modifying /etc/exports
+
+/etc/fstab entry
+=================
+192.168.0.100:/nfsshare /mnt  nfs defaults 0 0
+
+
+Server configuration
+=====================

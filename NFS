@@ -106,6 +106,9 @@ Export list for 192.168.0.103:
 
 Troubleshooting
 ===============
+1) clnt_create: RPC: Port mapper failure - Unable to receive: errno 113
+
+
 [root@server1 yum.repos.d]# rpcinfo -p 192.168.0.103
 rpcinfo: can't contact portmapper: RPC: Remote system error - No route to host
 
@@ -163,7 +166,7 @@ success
 [root@server1 yum.repos.d]# showmount -e 192.168.0.103
 Export list for 192.168.0.103:
 /nfsshare 192.168.0.0/24
-[root@server1 yum.repos.d]#
+[root@client yum.repos.d]#
 
 
 [root@rhel-master etc]# showmount -e 192.168.0.103
@@ -172,4 +175,53 @@ Export list for 192.168.0.103:
 [root@rhel-master etc]#
 
 
+2) permission denied on client to create files under /nfsshare
+[root@client mnt]# cd /mnt
+[root@client mnt]# ll
+total 0
+[root@client mnt]# touch test1 test2
+touch: cannot touch ‘test1’: Permission denied
+touch: cannot touch ‘test2’: Permission denied
 
+fix: give permissions in Master:
+
+[root@rhel-master etc]# chmod 777 /nfsshare
+[root@rhel-master etc]#
+
+3) when you create a file in client the permissions are set to "nfsnobody". How to make sure proper user permission
+
+[root@server1 mnt]# touch test1 test2
+[root@server1 mnt]# ll
+total 0
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test1
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test2
+[root@server1 mnt]#
+
+add "no_root_squash" in master
+
+Master:
+[root@rhel-master etc]# cat /etc/exports
+/nfsshare -rw,sync,no_root_squash 192.168.0.0/24
+[root@rhel-master etc]#
+
+client:
+[root@server1 mnt]# touch test3
+[root@server1 mnt]# ll
+total 0
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test1
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test2
+-rw-r--r-- 1 root      root      0 Nov  6 06:36 test3
+[root@server1 mnt]# 
+
+[root@server1 mnt]# su - nagios
+[nagios@server1 ~]$ ll
+total 0
+[nagios@server1 ~]$ cd /mnt
+[nagios@server1 mnt]$ touch n1
+[nagios@server1 mnt]$ ll
+total 0
+-rw-rw-r-- 1 nagios    nagios    0 Nov  6 06:39 n1
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test1
+-rw-r--r-- 1 nfsnobody nfsnobody 0 Nov  6 06:33 test2
+-rw-r--r-- 1 root      root      0 Nov  6 06:36 test3
+[nagios@server1 mnt]$

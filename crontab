@@ -1,3 +1,9 @@
+Files:
+/etc/cron.deny 
+/etc/at.deny
+/etc/cron.allow
+/etc/cron.deny
+
 [nagios@server1 mnt]$ cat /etc/crontab
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin

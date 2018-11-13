@@ -1,0 +1,72 @@
+Ports : 137, 138 , 139
+service : smb
+daemon : smbd
+config file : /etc/samba/smb.conf
+cat /etc/services |grep -i netbiosis 
+
+smb.conf
+=======
+[sharerepo]
+comment = shared-directory
+path = /sharerepo
+public = no
+valid users = samba-user1,samba-user2
+writable = yes
+broseable = yes
+create mask = 0075
+interfaces = 192.168.0.0/24
+hosts allow = 192.168.0.6
+
+
+How to share a linux filesystem to windows Machine
+================================================
+
+1) yum install samba samba-client -y
+
+2) vi /etc/samba/smb.cfg
+comment = samba master server
+path = /sharerepo                      #make sure it has 777 permisssios 
+writeable = yes                        #by default samba will not allow to write
+
+3) testparm   # to test configuration errros
+
+4) start the smb service
+
+systemctl enable smb
+systemctl start smb
+
+netstat -lt |grep -i netbios          #To ensure samba port is listening or not
+
+6) create few linux users
+
+useradd samba-user1
+useradd samba-user2
+
+and assign password same as user
+
+7) create samba -level password to OS users
+
+smbpasswd -a samba-user1
+smbclient -L <serverIP> -u samba-user1      # test if it works
+
+
+smbclient -L //<serverIP>/<sharepoint> -U samba-user1
+smb> dir 
+smb>show files
+
+8) mount a samba shared directory on Linux machine
+
+yum install cifs-utils
+mount -t cifs //master/sharepoint -o username=samba-user1 /mnt/sharepoint
+
+9) Mout a samba shared directory in windows
+
+-> Right click on Mycomputer
+-> Add network location  : choose custom network location
+-> Internet / Network Address  :  \\<serverIP>\sharepoint
+
+\\<serverIP>\sharepoint   - File
+http://webserver/share    - webshare
+ftp://ftp.microsoft.com   - FTP site
+
+

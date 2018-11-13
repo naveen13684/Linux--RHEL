@@ -3,6 +3,10 @@ Files :
 /etc/fstab
 /etc/exportfs 
 
+port: 2049
+
+services : nfs , mountd , rpc-bind
+
 /etc/exportfs 
 =====================
 NFS options on /etc/portfs

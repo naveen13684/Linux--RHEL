@@ -1,0 +1,109 @@
+NIS  : Network Information System
+======================================
+
+traditional directory service 
+NIS enables you to create user accounts that can be shared across all systems on your network. 
+The user account is created only on the NIS server. NIS clients download the necessary user name and password data from the NIS server to verify each user login. 
+
+Make sure the following lines contain 'nis' as an option in the file /etc/nsswitch.conf file
+
+passwd: files nis
+shadow: files nis
+group: files nis
+hosts: files nis dns
+networks: files nis
+protocols: files nis
+publickey: nisplus
+automount: files nis
+netgroup: files nis
+aliases: files nisplus
+
+server daemon
+=============
+ypserv - This package contains the NIS server daemon - ypserv, and the NIS password daemon yppasswdd.
+
+The yppasswdd daemon enables the NIS server to change the NIS database and password database information, 
+at the client's request. In order to change your NIS password, the yppasswdd daemon must be running on the master server. 
+
+portmap - This is an RPC daemon upon which NIS runs. This package is mandatory.
+
+
+client daemons
+=============
+ypbind - NIS client daemon
+
+authconfig - used for automatic configuration of NIS client.
+
+yp-tools - Contains utilities like ypcat, yppasswd, ypwhich and so on used for viewing and modifying the user account details within the NIS server.
+
+portmap - This package is mandatory.
+
+server-side configuration
+========================
+
+yum -y install ypserv rpcbind
+
+[root@master ldap]# yum -y install ypserv rpcbind
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Package ypserv-2.31-11.el7.x86_64 already installed and latest version
+Package rpcbind-0.2.0-45.el7.x86_64 already installed and latest version
+Nothing to do
+[root@master ldap]
+
+192.168.33.4 nismaster.example.com nismaster
+192.168.33.5 nisclient.example.com nisclient
+
+or configure DNS for above
+
+[root@master ldap]# ypdomainname example.com
+[root@master ldap]# ypdomainname
+example.com
+[root@master ldap]#
+
+
+[root@master ldap]# cat /etc/sysconfig/network
+# Created by anaconda
+NISDOMAIN=example.com
+YPSERV_ARGS="-p 944"
+YPXFRD_ARGS="-p 945"
+[root@master ldap]#
+
+
+[root@master ldap]# systemctl start rpcbind ypserv ypxfrd yppasswdd
+[root@master ldap]#
+
+
+[root@master ldap]# firewall-cmd --permanent --add-service=rpc-bind
+success
+[root@master ldap]# firewall-cmd --permanent --add-port=994/tcp
+success
+[root@master ldap]# firewall-cmd --permanent --add-port=994/udp
+success
+[root@master ldap]# firewall-cmd --permanent --add-port=995/udp
+success
+[root@master ldap]# firewall-cmd --permanent --add-port=995/tcp
+success
+[root@master ldap]# firewall-cmd --permanent --add-port=996/udp
+success
+[root@master ldap]# firewall-cmd --reload
+success
+[root@master ldap]#
+
+
+client side configuration
+=======================
+
+yum -y install ypserv rpcbind
+
+[root@client yum.repos.d]# vim /etc/sysconfig/network
+[root@client yum.repos.d]# cat /etc/sysconfig/network
+# Created by anaconda
+ NISDOMAIN=example.com
+[root@client yum.repos.d]#
+
+
+[root@client yum.repos.d]# authconfig --enablenis --nisdomain=example.com --nisserver=nismaster.example.com --enablemkhomedir --update
+[root@client yum.repos.d]#
+
+getent passwd |grep -i 

@@ -1,0 +1,163 @@
+DNS 
+====
+
+1) one Static IP and hostname
+hostnamectl set-hostname master.example.com
+2) domain name = example.com
+3) yum install bind bind-utils  - SERVER
+4) vim /etc/named.conf
+
+ listen-on static ip
+  allow-query any
+systemctl start named
+systemctl enabled named
+systemctl status named
+ 
+ 5) firewall-cmd --permananet --add-port=53/tcp
+ firewall-cmd --permananet --add-port=53/udp
+ firewall-cmd --permanent --add-service=dns
+ firewall-cmd --reload
+ firewall-cmd --list-all
+ 
+ 6) vim /etc/named.conf
+ zone "example.com" IN {
+ type master;
+ file "forward.example.com";  #file should exist under /var/named
+ allow-update { none;};
+ };
+ 
+ zone "192.168.33.in-addr-arpa" IN {     #leave the last IP Number of static IP
+ type master;
+ file "reverse.example.com";
+ allow-update { none; };
+ };
+ 
+ Check if your configuration is correct
+ =====================================
+ 
+ [root@master Packages]# named-checkconf -z /etc/named.conf
+zone example.com/IN: loading from master file forward.example.com failed: file not found
+zone example.com/IN: not loaded due to errors.
+_default/example.com/IN: file not found
+zone 192.168.33.in-addr-arpa/IN: loading from master file reverse.example.com failed: file not found
+zone 192.168.33.in-addr-arpa/IN: not loaded due to errors.
+_default/192.168.33.in-addr-arpa/IN: file not found
+zone localhost.localdomain/IN: loaded serial 0
+zone localhost/IN: loaded serial 0
+zone 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa/IN: loaded serial 0
+zone 1.0.0.127.in-addr.arpa/IN: loaded serial 0
+zone 0.in-addr.arpa/IN: loaded serial 0
+[root@master Packages]#
+
+ 
+ 7) cd /var/named
+ Create below two files
+ 
+ [root@master named]# cat forward.example.com
+$TTL 1D
+@       IN SOA  server.example.com. root.example.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+@       IN      NS      server.example.com.
+@       IN      A       192.168.33.4
+server  IN      A       192.168.33.4
+host    IN      A       192.168.33.4
+client  IN      A       192.168.33.6
+desktop IN      A       192.168.33.6
+[root@master named]#
+
+
+
+ [root@master named]# cat reverse.example.com
+$TTL 1D
+@       IN SOA  server.example.com. root.example.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+@       IN      NS      server.example.com.
+@       IN      PTR     example.com.
+server  IN      A       192.168.33.4
+host    IN      A       192.168.33.4
+client  IN      A       192.168.33.6
+desktop IN      A       192.168.33.6
+4       IN      PTR     server.example.com.
+6       IN      PTR     client.example.com.
+[root@master named]#
+
+
+[root@master named]# named-checkzone forward forward.example.com
+zone forward/IN: loaded serial 0
+OK
+
+[root@master named]# named-checkzone reverse reverse.example.com
+zone reverse/IN: loaded serial 0
+OK
+[root@master named]#
+
+ 
+ 
+ 8) change the ownership from root to 'named' for both above files
+ 
+ chown root:named forward.example.com
+ chown root:named reverse.example.com
+ 
+ named-checkconf -z /etc/named.conf
+ named-checkzone forward /var/named/forward.example.com
+ named-checkzone reverse /var/named/reverse.example.com
+ 
+ 
+ 9) systemctl restart named
+    systemctl restart Networkmanager
+ 
+ No errors means then everything is good!!!!
+ 
+ 
+ client side
+==================
+ 10) hostname desktop-client.example.com
+ 
+ 11) resolve.conf
+ search exmple.com
+ nameserver 192.168.33.4
+ 
+ 11) systemctl restart Networkmanager
+ 
+ ping server
+ ping host
+ ping www
+ ping client
+ 
+ 
+ [root@client yum.repos.d]# dig example.com
+
+; <<>> DiG 9.9.4-RedHat-9.9.4-70.el7 <<>> example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12835
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;example.com.                   IN      A
+
+;; ANSWER SECTION:
+example.com.            86400   IN      A       192.168.33.4
+
+;; AUTHORITY SECTION:
+example.com.            86400   IN      NS      server.example.com.
+
+;; ADDITIONAL SECTION:
+server.example.com.     86400   IN      A       192.168.33.4
+
+;; Query time: 1 msec
+;; SERVER: 192.168.33.4#53(192.168.33.4)
+;; WHEN: Tue Nov 13 02:21:45 EST 2018
+;; MSG SIZE  rcvd: 93
+
+[root@client yum.repos.d]#

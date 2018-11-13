@@ -59,6 +59,29 @@ smb>show files
 yum install cifs-utils
 mount -t cifs //master/sharepoint -o username=samba-user1 /mnt/sharepoint
 
+
+[root@client yum.repos.d]# mount -t cifs //master/sharepoint /mnt
+Password for root@//master/sharepoint:
+[root@client yum.repos.d]# mount -t cifs //master/sharepoint -o username=samba1 /mnt
+Password for samba1@//master/sharepoint:  ******
+[root@client yum.repos.d]# df -k
+Filesystem          1K-blocks    Used Available Use% Mounted on
+/dev/sda2            12572672 3870236   8702436  31% /
+devtmpfs               492048       0    492048   0% /dev
+tmpfs                  507588       0    507588   0% /dev/shm
+tmpfs                  507588    7872    499716   2% /run
+tmpfs                  507588       0    507588   0% /sys/fs/cgroup
+tmpfs                  101520       4    101516   1% /run/user/42
+tmpfs                  101520      28    101492   1% /run/user/1000
+tmpfs                  101520       0    101520   0% /run/user/0
+//master/sharepoint  12572672 8205684   4366988  66% /mnt
+[root@client yum.repos.d]# cd /mnt
+[root@client mnt]# mkdir f1
+[root@client mnt]# ls
+f1
+[root@client mnt]#
+
+
 9) Mout a samba shared directory in windows
 
 -> Right click on Mycomputer

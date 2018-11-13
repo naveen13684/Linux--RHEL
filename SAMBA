@@ -110,3 +110,147 @@ Hang Up – close a session.
 Send – sends a packet to the computer on the other end of a session.
 Send No Ack – like Send, but doesn't require an acknowledgment.
 Receive – wait for a packet to arrive from a Send on the other end of a session.
+
+
+
+
+[root@master yp]# testparm
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section "[sharepoint]"
+Processing section "[homes]"
+Processing section "[printers]"
+Processing section "[print$]"
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+        printcap name = cups
+        security = USER
+        workgroup = SAMBA
+        idmap config * : backend = tdb
+        cups options = raw
+
+
+[sharepoint]
+        comment = Master Share Point
+        cups options =
+        path = /sharepoint
+        read only = No
+
+
+[homes]
+        browseable = No
+        comment = Home Directories
+        inherit acls = Yes
+        read only = No
+        valid users = %S %D%w%S
+
+
+[printers]
+        browseable = No
+        comment = All Printers
+        create mask = 0600
+        path = /var/tmp
+        printable = Yes
+
+
+[print$]
+        comment = Printer Drivers
+        create mask = 0664
+        directory mask = 0775
+        force group = @printadmin
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+[root@master yp]#
+[root@master yp]# systemctl enable smb
+Created symlink from /etc/systemd/system/multi-user.target.wants/smb.service to /usr/lib/systemd/system/smb.service.
+[root@master yp]# systemctl start smb
+[root@master yp]# netstat -lt |grep -i netbios
+tcp        0      0 0.0.0.0:netbios-ssn     0.0.0.0:*               LISTEN
+tcp6       0      0 [::]:netbios-ssn        [::]:*                  LISTEN
+[root@master yp]# cat /etc/services |grep -i netbiosis
+[root@master yp]# cat /etc/services |grep -i netbio
+netbios-ns      137/tcp                         # NETBIOS Name Service
+netbios-ns      137/udp
+netbios-dgm     138/tcp                         # NETBIOS Datagram Service
+netbios-dgm     138/udp
+netbios-ssn     139/tcp                         # NETBIOS session service
+netbios-ssn     139/udp
+
+
+[root@master yp]# useradd samba1
+[root@master yp]# useradd samba2
+[root@master yp]# smbpasswd -a samba1
+New SMB password:
+Retype new SMB password:
+Added user samba1.
+[root@master yp]# smbpasswd -a samba2
+New SMB password:
+Retype new SMB password:
+Added user samba2.
+
+
+[root@master yp]# smbclient -L master -U samba1
+Connection to master failed (Error NT_STATUS_UNSUCCESSFUL)
+
+
+[root@master yp]# firewall-cmd --permanent --add-service=samba
+success
+[root@master yp]# smbclient -L master -U samba1
+Connection to master failed (Error NT_STATUS_UNSUCCESSFUL)
+[root@master yp]# ping master
+ping: master: Name or service not known
+[root@master yp]# ping master
+ping: master: Name or service not known
+[root@master yp]# vi /var/named/forward.example.com
+[root@master yp]# vi /var/named/reverse.example.com
+[root@master yp]# ping master
+ping: master: Name or service not known
+[root@master yp]# systemctl restart named
+[root@master yp]# ping master
+PING master.example.com (192.168.33.4) 56(84) bytes of data.
+64 bytes from server.example.com (192.168.33.4): icmp_seq=1 ttl=64 time=0.024 ms
+^C
+--- master.example.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.024/0.024/0.024/0.000 ms
+[root@master yp]# smbclient -L master -U samba1
+Enter SAMBA\samba1's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        sharepoint      Disk      Master Share Point
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        samba1          Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+[root@master yp]# smbclient -L master -U samba2
+Enter SAMBA\samba2's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        sharepoint      Disk      Master Share Point
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        samba2          Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+[root@master yp]# firewall-cmd --reload
+success
+[root@master yp]#
+

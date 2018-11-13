@@ -1,6 +1,6 @@
 1.BIOS
 2.MBR ( Master Boot Record)
-3.GRUB2 Bootloader
+3.GRUB2 Bootloader  (Grand Unified Bootloader version2)
 4.Kernel
 5.Systemd
 6.Runlevel-Target

@@ -3,7 +3,8 @@ NIS  : Network Information System
 
 traditional directory service 
 NIS enables you to create user accounts that can be shared across all systems on your network. 
-The user account is created only on the NIS server. NIS clients download the necessary user name and password data from the NIS server to verify each user login. 
+The user account is created only on the NIS server. NIS clients download the necessary user name and password data from the NIS server 
+to verify each user login. 
 
 Make sure the following lines contain 'nis' as an option in the file /etc/nsswitch.conf file
 
@@ -34,7 +35,8 @@ ypbind - NIS client daemon
 
 authconfig - used for automatic configuration of NIS client.
 
-yp-tools - Contains utilities like ypcat, yppasswd, ypwhich and so on used for viewing and modifying the user account details within the NIS server.
+yp-tools - Contains utilities like ypcat, yppasswd, ypwhich and so on used for viewing and modifying the user account details within
+the NIS server.
 
 portmap - This package is mandatory.
 

@@ -70,3 +70,43 @@ http://webserver/share    - webshare
 ftp://ftp.microsoft.com   - FTP site
 
 
+============================================================================================================
+
+NetBIOS provides three distinct services:
+
+Name service (NetBIOS-NS) for name registration and resolution.
+Datagram distribution service (NetBIOS-DGM) for connectionless communication.
+Session service (NetBIOS-SSN) for connection-oriented communication.
+(Note: SMB, an upper layer, is a service that runs on top of the Session Service and the Datagram service, and is not to be confused as a necessary and integral part of NetBIOS itself. It can now run atop TCP with a small adaptation layer that adds a packet length to each SMB message; this is necessary because TCP only provides a byte-stream service with no notion of packet boundaries.)
+
+Name service
+In order to start sessions or distribute datagrams, an application must register its NetBIOS name using the name service. NetBIOS names are 16 octets in length and vary based on the particular implementation. Frequently, the 16th octet, called the NetBIOS Suffix, designates the type of resource, and can be used to tell other applications what type of services the system offers. In NBT, the name service operates on UDP port 137 (TCP port 137 can also be used, but rarely is).
+
+The name service primitives offered by NetBIOS are:
+
+Add name – registers a NetBIOS name.
+Add group name – registers a NetBIOS "group" name.
+Delete name – un-registers a NetBIOS name or group name.
+Find name – looks up a NetBIOS name on the network.
+NetBIOS name resolution is not supported by Microsoft for Internet Protocol Version 6 (IPv6).
+
+Datagram distribution service
+Datagram mode is connectionless; the application is responsible for error detection and recovery. In NBT, the datagram service runs on UDP port 138.
+
+The datagram service primitives offered by NetBIOS are:
+
+Send Datagram – send a datagram to a remote NetBIOS name.
+Send Broadcast Datagram – send a datagram to all NetBIOS names on the network.
+Receive Datagram – wait for a packet to arrive from a Send Datagram operation.
+Receive Broadcast Datagram – wait for a packet to arrive from a Send Broadcast Datagram operation.
+Session service
+Session mode lets two computers establish a connection, allows messages to span multiple packets, and provides error detection and recovery. In NBT, the session service runs on TCP port 139.
+
+The session service primitives offered by NetBIOS are:
+
+Call – opens a session to a remote NetBIOS name.
+Listen – listen for attempts to open a session to a NetBIOS name.
+Hang Up – close a session.
+Send – sends a packet to the computer on the other end of a session.
+Send No Ack – like Send, but doesn't require an acknowledgment.
+Receive – wait for a packet to arrive from a Send on the other end of a session.

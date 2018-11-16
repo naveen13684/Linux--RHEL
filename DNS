@@ -119,6 +119,12 @@ OK
  
  client side
 ==================
+ 10) edit /etc/sysconfig/network file add domain information
+
+[root@client ~]# cat /etc/sysconfig/network
+NISDOMAIN=example.com
+[root@client ~]#
+
  10) hostname desktop-client.example.com
  
  11) resolve.conf

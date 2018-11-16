@@ -1,5 +1,22 @@
 DNS 
 ====
+Files : /etc/named.conf
+        /etc/sysconfig/network
+        /var/named/<forward dns file>
+        /var/named/<reverse dns file>
+        /etc/resolv.conf
+        
+services : named
+
+port: 53
+
+Commands: systemctl start named
+          nslookup
+          rndc reconfig
+          named-checkconf -z /etc/named.conf
+          named-checkzone forward < file >
+          named-checkzone reverse < file >
+            
 
 1) one Static IP and hostname
 hostnamectl set-hostname master.example.com

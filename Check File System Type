@@ -1,0 +1,26 @@
+# df -T | awk '{print $1,$2,$NF}' | grep "^/dev"
+/dev/sda1 ext2 /
+/dev/sdb1 ext3 /home
+/dev/sdc1 ext3 /u01
+
+
+# mount | grep "^/dev"
+/dev/sda1 on / type ext2 (rw)
+/dev/sdb1 on /home type ext3 (rw)
+/dev/sdc1 on /u01 type ext3 (rw)
+
+# file -sL /dev/sda2
+/dev/sda2: SGI XFS filesystem data (blksz 4096, inosz 512, v2 dirs)
+#
+
+
+# cat /etc/fstab
+LABEL=/r       /        ext2    defaults    1 1
+LABEL=/home    /home    ext3    defaults    0 0
+LABEL=/u01     /u01     ext3    defaults    0 0
+
+
+#fsck -N /dev/sda2
+fsck from util-linux 2.23.2
+[/sbin/fsck.xfs (1) -- /] fsck.xfs /dev/sda2
+#

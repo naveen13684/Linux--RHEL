@@ -1,0 +1,18 @@
+[root@client ~]# grep -i echo /home/student/.bashrc
+echo "bashrc is starting running"
+
+[root@client ~]# grep -i echo /home/student/.bash_logout
+echo "bash logout is running"
+
+
+[root@client ~]# su - student
+Last login: Fri Nov 16 14:52:10 EST 2018 on pts/3
+/etc/profile running
+bash_profile student is runinng
+bashrc under student is running
+/etc/bashrc running
+[student@client ~]$ exit
+logout
+bash logout is running
+[root@client ~]#
+

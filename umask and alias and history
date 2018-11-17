@@ -1,0 +1,65 @@
+
+Default permissions for Files and Directory
+===========================================
+For Files maximum permission is 666
+For Directories maximum permission is 777
+
+UMASK:
+======
+umask by default 022 or 002 mentioned in /etc/profile
+
+To set the History size in /etc/profile
+======================================
+[root@client ~]# grep -i HIST /etc/profile
+HISTSIZE=1000
+if [ "$HISTCONTROL" = "ignorespace" ] ; then
+    export HISTCONTROL=ignoreboth
+    export HISTCONTROL=ignoredups
+export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL
+[root@client ~]#
+
+history
+===========
+  251  ping client
+  252  vi /etc/sysconfig/network
+  253  ping client
+  254  nslookup
+  255  cat /etc/sysconfig/network
+  256  reboot
+  257  exit
+
+
+[root@client ~]# !253    
+ping client
+PING client.example.com (192.168.33.6) 56(84) bytes of data.
+64 bytes from client.example.com (192.168.33.6): icmp_seq=1 ttl=64 time=0.037 ms
+64 bytes from client.example.com (192.168.33.6): icmp_seq=2 ttl=64 time=0.087 ms
+64 bytes from client.example.com (192.168.33.6): icmp_seq=3 ttl=64 time=0.084 ms
+^C
+--- client.example.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.037/0.069/0.087/0.023 ms
+[root@client ~]#
+
+
+history
+===========
+ 266  grep -i echo /etc/barch
+  267  grep -i echo /etc/bashrc
+  268  grep umask /etc/profile
+  269  vi /etc/profile
+  270  grep -i HIST /etc/profile
+  271  history
+  
+  Executes the latest history starts from 'g' from backwards.
+  
+  [root@client ~]# !g    
+grep -i HIST /etc/profile
+HISTSIZE=1000
+if [ "$HISTCONTROL" = "ignorespace" ] ; then
+    export HISTCONTROL=ignoreboth
+    export HISTCONTROL=ignoredups
+export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL
+[root@client ~]#
+
+

@@ -5,6 +5,7 @@ Files : /etc/named.conf
         /var/named/<forward dns file>
         /var/named/<reverse dns file>
         /etc/resolv.conf
+        /etc/sysconfig/network-scripts/ifcfg-enp0s3
         
 services : named
 
@@ -43,7 +44,7 @@ systemctl status named
  allow-update { none;};
  };
  
- zone "192.168.33.in-addr-arpa" IN {     #leave the last IP Number of static IP
+ zone "192.168.33.in-addr.arpa" IN {     #leave the last IP Number of static IP
  type master;
  file "reverse.example.com";
  allow-update { none; };
@@ -70,10 +71,10 @@ zone 0.in-addr.arpa/IN: loaded serial 0
  7) cd /var/named
  Create below two files
  
- [root@master named]# cat forward.example.com
+[root@server named]# cat forward.example.com
 $TTL 1D
 @       IN SOA  server.example.com. root.example.com. (
-                                        0       ; serial
+                                        01      ; serial
                                         1D      ; refresh
                                         1H      ; retry
                                         1W      ; expire
@@ -81,14 +82,13 @@ $TTL 1D
 @       IN      NS      server.example.com.
 @       IN      A       192.168.33.4
 server  IN      A       192.168.33.4
-host    IN      A       192.168.33.4
 client  IN      A       192.168.33.6
-desktop IN      A       192.168.33.6
-[root@master named]#
+[root@server named]#
 
 
 
- [root@master named]# cat reverse.example.com
+
+[root@server named]# cat reverse.example.com
 $TTL 1D
 @       IN SOA  server.example.com. root.example.com. (
                                         0       ; serial
@@ -97,14 +97,12 @@ $TTL 1D
                                         1W      ; expire
                                         3H )    ; minimum
 @       IN      NS      server.example.com.
-@       IN      PTR     example.com.
 server  IN      A       192.168.33.4
-host    IN      A       192.168.33.4
 client  IN      A       192.168.33.6
-desktop IN      A       192.168.33.6
 4       IN      PTR     server.example.com.
 6       IN      PTR     client.example.com.
-[root@master named]#
+[root@server named]#
+
 
 
 [root@master named]# named-checkzone forward forward.example.com
@@ -184,3 +182,27 @@ server.example.com.     86400   IN      A       192.168.33.4
 ;; MSG SIZE  rcvd: 93
 
 [root@client yum.repos.d]#
+
+
+
+
+[root@client ~]# nslookup
+> server.example.com
+Server:         192.168.33.4
+Address:        192.168.33.4#53
+
+Name:   server.example.com
+Address: 192.168.33.4
+> 192.168.33.4
+Server:         192.168.33.4
+Address:        192.168.33.4#53
+
+4.33.168.192.in-addr.arpa       name = server.example.com.
+>
+
+
+[root@client ~]# host server.example.com
+server.example.com has address 192.168.33.4
+[root@client ~]# host 192.168.33.4
+4.33.168.192.in-addr.arpa domain name pointer server.example.com.
+[root@client ~]#

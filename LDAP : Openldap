@@ -1,4 +1,8 @@
 
+packages : Openldap and migrationtools
+Ports: 389 and 636
+
+
 Pre-requisites:
 
 1) RHEL7 Server and client nodes (two numbers)

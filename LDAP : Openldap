@@ -1,14 +1,16 @@
 
 packages : Openldap and migrationtools
+service : sldap
 Ports: 389 and 636
 
 config files:
+=============
 /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
 /etc/openldap/slapd.d/cn=config/olcDatabase={1}monitor.ldif
 
 
 Pre-requisites:
-
+===============
 1) RHEL7 Server and client nodes (two numbers)
 2) Make sure both are reachable from one another
 3) make an entry of each both in /etc/hosts
@@ -16,8 +18,9 @@ Pre-requisites:
 
 
 1) Install the required LDAP Packages "Openldap"
+=================================================
 
-yum -y install openldap migrationtools
+yum -y install openldap migrationtools openldap-clients
 
 2) Create a LDAP root password for administration purpose
 
@@ -30,6 +33,7 @@ Re-enter new password:
 [root@master named]#
 
 3) Edit the OpenLDAP Server Configuration
+================================================
 
 olcDatabase={2}hdb.ldif
 ========================
@@ -62,6 +66,10 @@ olcTLSCertificateFile: /etc/pki/tls/certs/example.pem
 olcTLSCertificateKeyFile: /etc/pki/tls/certs/examplekey.pem
 [root@master cn=config]#
 
+
+4) Provide the Monitor privileges
+=====================================
+
 olcDatabase={1}monitor.ldif
 ===========================
 add example.com domain name to file.
@@ -84,7 +92,8 @@ modifyTimestamp: 20181113072658Z
 [root@master cn=config]#
 [root@master cn=config]#
 
-
+Test if configuration is correct
+================================
 
 [root@master cn=config]# slaptest -u
 5bea8764 ldif_read_file: checksum error on "/etc/openldap/slapd.d/cn=config/olcDatabase={1}monitor.ldif"
@@ -102,17 +111,60 @@ Available Packages
 openldap-servers.x86_64                                                                        2.4.44-18.el7                                                                        RHEL-7.6
 [root@master cn=config]#
 
-
-4) Provide the Monitor privileges
-
 5) Enable and start SLDAP Service
-
+=====================================
 systemctl start slapd
 systemctl enable slapd
 
+[root@server cn=config]# systemctl start slapd
+[root@server cn=config]# systemctl status slapd
+● slapd.service - OpenLDAP Server Daemon
+   Loaded: loaded (/usr/lib/systemd/system/slapd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sat 2018-11-17 15:17:17 IST; 13s ago
+     Docs: man:slapd
+           man:slapd-config
+           man:slapd-hdb
+           man:slapd-mdb
+           file:///usr/share/doc/openldap-servers/guide.html
+  Process: 18486 ExecStart=/usr/sbin/slapd -u ldap -h ${SLAPD_URLS} $SLAPD_OPTIONS (code=exited, status=0/SUCCESS)
+  Process: 18461 ExecStartPre=/usr/libexec/openldap/check-config.sh (code=exited, status=0/SUCCESS)
+ Main PID: 18488 (slapd)
+    Tasks: 2
+   CGroup: /system.slice/slapd.service
+           └─18488 /usr/sbin/slapd -u ldap -h ldapi:/// ldap:///
+
+Nov 17 15:17:17 server.example.com runuser[18482]: pam_unix(runuser:session): session opened for user ldap by (uid=0)
+Nov 17 15:17:17 server.example.com runuser[18484]: pam_unix(runuser:session): session opened for user ldap by (uid=0)
+Nov 17 15:17:17 server.example.com slapd[18486]: @(#) $OpenLDAP: slapd 2.4.44 (Jun 21 2018 14:55:16) $
+                                                         mockbuild@x86-017.build.eng.bos.redhat.com:/builddir/build/BUILD/openldap-2.4.44/openldap-2.4.44/servers/slapd
+Nov 17 15:17:17 server.example.com slapd[18486]: ldif_read_file: checksum error on "/etc/openldap/slapd.d/cn=config/olcDatabase={1}monitor.ldif"
+Nov 17 15:17:17 server.example.com slapd[18486]: ldif_read_file: checksum error on "/etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif"
+Nov 17 15:17:17 server.example.com slapd[18486]: tlsmc_get_pin: INFO: Please note the extracted key file will not be protected with a PIN any more, however it will be still pr...ermissions.
+Nov 17 15:17:17 server.example.com slapd[18488]: hdb_db_open: DB_CONFIG for suffix "dc=example,dc=com" has changed.
+Nov 17 15:17:17 server.example.com slapd[18488]: Performing database recovery to activate new settings.
+Nov 17 15:17:17 server.example.com slapd[18488]: slapd starting
+Nov 17 15:17:17 server.example.com systemd[1]: Started OpenLDAP Server Daemon.
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@server cn=config]#
+
+
+
 6) Configure the LDAP Database
+==============================
+copy sample DB_CONFIG file
+[root@server cn=config]# cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+[root@server cn=config]#
+
+[root@server cn=config]# chown -R ldap:ldap /var/lib/ldap/
+[root@server cn=config]#  ls -ld /var/lib/ldap
+drwx------ 2 ldap ldap 143 Nov 17 15:17 /var/lib/ldap
+[root@server cn=config]# ls -ld /var/lib/ldap/DB_CONFIG
+-rwxrwxrwx 1 ldap ldap 845 Nov 17 15:22 /var/lib/ldap/DB_CONFIG
+[root@server cn=config]#
+
 
 7) Create the self-signed certificate
+=====================================
 
 8) Create base objects in OpenLDAP
 

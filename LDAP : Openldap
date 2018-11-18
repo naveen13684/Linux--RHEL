@@ -2,6 +2,10 @@
 packages : Openldap and migrationtools
 Ports: 389 and 636
 
+config files:
+/etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
+/etc/openldap/slapd.d/cn=config/olcDatabase={1}monitor.ldif
+
 
 Pre-requisites:
 

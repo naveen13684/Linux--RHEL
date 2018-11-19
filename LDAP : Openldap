@@ -162,11 +162,78 @@ drwx------ 2 ldap ldap 143 Nov 17 15:17 /var/lib/ldap
 -rwxrwxrwx 1 ldap ldap 845 Nov 17 15:22 /var/lib/ldap/DB_CONFIG
 [root@server cn=config]#
 
+Adding following schema
+-----------------------
+[root@server schema]# ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "cn=cosine,cn=schema,cn=config"
+
+[root@server schema]#  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "cn=nis,cn=schema,cn=config"
+
+[root@server schema]# ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "cn=inetorgperson,cn=schema,cn=config"
+
+[root@server schema]#
+
 
 7) Create the self-signed certificate
 =====================================
 
+[root@server schema]# openssl req -new -x509 -nodes -out /etc/pki/tls/certs/example.pem -keyout /etc/pki/tls/certs/examplekey.pem -days 365
+Generating a 2048 bit RSA private key
+...+++
+...................................................................................................................................................................................................+++
+writing new private key to '/etc/pki/tls/certs/examplekey.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:IN
+State or Province Name (full name) []:Karnataka
+Locality Name (eg, city) [Default City]:Bangalore
+Organization Name (eg, company) [Default Company Ltd]:SELF
+Organizational Unit Name (eg, section) []:NAVEEN
+Common Name (eg, your name or your server's hostname) []:server
+Email Address []:server@test.com
+[root@server schema]#
+
+
+[root@server schema]# ll /etc/pki/tls/certs/*.pem
+-rw-r--r-- 1 root root 1704 Nov 17 15:37 /etc/pki/tls/certs/examplekey.pem
+-rw-r--r-- 1 root root 1407 Nov 17 15:37 /etc/pki/tls/certs/example.pem
+[root@server schema]#
+
+
+[root@server cn=config]# grep -i example olcDatabase={2}hdb.ldif
+olcSuffix: dc=example,dc=com
+olcRootDN: cn=Manager,dc=example,dc=com
+olcTLSCertificateFile: /etc/pki/tls/certs/example.pem
+olcTLSCertificateKeyFile: /etc/pki/tls/certs/examplekey.pem
+[root@server cn=config]#
+
+
+[root@server cn=config]#  systemctl restart slapd.service
+[root@server cn=config]#
+
+
 8) Create base objects in OpenLDAP
+cd /usr/share/migrationtools/
+vi migrate_common.ph
+
+
 
 9) Generate a base.ldif file for your Domain
 

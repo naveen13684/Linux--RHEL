@@ -1,0 +1,18 @@
+[root@server ~]# rpm -qa |grep -i openldap
+openldap-2.4.44-18.el7.x86_64
+openldap-servers-2.4.44-18.el7.x86_64
+openldap-clients-2.4.44-18.el7.x86_64
+
+
+[root@server ~]# rpm -e --nodeps openldap
+
+[root@server ~]# rpm -qa |grep -i openldap
+openldap-servers-2.4.44-18.el7.x86_64
+openldap-clients-2.4.44-18.el7.x86_64
+
+[root@server ~]# rpm -qa |grep -i openldap-servers
+openldap-servers-2.4.44-18.el7.x86_64
+
+[root@server ~]# rpm -qa |grep -i openldap-clients
+openldap-clients-2.4.44-18.el7.x86_64
+[root@server ~]#

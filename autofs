@@ -1,0 +1,10 @@
+service : autofs
+ports :
+
+config files :  
+/etc/sysconfig/autofs : If the kernel supports using the autofs miscellanous device and
+you wish to use it you must set this configuration option to 'yes'
+
+/etc/auto.master 
+/etc/auto.nfs
+/etc/auto.misc

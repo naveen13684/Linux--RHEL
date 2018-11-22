@@ -1,10 +1,81 @@
 service : autofs
-ports :
 
 config files :  
 /etc/sysconfig/autofs : If the kernel supports using the autofs miscellanous device and
 you wish to use it you must set this configuration option to 'yes'
 
 /etc/auto.master 
-/etc/auto.nfs
-/etc/auto.misc
+/etc/<map.file>  # name can be anything 
+
+examples : 1) automount user home directories + LDAP setup
+           2) automount Softwares file location
+           3) temporay mount on demand.
+           4) This is server and client model
+
+Server side
+============
+
+First you need to configure NFS server and client model
+
+[root@server ~]# cat /etc/exports
+/nfsfileshare1 -rw,sync,no_root_squash 192.168.33.0/24
+[root@server ~]#
+
+[root@server ~]# df -k /nfsfileshare1/
+Filesystem     1K-blocks  Used Available Use% Mounted on
+/dev/sda3         999320  2572    927936   1% /nfsfileshare1
+
+
+Client Side
+===========
+Step1: Install autofs package
+======
+#yum install autofs
+
+Step2: edit automaster file
+======
+#vi /etc/auto.master
+
+/data   /etc/auto.data --timeout=200
+
+/data = the main parent mount point directory
+/etc/auto.data - it could be any name and it is mapping file of source and destication mount points
+--timeout=200  - after 200 seconds it will auto umount 
+
+Step3: Create mapping file
+======
+#vi /etc/auto.data
+
+nfsfileshare1 -fstype=auto 192.168.33.2:/nfsfileshare1
+           
+nfsfileshare1 : is the mount point under /data. you need to create this directory manually under /data
+
+[root@client ~]# ls -l /data
+total 0
+drwxr-xr-x 2 root root 6 Nov 22 10:23 nfsfileshare1
+[root@client ~]#
+
+Step4: Restart autofs service
+=====
+#firewall-cmd --permanent --add-service=nfs
+#firewall-cmd --reload
+#systemctl restart autofs
+
+Step5:
+======
+
+#cd /data/nfsfileshare1
+# ls -l
+# df -k
+           
+[root@client nfsfileshare1]# df -k
+Filesystem                  1K-blocks    Used Available Use% Mounted on
+/dev/sda2                    12572672 3872612   8700060  31% /
+devtmpfs                       492048       0    492048   0% /dev
+tmpfs                          507588       0    507588   0% /dev/shm
+tmpfs                          507588    7720    499868   2% /run
+tmpfs                          507588       0    507588   0% /sys/fs/cgroup
+tmpfs                          101520      28    101492   1% /run/user/0
+192.168.33.2:/mnt/cdrom       4304640 4304640         0 100% /mnt
+192.168.33.2:/nfsfileshare1    999424    2560    928000   1% /data/nfsfileshare1
+[root@client nfsfileshare1]#

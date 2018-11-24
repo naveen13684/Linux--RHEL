@@ -1,0 +1,32 @@
+#nmcli device show
+#nmcli device show enp0s8
+#nmcli device status
+
+[root@client ~]# nmcli connection add type team con-name team0 ifname team0 config '{"runner":{"name":"activebackup"}}'
+Connection 'team0' (27a05b76-ebd9-4d93-ba4f-251b45c4e84b) successfully added.
+[root@client ~]# 
+
+[root@client ~]# nmcli connection modify team0 ipv4.addresses 192.168.33.6/24
+
+[root@client ~]# nmcli connection modify team0 ipv4.method manual
+
+#nm-connection-editor
+
+#nmcli connection add type team-slave con-name team0-port1 ifname 
+
+
+[root@client ~]# nmcli connection add type team-slave con-name team0-port1 ifname enp0s8 master team0
+Connection 'team0-port1' (50c050c4-ef8a-46a8-92b8-d39462354ad3) successfully added.
+
+[root@client ~]# nmcli connection add type team-slave con-name team0-port2 ifname enp0s10 master team0
+Connection 'team0-port2' (6c833543-a606-4542-b267-1db3ff0ff465) successfully added.
+[root@client ~]#
+
+3 connections 
+team0
+team0-port1
+team0-port2
+
+nmcli connection up team0
+nmcli connection up team0-port1
+nmcli connection up team0-port2

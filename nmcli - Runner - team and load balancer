@@ -6,6 +6,23 @@
 Connection 'team0' (27a05b76-ebd9-4d93-ba4f-251b45c4e84b) successfully added.
 [root@client ~]# 
 
+You can also use a json format for config
+========================================
+Create a json file with below.
+runner_activebackup.json
+{
+	"runner": 
+		{
+			"name": "activebackup"
+		}, 
+	"link_watch": 
+		{
+			"name": "ethtool"
+		}
+}
+
+#nmcli connection add type team con-name team0 ifname team0 config runner_activebackup.json
+
 [root@client ~]# nmcli connection modify team0 ipv4.addresses 192.168.33.6/24
 
 [root@client ~]# nmcli connection modify team0 ipv4.method manual

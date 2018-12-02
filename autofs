@@ -79,3 +79,35 @@ tmpfs                          101520      28    101492   1% /run/user/0
 192.168.33.2:/mnt/cdrom       4304640 4304640         0 100% /mnt
 192.168.33.2:/nfsfileshare1    999424    2560    928000   1% /data/nfsfileshare1
 [root@client nfsfileshare1]#
+
+
+
+=============================================================================================================
+[root@client pp]# cat /etc/auto.master.d/local.autofs   #make sure extention is .autofs
+/autohome /etc/home.master
+[root@client pp]#
+
+[root@client pp]# cat /etc/home.master
+*       -rw,sync        mydns.example.com:/home        # * indicates use any file to automount else mention the file name
+[root@client pp]#
+
+
+[root@client auto.master.d]# cd /autohome
+[root@client autohome]# ll
+total 0
+[root@client autohome]# cd pp
+[root@client pp]# df -k
+Filesystem                   1K-blocks    Used Available Use% Mounted on
+/dev/sda2                     12572672 3901676   8670996  32% /
+devtmpfs                        492048       0    492048   0% /dev
+tmpfs                           507588       0    507588   0% /dev/shm
+tmpfs                           507588    7860    499728   2% /run
+tmpfs                           507588       0    507588   0% /sys/fs/cgroup
+tmpfs                           101520       8    101512   1% /run/user/42
+tmpfs                           101520       0    101520   0% /run/user/0
+mydns.example.com:/mnt/cdrom   4304640 4304640         0 100% /mnt
+tmpfs                           101520      28    101492   1% /run/user/1000
+mydns.example.com:/home       12572672 4012672   8560000  32% /autohome/pp
+[root@client pp]#
+
+

@@ -65,6 +65,15 @@ Server configuration
 
 5) Export the /etc/exports file
 #exportfs -a
+#exportfs -r   
+
+-r            Reexport  all directories, synchronizing /var/lib/nfs/etab with /etc/exports
+              and  files  under  /etc/exports.d.    This   option   removes   entries   in
+              /var/lib/nfs/etab  which  have been deleted from /etc/exports or files under
+              /etc/exports.d, and removes any entries from the kernel export  table  which
+              are no longer valid
+              
+ -a     Export or unexport all directories.             
 
 [root@rhel-master etc]# exportfs -v
 /nfsshare       192.168.0.0/24(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)

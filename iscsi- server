@@ -1,0 +1,1130 @@
+login as: root
+root@192.168.33.2's password:
+Last login: Tue Dec  4 20:51:49 2018
+[root@mydns ~]# mount /dev/sd0
+mount: can't find /dev/sd0 in /etc/fstab
+[root@mydns ~]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+/dev/sda3: UUID="93f79688-ac67-48cb-9498-a42b439fd8e9" TYPE="ext4"
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+[root@mydns ~]# mount /dev/sr0 /mnt/cdrom
+mount: /dev/sr0 is write-protected, mounting read-only
+[root@mydns ~]#
+[root@mydns ~]#
+[root@mydns ~]# smbclient -L client
+Connection to client failed (Error NT_STATUS_UNSUCCESSFUL)
+[root@mydns ~]# smbclient -L 192.168.33.4
+Connection to 192.168.33.4 failed (Error NT_STATUS_HOST_UNREACHABLE)
+[root@mydns ~]# smbclient -L //192.168.33.4/naveen-win -U samba1
+Connection to 192.168.33.4 failed (Error NT_STATUS_HOST_UNREACHABLE)
+[root@mydns ~]# smbclient -L //192.168.33.4/naveen-win -U samba1
+Enter SAMBA\samba1's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        clientrhel7     Disk      linux/windows share
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        samba1          Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+        SAMBA                CLIENT
+[root@mydns ~]# smb
+bash: smb: command not found...
+[root@mydns ~]# smb
+bash: smb: command not found...
+[root@mydns ~]# yum install smba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+No package smba* available.
+Error: Nothing to do
+[root@mydns ~]# yum install samba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Package samba-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-client-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-tools-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-4.8.3-3.el7.noarch already installed and latest version
+Package samba-winbind-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-winbind-clients-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-python-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-winbind-modules-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-krb5-printing-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-client-4.8.3-3.el7.x86_64 already installed and latest version
+Nothing to do
+[root@mydns ~]# samba-client
+bash: samba-client: command not found...
+[root@mydns ~]# sambaclient
+bash: sambaclient: command not found...
+[root@mydns ~]# smbclient
+Usage: smbclient [-?EgqBVNkPeC] [-?|--help] [--usage] [-R|--name-resolve NAME-RESOLVE-ORDER] [-M|--message HOST] [-I|--ip-address IP] [-E|--stderr] [-L|--list HOST]
+        [-m|--max-protocol LEVEL] [-T|--tar <c|x>IXFqgbNan] [-D|--directory DIR] [-c|--command STRING] [-b|--send-buffer BYTES] [-t|--timeout SECONDS] [-p|--port PORT] [-g|--grepable]
+        [-q|--quiet] [-B|--browse] [-d|--debuglevel DEBUGLEVEL] [-s|--configfile CONFIGFILE] [-l|--log-basename LOGFILEBASE] [-V|--version] [--option=name=value]
+        [-O|--socket-options SOCKETOPTIONS] [-n|--netbiosname NETBIOSNAME] [-W|--workgroup WORKGROUP] [-i|--scope SCOPE] [-U|--user USERNAME] [-N|--no-pass] [-k|--kerberos]
+        [-A|--authentication-file FILE] [-S|--signing on|off|required] [-P|--machine-pass] [-e|--encrypt] [-C|--use-ccache] [--pw-nt-hash] service <password>
+[root@mydns ~]# smbclient -L //192.168.33.4/clientrhel7 -U samba1
+Enter SAMBA\samba1's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        clientrhel7     Disk      linux/windows share
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        samba1          Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+        SAMBA                CLIENT
+[root@mydns ~]# mount -t cifs //192.168.33.4/naveen-win /mnt
+Password for root@//192.168.33.4/naveen-win:  ******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns ~]# mkdir /mnt/samba
+[root@mydns ~]# mount -t cifs //192.168.33.4/naveen-win /mnt -o username=samba1
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns ~]# mount -t cifs //192.168.33.4/naveen-win /mnt/samba -o username=samba1
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns ~]# mount -t cifs //192.168.33.4/naveen-win -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns ~]# cd /mnt/samba
+[root@mydns samba]# cd ..
+[root@mydns mnt]# mount -t cifs //192.168.33.4/clientrhel7 -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/clientrhel7:  ******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount -t cifs //192.168.33.4/naveen-win -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount -t cifs //192.168.33.4/naveen-win -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount -t cifs //192.168.33.4/naveen-win -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win -o username=samba1 /mnt/samba
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win  /mnt/samba -o username=samba1
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# cd /mnt/samba
+[root@mydns samba]# cd ..
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win  /mnt/samba -o username=samba1^C
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win  /mnt/samba -o username=samba1
+Password for samba1@//192.168.33.4/naveen-win:  ******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      31
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win  /mnt/samba -o username=root
+Password for root@//192.168.33.4/naveen-win:  ******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# mount  //192.168.33.4/naveen-win  /mnt/samba -o username=root
+Password for root@//192.168.33.4/naveen-win:  ******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns mnt]# vi /etc/samba/smb.conf
+[root@mydns mnt]#
+login as: root
+root@192.168.33.2's password:
+Last login: Sat Dec  8 22:18:45 2018 from 192.168.33.1
+[root@mydns ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4355016   8217656  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7836    499752   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+/dev/sr0         4304612 4304612         0 100% /mnt/cdrom
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns ~]# cat /etc/samba/smb.conf
+# See smb.conf.example for a more detailed config file or
+# read the smb.conf manpage.
+# Run 'testparm' to verify the config is correct after
+# you modified it.
+[winshare]
+        comment = Public windows Stuff
+        path = /samba
+        public = yes
+        writable = yes
+        browseable = yes
+        valid users = winuser
+        hosts allow = 192.168.33.6
+      # printable = no
+      # write list = +staff
+
+[global]
+        workgroup = SAMBA
+        security = user
+
+        passdb backend = tdbsam
+
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+
+[homes]
+        comment = Home Directories
+        valid users = %S, %D%w%S
+        browseable = No
+        read only = No
+        inherit acls = Yes
+
+[printers]
+        comment = All Printers
+        path = /var/tmp
+        printable = Yes
+        create mask = 0600
+        browseable = No
+
+[print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+        force group = @printadmin
+        create mask = 0664
+        directory mask = 0775
+[root@mydns ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4354996   8217676  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7828    499760   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+/dev/sr0         4304612 4304612         0 100% /mnt/cdrom
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns ~]# cd /
+[root@mydns /]# ll
+total 36
+lrwxrwxrwx.   1 root root    7 Nov 12 23:39 bin -> usr/bin
+dr-xr-xr-x.   4 root root 4096 Nov 12 23:55 boot
+drwxr-xr-x.   3 root root   27 Nov 22 05:41 data
+drwxr-xr-x.  18 root root 3080 Dec  8 22:17 dev
+drwxr-xr-x. 147 root root 8192 Dec  1 20:36 etc
+drwxr-xr-x.   6 root root   58 Dec  1 13:10 home
+lrwxrwxrwx.   1 root root    7 Nov 12 23:39 lib -> usr/lib
+lrwxrwxrwx.   1 root root    9 Nov 12 23:39 lib64 -> usr/lib64
+drwxr-xr-x.   2 root root    6 Dec 14  2017 media
+drwxr-xr-x.   4 root root   32 Dec  8 22:41 mnt
+drwxr-xr-x.   2 root root    6 Nov 22 04:43 nfsfileshare1
+drwxr-xr-x.   3 root root   16 Nov 12 23:46 opt
+dr-xr-xr-x. 224 root root    0 Dec  8 22:17 proc
+dr-xr-x---.   5 root root 4096 Dec  4 20:51 root
+drwxr-xr-x.  43 root root 1380 Dec  8 22:39 run
+drwxr-xr-x.   4 root root   50 Dec  1 20:52 samba
+lrwxrwxrwx.   1 root root    8 Nov 12 23:39 sbin -> usr/sbin
+drwxr-xr-x.   2 root root    6 Dec 14  2017 srv
+dr-xr-xr-x.  13 root root    0 Dec  8 22:17 sys
+drwxr-xr-x.   2 root root    6 Nov 22 04:54 test
+drwxrwxrwt.  59 root root 8192 Dec  8 23:40 tmp
+drwxr-xr-x.  13 root root  155 Nov 12 23:39 usr
+drwxr-xr-x.  23 root root 4096 Nov 24 05:54 var
+drwxr-xr-x.   2 root root    6 Dec  3 22:46 windows
+[root@mydns /]# cd /
+[root@mydns /]# ls -l
+total 36
+lrwxrwxrwx.   1 root root    7 Nov 12 23:39 bin -> usr/bin
+dr-xr-xr-x.   4 root root 4096 Nov 12 23:55 boot
+drwxr-xr-x.   3 root root   27 Nov 22 05:41 data
+drwxr-xr-x.  18 root root 3080 Dec  8 22:17 dev
+drwxr-xr-x. 147 root root 8192 Dec  1 20:36 etc
+drwxr-xr-x.   6 root root   58 Dec  1 13:10 home
+lrwxrwxrwx.   1 root root    7 Nov 12 23:39 lib -> usr/lib
+lrwxrwxrwx.   1 root root    9 Nov 12 23:39 lib64 -> usr/lib64
+drwxr-xr-x.   2 root root    6 Dec 14  2017 media
+drwxr-xr-x.   4 root root   32 Dec  8 22:41 mnt
+drwxr-xr-x.   2 root root    6 Nov 22 04:43 nfsfileshare1
+drwxr-xr-x.   3 root root   16 Nov 12 23:46 opt
+dr-xr-xr-x. 224 root root    0 Dec  8 22:17 proc
+dr-xr-x---.   5 root root 4096 Dec  4 20:51 root
+drwxr-xr-x.  43 root root 1380 Dec  8 22:39 run
+drwxr-xr-x.   4 root root   50 Dec  1 20:52 samba
+lrwxrwxrwx.   1 root root    8 Nov 12 23:39 sbin -> usr/sbin
+drwxr-xr-x.   2 root root    6 Dec 14  2017 srv
+dr-xr-xr-x.  13 root root    0 Dec  8 22:17 sys
+drwxr-xr-x.   2 root root    6 Nov 22 04:54 test
+drwxrwxrwt.  59 root root 8192 Dec  8 23:40 tmp
+drwxr-xr-x.  13 root root  155 Nov 12 23:39 usr
+drwxr-xr-x.  23 root root 4096 Nov 24 05:54 var
+drwxr-xr-x.   2 root root    6 Dec  3 22:46 windows
+[root@mydns /]# mount //192.168.33.6/win-naveen /samba
+Password for root@//192.168.33.6/win-naveen:  ******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns /]# mount //192.168.33.6/win-naveen /samba -o username=naveen
+Password for naveen@//192.168.33.6/win-naveen:  ******
+[root@mydns /]# df -k
+Filesystem                1K-blocks     Used Available Use% Mounted on
+/dev/sda2                  12572672  4355016   8217656  35% /
+devtmpfs                     492048        0    492048   0% /dev
+tmpfs                        507588        0    507588   0% /dev/shm
+tmpfs                        507588     7828    499760   2% /run
+tmpfs                        507588        0    507588   0% /sys/fs/cgroup
+tmpfs                        101520       28    101492   1% /run/user/1000
+/dev/sr0                    4304612  4304612         0 100% /mnt/cdrom
+tmpfs                        101520        0    101520   0% /run/user/0
+//192.168.33.6/win-naveen  33040380 10946428  22093952  34% /samba
+[root@mydns /]# cd samba
+[root@mydns samba]# ll
+total 0
+-rwxr-xr-x. 1 root root 0 Dec  4 09:55 New Text Document (2).txt
+-rwxr-xr-x. 1 root root 0 Dec  4 09:55 New Text Document.txt
+[root@mydns samba]# mkdir test
+[root@mydns samba]# ifconfig
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.33.2  netmask 255.255.255.0  broadcast 192.168.33.255
+        inet6 fe80::a00:27ff:fea5:2a95  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:a5:2a:95  txqueuelen 1000  (Ethernet)
+        RX packets 4554  bytes 487233 (475.8 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 7667  bytes 8220528 (7.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:d8:86:68  txqueuelen 1000  (Ethernet)
+        RX packets 1251  bytes 150166 (146.6 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 183  bytes 15215 (14.8 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 183  bytes 15215 (14.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:7b:8a:de  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@mydns samba]# cat /etc/samba/smb.conf
+# See smb.conf.example for a more detailed config file or
+# read the smb.conf manpage.
+# Run 'testparm' to verify the config is correct after
+# you modified it.
+[winshare]
+        comment = Public windows Stuff
+        path = /samba
+        public = yes
+        writable = yes
+        browseable = yes
+        valid users = winuser
+        hosts allow = 192.168.33.6
+      # printable = no
+      # write list = +staff
+
+[global]
+        workgroup = SAMBA
+        security = user
+
+        passdb backend = tdbsam
+
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+
+[homes]
+        comment = Home Directories
+        valid users = %S, %D%w%S
+        browseable = No
+        read only = No
+        inherit acls = Yes
+
+[printers]
+        comment = All Printers
+        path = /var/tmp
+        printable = Yes
+        create mask = 0600
+        browseable = No
+
+[print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+        force group = @printadmin
+        create mask = 0664
+        directory mask = 0775
+[root@mydns samba]# umount /samba
+umount: /samba: target is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+[root@mydns samba]# ls
+New Text Document (2).txt  New Text Document.txt  test
+[root@mydns samba]# cd ..
+[root@mydns /]# umount /samba
+[root@mydns /]# cd /samba
+[root@mydns samba]# ll
+total 0
+drwxr-xr-x. 2 root root 6 Dec  1 20:52 dir1
+drwxr-xr-x. 2 root root 6 Dec  1 20:52 dir2
+-rw-r--r--. 1 root root 0 Dec  1 20:52 f1
+-rw-r--r--. 1 root root 0 Dec  1 20:52 f2
+[root@mydns samba]# grep -i samba /etc/passwd
+[root@mydns samba]# grep -i winuser /etc/passwd
+winuser:x:1002:1002::/home/winuser:/sbin/nologin
+[root@mydns samba]# cd /samba
+[root@mydns samba]# ls -ld /samba
+drwxr-xr-x. 4 root root 50 Dec  1 20:52 /samba
+[root@mydns samba]# chmod 777 /samba
+[root@mydns samba]# vi /etc/samba/smb.conf
+[root@mydns samba]# chmod 755^C
+[root@mydns samba]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4355504   8217168  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7828    499760   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+/dev/sr0         4304612 4304612         0 100% /mnt/cdrom
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns samba]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+/dev/sda3: UUID="93f79688-ac67-48cb-9498-a42b439fd8e9" TYPE="ext4"
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE=                                                                                                "dos"
+[root@mydns samba]# mount /dev/sr0 /mnt/cdrom
+mount: /dev/sr0 is write-protected, mounting read-only
+mount: /dev/sr0 is already mounted or /mnt/cdrom busy
+       /dev/sr0 is already mounted on /run/media/student/RHEL-7.6 Server.x86_64
+       /dev/sr0 is already mounted on /mnt/cdrom
+[root@mydns samba]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4355524   8217148  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7832    499756   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+/dev/sr0         4304612 4304612         0 100% /mnt/cdrom
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns samba]# sam^C
+[root@mydns samba]#
+[root@mydns samba]#
+[root@mydns samba]# rpm -qa |grep -i cifs
+cifs-utils-6.2-10.el7.x86_64
+[root@mydns samba]# cd /samba
+[root@mydns samba]# ll
+total 0
+drwxr-xr-x. 2 root root 6 Dec  1 20:52 dir1
+drwxr-xr-x. 2 root root 6 Dec  1 20:52 dir2
+-rw-r--r--. 1 root root 0 Dec  1 20:52 f1
+-rw-r--r--. 1 root root 0 Dec  1 20:52 f2
+[root@mydns samba]# cd ..
+[root@mydns /]#  mount -t cifs //mydns/samba /samba -o username=winuser
+Password for winuser@//mydns/samba:  *******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@mydns /]# cat /etc/samba/smb.cfg
+cat: /etc/samba/smb.cfg: No such file or directory
+[root@mydns /]# cat /etc/samba/smb.conf
+# See smb.conf.example for a more detailed config file or
+# read the smb.conf manpage.
+# Run 'testparm' to verify the config is correct after
+# you modified it.
+[winshare]
+        comment = Public windows Stuff
+        path = /samba
+        public = yes
+        writable = yes
+        browseable = yes
+        valid users = winuser
+        hosts allow = 192.168.33.6
+      # printable = no
+      # write list = +staff
+
+[global]
+        workgroup = SAMBA
+        security = user
+
+        passdb backend = tdbsam
+
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+
+[homes]
+        comment = Home Directories
+        valid users = %S, %D%w%S
+        browseable = No
+        read only = No
+        inherit acls = Yes
+
+[printers]
+        comment = All Printers
+        path = /var/tmp
+        printable = Yes
+        create mask = 0600
+        browseable = No
+
+[print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+        force group = @printadmin
+        create mask = 0664
+        directory mask = 0775
+[root@mydns /]# cat /etc/samba/smb.conf^C
+[root@mydns /]# ls -ld /samba
+drwxrwxrwx. 4 root root 50 Dec  8 23:45 /samba
+[root@mydns /]#  mount -t cifs //mydns/samba /samba -o username=winuser^C
+[root@mydns /]# vi /etc/samba/smb.conf
+[root@mydns /]# systemctl reload smb nmb
+[root@mydns /]# vi /etc/samba/smb.conf
+[root@mydns /]# systemctl reload smb nmb
+[root@mydns /]# cd /samba
+[root@mydns samba]# ls
+dir1  dir2  f1  f2
+[root@mydns samba]# mkdir dir3
+[root@mydns samba]#
+[root@mydns samba]#
+[root@mydns samba]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4355584   8217088  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7832    499756   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+/dev/sr0         4304612 4304612         0 100% /mnt/cdrom
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns samba]# mount //192.168.33.6/win-naveen /samba
+Password for root@//192.168.33.6/win-naveen:
+[root@mydns samba]# mount //192.168.33.6/win-naveen /samba -o username=naveen
+Password for naveen@//192.168.33.6/win-naveen:  ******
+[root@mydns samba]# df -k
+Filesystem                1K-blocks     Used Available Use% Mounted on
+/dev/sda2                  12572672  4355668   8217004  35% /
+devtmpfs                     492048        0    492048   0% /dev
+tmpfs                        507588        0    507588   0% /dev/shm
+tmpfs                        507588     7832    499756   2% /run
+tmpfs                        507588        0    507588   0% /sys/fs/cgroup
+tmpfs                        101520       28    101492   1% /run/user/1000
+/dev/sr0                    4304612  4304612         0 100% /mnt/cdrom
+tmpfs                        101520        0    101520   0% /run/user/0
+//192.168.33.6/win-naveen  33040380 10946516  22093864  34% /samba
+[root@mydns samba]# vi /etc/samba/smb.conf
+[root@mydns samba]# systemctl reload smb nmb
+[root@mydns samba]# vi /etc/samba/smb.conf
+[root@mydns samba]# systemctl reload smb nmb
+[root@mydns samba]# systemctl reload smb nmb
+[root@mydns samba]# vi /etc/samba/smb.conf
+[root@mydns samba]# systemctl reload smb nmb
+[root@mydns samba]# vi /etc/samba/smb.conf
+[root@mydns samba]# reboot
+login as: root
+root@192.168.33.2's password:
+Last login: Sat Dec  8 23:38:26 2018 from 192.168.33.1
+[root@mydns ~]# useradd winuser1
+[root@mydns ~]# passwd winuser1
+Changing password for user winuser1.
+New password:
+BAD PASSWORD: The password contains the user name in some form
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@mydns ~]# smbpasswd -a winuser1
+New SMB password:
+Retype new SMB password:
+Added user winuser1.
+[root@mydns ~]# vi /etc/samba/smb.conf
+[root@mydns ~]# systemctl reload smb nmb
+[root@mydns ~]#
+[root@mydns ~]#
+[root@mydns ~]# fdisk -l
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+[root@mydns ~]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+/dev/sda3: UUID="93f79688-ac67-48cb-9498-a42b439fd8e9" TYPE="ext4"
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+[root@mydns ~]# fdisk /dev/sda
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+
+Command (m for help): n
+Partition type:
+   p   primary (3 primary, 0 extended, 1 free)
+   e   extended
+Select (default e):
+Using default response e
+Selected partition 4
+First sector (29362176-104857599, default 29362176):
+Using default value 29362176
+Last sector, +sectors or +size{K,M,G} (29362176-104857599, default 104857599): +800M
+Partition 4 of type Extended and of size 800 MiB is set
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+/dev/sda4        29362176    31000575      819200    5  Extended
+
+Command (m for help): d
+Partition number (1-4, default 4): 4
+Partition 4 is deleted
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+
+Command (m for help): n
+Partition type:
+   p   primary (3 primary, 0 extended, 1 free)
+   e   extended
+Select (default e):
+Using default response e
+Selected partition 4
+First sector (29362176-104857599, default 29362176):
+Using default value 29362176
+Last sector, +sectors or +size{K,M,G} (29362176-104857599, default 104857599):
+Using default value 104857599
+Partition 4 of type Extended and of size 36 GiB is set
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+/dev/sda4        29362176   104857599    37747712    5  Extended
+
+Command (m for help): n
+All primary partitions are in use
+Adding logical partition 5
+First sector (29364224-104857599, default 29364224):
+Using default value 29364224
+Last sector, +sectors or +size{K,M,G} (29364224-104857599, default 104857599): +800M
+Partition 5 of type Linux and of size 800 MiB is set
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+/dev/sda4        29362176   104857599    37747712    5  Extended
+/dev/sda5        29364224    31002623      819200   83  Linux
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+[root@mydns ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@mydns ~]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+/dev/sda3: UUID="93f79688-ac67-48cb-9498-a42b439fd8e9" TYPE="ext4"
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+[root@mydns ~]# fdisk /dev/sda
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help):
+Command (m for help): n
+All primary partitions are in use
+Adding logical partition 6
+First sector (31004672-104857599, default 31004672):
+Using default value 31004672
+Last sector, +sectors or +size{K,M,G} (31004672-104857599, default 104857599): +1024M
+Partition 6 of type Linux and of size 1 GiB is set
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+/dev/sda4        29362176   104857599    37747712    5  Extended
+/dev/sda5        29364224    31002623      819200   83  Linux
+/dev/sda6        31004672    33101823     1048576   83  Linux
+
+Command (m for help): h
+h: unknown command
+Command action
+   a   toggle a bootable flag
+   b   edit bsd disklabel
+   c   toggle the dos compatibility flag
+   d   delete a partition
+   g   create a new empty GPT partition table
+   G   create an IRIX (SGI) partition table
+   l   list known partition types
+   m   print this menu
+   n   add a new partition
+   o   create a new empty DOS partition table
+   p   print the partition table
+   q   quit without saving changes
+   s   create a new empty Sun disklabel
+   t   change a partition's system id
+   u   change display/entry units
+   v   verify the partition table
+   w   write table to disk and exit
+   x   extra functionality (experts only)
+
+Command (m for help): t
+Partition number (1-6, default 6): 6
+Hex code (type L to list all codes): 8e
+Changed type of partition 'Linux' to 'Linux LVM'
+
+Command (m for help): t
+Partition number (1-6, default 6): 5
+Hex code (type L to list all codes): 8e
+Changed type of partition 'Linux' to 'Linux LVM'
+
+Command (m for help): p
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+/dev/sda3        27265024    29362175     1048576   83  Linux
+/dev/sda4        29362176   104857599    37747712    5  Extended
+/dev/sda5        29364224    31002623      819200   8e  Linux LVM
+/dev/sda6        31004672    33101823     1048576   8e  Linux LVM
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+[root@mydns ~]# pvcreate /dev/sda5
+  Physical volume "/dev/sda5" successfully created.
+[root@mydns ~]# pvcreate /dev/sda6
+  Device /dev/sda6 not found.
+[root@mydns ~]# vgcreate mystorage /dev/sda5 /dev/sda6
+  Device /dev/sda6 not found.
+[root@mydns ~]# vgcreate mystorage /dev/sda5 ^C
+[root@mydns ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@mydns ~]# vgcreate mystorage /dev/sda5 /dev/sda6
+  Physical volume "/dev/sda6" successfully created.
+  Volume group "mystorage" successfully created
+[root@mydns ~]# vgscan
+  Reading volume groups from cache.
+  Found volume group "mystorage" using metadata type lvm2
+[root@mydns ~]# lvcreate -L +700M -n mylv mystorage
+  Logical volume "mylv" created.
+[root@mydns ~]# yum install targetcli
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package targetcli.noarch 0:2.1.fb46-6.el7 will be installed
+--> Processing Dependency: python-rtslib >= 2.1.fb41 for package: targetcli-2.1.fb46-6.el7.noarch
+--> Processing Dependency: python-configshell for package: targetcli-2.1.fb46-6.el7.noarch
+--> Running transaction check
+---> Package python-configshell.noarch 1:1.1.fb23-4.el7 will be installed
+--> Processing Dependency: pyparsing for package: 1:python-configshell-1.1.fb23-4.el7.noarch
+--> Processing Dependency: python-urwid for package: 1:python-configshell-1.1.fb23-4.el7.noarch
+---> Package python-rtslib.noarch 0:2.1.fb63-12.el7 will be installed
+--> Processing Dependency: python-kmod for package: python-rtslib-2.1.fb63-12.el7.noarch
+--> Running transaction check
+---> Package pyparsing.noarch 0:1.5.6-9.el7 will be installed
+---> Package python-kmod.x86_64 0:0.9-4.el7 will be installed
+---> Package python-urwid.x86_64 0:1.1.1-3.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================================================
+ Package                                             Arch                                    Version                                            Repository                              Size
+=============================================================================================================================================================================================
+Installing:
+ targetcli                                           noarch                                  2.1.fb46-6.el7                                     rhel7                                   67 k
+Installing for dependencies:
+ pyparsing                                           noarch                                  1.5.6-9.el7                                        rhel7                                   94 k
+ python-configshell                                  noarch                                  1:1.1.fb23-4.el7                                   rhel7                                   67 k
+ python-kmod                                         x86_64                                  0.9-4.el7                                          rhel7                                   57 k
+ python-rtslib                                       noarch                                  2.1.fb63-12.el7                                    rhel7                                  100 k
+ python-urwid                                        x86_64                                  1.1.1-3.el7                                        rhel7                                  654 k
+
+Transaction Summary
+=============================================================================================================================================================================================
+Install  1 Package (+5 Dependent packages)
+
+Total download size: 1.0 M
+Installed size: 4.6 M
+Is this ok [y/d/N]: y
+Downloading packages:
+
+
+Error downloading packages:
+  pyparsing-1.5.6-9.el7.noarch: [Errno 256] No more mirrors to try.
+  python-rtslib-2.1.fb63-12.el7.noarch: [Errno 256] No more mirrors to try.
+  1:python-configshell-1.1.fb23-4.el7.noarch: [Errno 256] No more mirrors to try.
+  python-kmod-0.9-4.el7.x86_64: [Errno 256] No more mirrors to try.
+  targetcli-2.1.fb46-6.el7.noarch: [Errno 256] No more mirrors to try.
+  python-urwid-1.1.1-3.el7.x86_64: [Errno 256] No more mirrors to try.
+
+[root@mydns ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 4356512   8216160  35% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7572    500016   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      12    101508   1% /run/user/42
+tmpfs             101520       0    101520   0% /run/user/0
+[root@mydns ~]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+/dev/sda3: UUID="93f79688-ac67-48cb-9498-a42b439fd8e9" TYPE="ext4"
+/dev/sr0: UUID="2018-08-14-18-31-38-00" LABEL="RHEL-7.6 Server.x86_64" TYPE="iso9660" PTTYPE="dos"
+/dev/sda5: UUID="hxynPl-uWLc-zFt7-oOt5-ou4v-80ul-2nK5Uy" TYPE="LVM2_member"
+/dev/sda6: UUID="e4N02W-yNIH-4eUh-DoIo-J9cF-kRbo-cj7o8u" TYPE="LVM2_member"
+[root@mydns ~]# mount /dev/sr0 /mnt/cdrom
+mount: /dev/sr0 is write-protected, mounting read-only
+[root@mydns ~]# yum install targetcli -y
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package targetcli.noarch 0:2.1.fb46-6.el7 will be installed
+--> Processing Dependency: python-rtslib >= 2.1.fb41 for package: targetcli-2.1.fb46-6.el7.noarch
+--> Processing Dependency: python-configshell for package: targetcli-2.1.fb46-6.el7.noarch
+--> Running transaction check
+---> Package python-configshell.noarch 1:1.1.fb23-4.el7 will be installed
+--> Processing Dependency: pyparsing for package: 1:python-configshell-1.1.fb23-4.el7.noarch
+--> Processing Dependency: python-urwid for package: 1:python-configshell-1.1.fb23-4.el7.noarch
+---> Package python-rtslib.noarch 0:2.1.fb63-12.el7 will be installed
+--> Processing Dependency: python-kmod for package: python-rtslib-2.1.fb63-12.el7.noarch
+--> Running transaction check
+---> Package pyparsing.noarch 0:1.5.6-9.el7 will be installed
+---> Package python-kmod.x86_64 0:0.9-4.el7 will be installed
+---> Package python-urwid.x86_64 0:1.1.1-3.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================================================
+ Package                                             Arch                                    Version                                            Repository                              Size
+=============================================================================================================================================================================================
+Installing:
+ targetcli                                           noarch                                  2.1.fb46-6.el7                                     rhel7                                   67 k
+Installing for dependencies:
+ pyparsing                                           noarch                                  1.5.6-9.el7                                        rhel7                                   94 k
+ python-configshell                                  noarch                                  1:1.1.fb23-4.el7                                   rhel7                                   67 k
+ python-kmod                                         x86_64                                  0.9-4.el7                                          rhel7                                   57 k
+ python-rtslib                                       noarch                                  2.1.fb63-12.el7                                    rhel7                                  100 k
+ python-urwid                                        x86_64                                  1.1.1-3.el7                                        rhel7                                  654 k
+
+Transaction Summary
+=============================================================================================================================================================================================
+Install  1 Package (+5 Dependent packages)
+
+Total download size: 1.0 M
+Installed size: 4.6 M
+Downloading packages:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                         10 MB/s | 1.0 MB  00:00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : python-kmod-0.9-4.el7.x86_64                                                                                                                                              1/6
+  Installing : python-rtslib-2.1.fb63-12.el7.noarch                                                                                                                                      2/6
+  Installing : pyparsing-1.5.6-9.el7.noarch                                                                                                                                              3/6
+  Installing : python-urwid-1.1.1-3.el7.x86_64                                                                                                                                           4/6
+  Installing : 1:python-configshell-1.1.fb23-4.el7.noarch                                                                                                                                5/6
+  Installing : targetcli-2.1.fb46-6.el7.noarch                                                                                                                                           6/6
+  Verifying  : 1:python-configshell-1.1.fb23-4.el7.noarch                                                                                                                                1/6
+  Verifying  : python-rtslib-2.1.fb63-12.el7.noarch                                                                                                                                      2/6
+  Verifying  : python-urwid-1.1.1-3.el7.x86_64                                                                                                                                           3/6
+  Verifying  : targetcli-2.1.fb46-6.el7.noarch                                                                                                                                           4/6
+  Verifying  : pyparsing-1.5.6-9.el7.noarch                                                                                                                                              5/6
+  Verifying  : python-kmod-0.9-4.el7.x86_64                                                                                                                                              6/6
+
+Installed:
+  targetcli.noarch 0:2.1.fb46-6.el7
+
+Dependency Installed:
+  pyparsing.noarch 0:1.5.6-9.el7   python-configshell.noarch 1:1.1.fb23-4.el7   python-kmod.x86_64 0:0.9-4.el7   python-rtslib.noarch 0:2.1.fb63-12.el7   python-urwid.x86_64 0:1.1.1-3.el7
+
+Complete!
+[root@mydns ~]# systemctl start targetcli
+Failed to start targetcli.service: Unit not found.
+[root@mydns ~]# systemctl start target
+[root@mydns ~]# systemctl enable target
+Created symlink from /etc/systemd/system/multi-user.target.wants/target.service to /usr/lib/systemd/system/target.service.
+[root@mydns ~]# systemctl status target
+● target.service - Restore LIO kernel target configuration
+   Loaded: loaded (/usr/lib/systemd/system/target.service; enabled; vendor preset: disabled)
+   Active: active (exited) since Sun 2018-12-09 01:23:41 IST; 14s ago
+ Main PID: 2452 (code=exited, status=0/SUCCESS)
+
+Dec 09 01:23:41 mydns.example.com systemd[1]: Starting Restore LIO kernel target configuration...
+Dec 09 01:23:41 mydns.example.com target[2452]: No saved config file at /etc/target/saveconfig.json, ok, exiting
+Dec 09 01:23:41 mydns.example.com systemd[1]: Started Restore LIO kernel target configuration.
+[root@mydns ~]# firewall-cmd --permanent --add-port=3260/tcp
+success
+[root@mydns ~]# firewall-cmd --reload
+success
+[root@mydns ~]# targetcli
+Warning: Could not load preferences file /root/.targetcli/prefs.bin.
+targetcli shell version 2.1.fb46
+Copyright 2011-2013 by Datera, Inc and others.
+For help on commands, type 'help'.
+
+/> ls
+o- / ......................................................................................................................... [...]
+  o- backstores .............................................................................................................. [...]
+  | o- block .................................................................................................. [Storage Objects: 0]
+  | o- fileio ................................................................................................. [Storage Objects: 0]
+  | o- pscsi .................................................................................................. [Storage Objects: 0]
+  | o- ramdisk ................................................................................................ [Storage Objects: 0]
+  o- iscsi ............................................................................................................ [Targets: 0]
+  o- loopback ......................................................................................................... [Targets: 0]
+/> cd /backstores/block
+/backstores/block> create data_block /dev/m
+/dev/mapper/     /dev/mqueue/     /dev/mystorage/
+/backstores/block> create data_block /dev/m
+/dev/mapper/     /dev/mqueue/     /dev/mystorage/
+/backstores/block> create data_block /dev/mystorage/mylv
+Created block storage object data_block using /dev/mystorage/mylv.
+/backstores/block> cd ../../iscsi
+/iscsi> ls
+o- iscsi .............................................................................................................. [Targets: 0]
+/iscsi> create iqn.2018-12.com.example:mydns
+Created target iqn.2018-12.com.example:mydns.
+Created TPG 1.
+Global pref auto_add_default_portal=true
+Created default portal listening on all IPs (0.0.0.0), port 3260.
+/iscsi> ls
+o- iscsi .............................................................................................................. [Targets: 1]
+  o- iqn.2018-12.com.example:mydns ....................................................................................... [TPGs: 1]
+    o- tpg1 ................................................................................................. [no-gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 0]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+/iscsi> cd iqn.2018-12.com.example:mydns/tpg1/
+/iscsi/iqn.20...le:mydns/tpg1> cd acls
+/iscsi/iqn.20...dns/tpg1/acls> create iqn.2018-12.com.example:192.168.33.4
+Created Node ACL for iqn.2018-12.com.example:192.168.33.4
+/iscsi/iqn.20...dns/tpg1/acls> cd ..
+/iscsi/iqn.20...le:mydns/tpg1> cd luns
+/iscsi/iqn.20...dns/tpg1/luns> create /backstores/block/data_block
+Created LUN 0.
+Created LUN 0->0 mapping in node ACL iqn.2018-12.com.example:192.168.33.4
+/iscsi/iqn.20...dns/tpg1/luns> ls
+o- luns .................................................................................................................. [LUNs: 1]
+  o- lun0 .............................................................. [block/data_block (/dev/mystorage/mylv) (default_tg_pt_gp)]
+/iscsi/iqn.20...dns/tpg1/luns> cd ..
+/iscsi/iqn.20...le:mydns/tpg1> cd portals/
+/iscsi/iqn.20.../tpg1/portals> create 192.168.33.2
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> create 192.168.33.2:3260
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> ls
+o- portals ............................................................................................................ [Portals: 1]
+  o- 0.0.0.0:3260 ............................................................................................................. [OK]
+/iscsi/iqn.20.../tpg1/portals> create mydns:3260
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> ls
+o- portals ............................................................................................................ [Portals: 1]
+  o- 0.0.0.0:3260 ............................................................................................................. [OK]
+/iscsi/iqn.20.../tpg1/portals> cd ..
+/iscsi/iqn.20...le:mydns/tpg1> ls
+o- tpg1 ..................................................................................................... [no-gen-acls, no-auth]
+  o- acls ................................................................................................................ [ACLs: 1]
+  | o- iqn.2018-12.com.example:192.168.33.4 ....................................................................... [Mapped LUNs: 1]
+  |   o- mapped_lun0 .................................................................................. [lun0 block/data_block (rw)]
+  o- luns ................................................................................................................ [LUNs: 1]
+  | o- lun0 ............................................................ [block/data_block (/dev/mystorage/mylv) (default_tg_pt_gp)]
+  o- portals .......................................................................................................... [Portals: 1]
+    o- 0.0.0.0:3260 ........................................................................................................... [OK]
+/iscsi/iqn.20...le:mydns/tpg1> cd portals/
+/iscsi/iqn.20.../tpg1/portals> create mydns.example.com
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> create 192.168.33.2
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> ls
+o- portals ............................................................................................................ [Portals: 1]
+  o- 0.0.0.0:3260 ............................................................................................................. [OK]
+/iscsi/iqn.20.../tpg1/portals> delete
+0.0.0.0      ip_address=  ip_port=
+/iscsi/iqn.20.../tpg1/portals> delete
+0.0.0.0      ip_address=  ip_port=
+/iscsi/iqn.20.../tpg1/portals> delete 0.0.0.0
+Missing required parameter ip_port
+/iscsi/iqn.20.../tpg1/portals> delete 0.0.0.0:3260
+Missing required parameter ip_port
+/iscsi/iqn.20.../tpg1/portals> delete 0.0.0.0 ip_port=3260
+Deleted network portal 0.0.0.0:3260
+/iscsi/iqn.20.../tpg1/portals> create mydns.example.com
+Using default IP port 3260
+Could not create NetworkPortal in configFS
+/iscsi/iqn.20.../tpg1/portals> ls
+o- portals ............................................................................................................ [Portals: 0]
+/iscsi/iqn.20.../tpg1/portals> create 192.168.33.2
+Using default IP port 3260
+Created network portal 192.168.33.2:3260.
+/iscsi/iqn.20.../tpg1/portals> ls
+o- portals ............................................................................................................ [Portals: 1]
+  o- 192.168.33.2:3260 ........................................................................................................ [OK]
+/iscsi/iqn.20.../tpg1/portals> exit
+Global pref auto_save_on_exit=true
+Configuration saved to /etc/target/saveconfig.json
+[root@mydns ~]# vgscan
+  Reading volume groups from cache.
+  Found volume group "mystorage" using metadata type lvm2
+[root@mydns ~]# vgdiskply mystorage
+bash: vgdiskply: command not found...
+[root@mydns ~]# vgdisplay mystorage
+  --- Volume group ---
+  VG Name               mystorage
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               1.77 GiB
+  PE Size               4.00 MiB
+  Total PE              454
+  Alloc PE / Size       175 / 700.00 MiB
+  Free  PE / Size       279 / <1.09 GiB
+  VG UUID               geqm9L-QbZh-cDQw-TSbs-LWqq-zgRs-LdEyGU
+
+[root@mydns ~]#

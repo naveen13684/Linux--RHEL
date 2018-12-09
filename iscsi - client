@@ -1,0 +1,2018 @@
+login as: root
+root@192.168.33.4's password:
+Last login: Tue Dec  4 20:51:06 2018
+[root@client ~]# yum install samba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+file:///mnt/repodata/repomd.xml: [Errno 14] curl#37 - "Couldn't open file /mnt/repodata/repom
+Trying other mirror.
+Package samba-client-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-4.8.3-3.el7.noarch already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package samba.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-client.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-common-tools.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-krb5-printing.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-libs.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.0.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.9)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2()(64bit) for package: samba-libs-4.8.3-3.el7
+---> Package samba-python.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpyldb-util.so.1(PYLDB_UTIL_1.1.2)(64bit) for package: samba-pyt
+--> Processing Dependency: pyldb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-dns for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tdb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tevent for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: libpyldb-util.so.1()(64bit) for package: samba-python-4.8.3-3.el7.
+---> Package samba-winbind.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-clients.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-modules.x86_64 0:4.8.3-3.el7 will be installed
+--> Running transaction check
+---> Package pyldb.x86_64 0:1.3.4-1.el7 will be installed
+---> Package pytalloc.x86_64 0:2.1.13-1.el7 will be installed
+---> Package python-dns.noarch 0:1.12.0-4.20150617git465785f.el7 will be installed
+---> Package python-tdb.x86_64 0:1.3.15-1.el7 will be installed
+---> Package python-tevent.x86_64 0:0.9.36-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                                           Arch                               Version
+=============================================================================================
+Installing:
+ samba                                             x86_64                             4.8.3-3
+ samba-client                                      x86_64                             4.8.3-3
+ samba-common-tools                                x86_64                             4.8.3-3
+ samba-krb5-printing                               x86_64                             4.8.3-3
+ samba-libs                                        x86_64                             4.8.3-3
+ samba-python                                      x86_64                             4.8.3-3
+ samba-winbind                                     x86_64                             4.8.3-3
+ samba-winbind-clients                             x86_64                             4.8.3-3
+ samba-winbind-modules                             x86_64                             4.8.3-3
+Installing for dependencies:
+ pyldb                                             x86_64                             1.3.4-1
+ pytalloc                                          x86_64                             2.1.13-
+ python-dns                                        noarch                             1.12.0-
+ python-tdb                                        x86_64                             1.3.15-
+ python-tevent                                     x86_64                             0.9.36-
+
+Transaction Summary
+=============================================================================================
+Install  9 Packages (+5 Dependent packages)
+
+Total download size: 5.5 M
+Installed size: 22 M
+Is this ok [y/d/N]: y
+Downloading packages:
+
+
+Error downloading packages:
+  python-tdb-1.3.15-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-libs-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  python-tevent-0.9.36-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  pyldb-1.3.4-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-python-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-modules-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  python-dns-1.12.0-4.20150617git465785f.el7.noarch: [Errno 256] No more mirrors to try.
+  samba-client-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-common-tools-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-krb5-printing-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  pytalloc-2.1.13-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-clients-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+
+[root@client ~]# yum install samba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+file:///mnt/repodata/repomd.xml: [Errno 14] curl#37 - "Couldn't open file /mnt/repodata/repom
+Trying other mirror.
+Package samba-client-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-4.8.3-3.el7.noarch already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package samba.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-client.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-common-tools.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-krb5-printing.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-libs.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.0.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.9)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2()(64bit) for package: samba-libs-4.8.3-3.el7
+---> Package samba-python.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpyldb-util.so.1(PYLDB_UTIL_1.1.2)(64bit) for package: samba-pyt
+--> Processing Dependency: pyldb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-dns for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tdb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tevent for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: libpyldb-util.so.1()(64bit) for package: samba-python-4.8.3-3.el7.
+---> Package samba-winbind.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-clients.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-modules.x86_64 0:4.8.3-3.el7 will be installed
+--> Running transaction check
+---> Package pyldb.x86_64 0:1.3.4-1.el7 will be installed
+---> Package pytalloc.x86_64 0:2.1.13-1.el7 will be installed
+---> Package python-dns.noarch 0:1.12.0-4.20150617git465785f.el7 will be installed
+---> Package python-tdb.x86_64 0:1.3.15-1.el7 will be installed
+---> Package python-tevent.x86_64 0:0.9.36-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                                           Arch                               Version
+=============================================================================================
+Installing:
+ samba                                             x86_64                             4.8.3-3
+ samba-client                                      x86_64                             4.8.3-3
+ samba-common-tools                                x86_64                             4.8.3-3
+ samba-krb5-printing                               x86_64                             4.8.3-3
+ samba-libs                                        x86_64                             4.8.3-3
+ samba-python                                      x86_64                             4.8.3-3
+ samba-winbind                                     x86_64                             4.8.3-3
+ samba-winbind-clients                             x86_64                             4.8.3-3
+ samba-winbind-modules                             x86_64                             4.8.3-3
+Installing for dependencies:
+ pyldb                                             x86_64                             1.3.4-1
+ pytalloc                                          x86_64                             2.1.13-
+ python-dns                                        noarch                             1.12.0-
+ python-tdb                                        x86_64                             1.3.15-
+ python-tevent                                     x86_64                             0.9.36-
+
+Transaction Summary
+=============================================================================================
+Install  9 Packages (+5 Dependent packages)
+
+Total download size: 5.5 M
+Installed size: 22 M
+Is this ok [y/d/N]: y
+Downloading packages:
+
+
+Error downloading packages:
+  python-tdb-1.3.15-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-libs-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  python-tevent-0.9.36-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  pyldb-1.3.4-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-python-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-modules-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  python-dns-1.12.0-4.20150617git465785f.el7.noarch: [Errno 256] No more mirrors to try.
+  samba-client-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-common-tools-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-krb5-printing-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  pytalloc-2.1.13-1.el7.x86_64: [Errno 256] No more mirrors to try.
+  samba-winbind-clients-4.8.3-3.el7.x86_64: [Errno 256] No more mirrors to try.
+
+[root@client ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 3902924   8669748  32% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7812    499776   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      28    101492   1% /run/user/1000
+tmpfs             101520       0    101520   0% /run/user/0
+[root@client ~]# cd /etc/yum.repos.d/
+[root@client yum.repos.d]# ll
+total 8
+-rw-r--r--. 1 root root 358 Nov 13 08:50 redhat.repo
+-rw-r--r--  1 root root  63 Nov 22 20:45 rhel7.repo
+[root@client yum.repos.d]# cat rhel7.repo
+[rhel7]
+name=rhel7 repo
+baseurl=file:/mnt
+enabled=1
+gpgcheck=0
+[root@client yum.repos.d]# mount mydns:/mnt/cdrom /mnt
+[root@client yum.repos.d]# yum install samba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+rhel7
+Package samba-client-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-4.8.3-3.el7.noarch already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package samba.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-client.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-common-tools.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-krb5-printing.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-libs.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.0.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.6)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2(PYTALLOC_UTIL_2.1.9)(64bit) for package: sam
+--> Processing Dependency: libpytalloc-util.so.2()(64bit) for package: samba-libs-4.8.3-3.el7
+---> Package samba-python.x86_64 0:4.8.3-3.el7 will be installed
+--> Processing Dependency: libpyldb-util.so.1(PYLDB_UTIL_1.1.2)(64bit) for package: samba-pyt
+--> Processing Dependency: pyldb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-dns for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tdb for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: python-tevent for package: samba-python-4.8.3-3.el7.x86_64
+--> Processing Dependency: libpyldb-util.so.1()(64bit) for package: samba-python-4.8.3-3.el7.
+---> Package samba-winbind.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-clients.x86_64 0:4.8.3-3.el7 will be installed
+---> Package samba-winbind-modules.x86_64 0:4.8.3-3.el7 will be installed
+--> Running transaction check
+---> Package pyldb.x86_64 0:1.3.4-1.el7 will be installed
+---> Package pytalloc.x86_64 0:2.1.13-1.el7 will be installed
+---> Package python-dns.noarch 0:1.12.0-4.20150617git465785f.el7 will be installed
+---> Package python-tdb.x86_64 0:1.3.15-1.el7 will be installed
+---> Package python-tevent.x86_64 0:0.9.36-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                                           Arch                               Version
+=============================================================================================
+Installing:
+ samba                                             x86_64                             4.8.3-3
+ samba-client                                      x86_64                             4.8.3-3
+ samba-common-tools                                x86_64                             4.8.3-3
+ samba-krb5-printing                               x86_64                             4.8.3-3
+ samba-libs                                        x86_64                             4.8.3-3
+ samba-python                                      x86_64                             4.8.3-3
+ samba-winbind                                     x86_64                             4.8.3-3
+ samba-winbind-clients                             x86_64                             4.8.3-3
+ samba-winbind-modules                             x86_64                             4.8.3-3
+Installing for dependencies:
+ pyldb                                             x86_64                             1.3.4-1
+ pytalloc                                          x86_64                             2.1.13-
+ python-dns                                        noarch                             1.12.0-
+ python-tdb                                        x86_64                             1.3.15-
+ python-tevent                                     x86_64                             0.9.36-
+
+Transaction Summary
+=============================================================================================
+Install  9 Packages (+5 Dependent packages)
+
+Total download size: 5.5 M
+Installed size: 22 M
+Is this ok [y/d/N]: y
+Downloading packages:
+---------------------------------------------------------------------------------------------
+Total
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : pytalloc-2.1.13-1.el7.x86_64
+  Installing : samba-libs-4.8.3-3.el7.x86_64
+  Installing : samba-common-tools-4.8.3-3.el7.x86_64
+  Installing : python-tdb-1.3.15-1.el7.x86_64
+  Installing : pyldb-1.3.4-1.el7.x86_64
+  Installing : samba-4.8.3-3.el7.x86_64
+  Installing : samba-winbind-modules-4.8.3-3.el7.x86_64
+  Installing : samba-winbind-4.8.3-3.el7.x86_64
+  Installing : samba-client-4.8.3-3.el7.x86_64
+  Installing : python-dns-1.12.0-4.20150617git465785f.el7.noarch
+  Installing : python-tevent-0.9.36-1.el7.x86_64
+  Installing : samba-python-4.8.3-3.el7.x86_64
+  Installing : samba-krb5-printing-4.8.3-3.el7.x86_64
+  Installing : samba-winbind-clients-4.8.3-3.el7.x86_64
+  Verifying  : samba-krb5-printing-4.8.3-3.el7.x86_64
+  Verifying  : samba-winbind-modules-4.8.3-3.el7.x86_64
+  Verifying  : python-tevent-0.9.36-1.el7.x86_64
+  Verifying  : pyldb-1.3.4-1.el7.x86_64
+  Verifying  : samba-winbind-clients-4.8.3-3.el7.x86_64
+  Verifying  : python-dns-1.12.0-4.20150617git465785f.el7.noarch
+  Verifying  : samba-common-tools-4.8.3-3.el7.x86_64
+  Verifying  : samba-python-4.8.3-3.el7.x86_64
+  Verifying  : python-tdb-1.3.15-1.el7.x86_64
+  Verifying  : samba-libs-4.8.3-3.el7.x86_64
+  Verifying  : samba-4.8.3-3.el7.x86_64
+  Verifying  : samba-winbind-4.8.3-3.el7.x86_64
+  Verifying  : pytalloc-2.1.13-1.el7.x86_64
+  Verifying  : samba-client-4.8.3-3.el7.x86_64
+
+Installed:
+  samba.x86_64 0:4.8.3-3.el7        samba-client.x86_64 0:4.8.3-3.el7  samba-common-tools.x86
+  samba-python.x86_64 0:4.8.3-3.el7 samba-winbind.x86_64 0:4.8.3-3.el7 samba-winbind-clients.
+
+Dependency Installed:
+  pyldb.x86_64 0:1.3.4-1.el7  pytalloc.x86_64 0:2.1.13-1.el7  python-dns.noarch 0:1.12.0-4.20
+
+Complete!
+[root@client yum.repos.d]# yum install nmb
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+No package nmb available.
+Error: Nothing to do
+[root@client yum.repos.d]# systemctl smb status
+Unknown operation 'smb'.
+[root@client yum.repos.d]# systemctl samb status
+Unknown operation 'samb'.
+[root@client yum.repos.d]# systemctl status smb
+● smb.service - Samba SMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/smb.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: man:smbd(8)
+           man:samba(7)
+           man:smb.conf(5)
+[root@client yum.repos.d]# systemctl status nmb
+● nmb.service - Samba NMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/nmb.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: man:nmbd(8)
+           man:samba(7)
+           man:smb.conf(5)
+[root@client yum.repos.d]# systemctl enable smb
+Created symlink from /etc/systemd/system/multi-user.target.wants/smb.service to /usr/lib/syst
+[root@client yum.repos.d]# systemctl start smb
+[root@client yum.repos.d]# systemctl status nmb
+● nmb.service - Samba NMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/nmb.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: man:nmbd(8)
+           man:samba(7)
+           man:smb.conf(5)
+[root@client yum.repos.d]# systemctl start nmb
+[root@client yum.repos.d]# systemctl enable nmb
+Created symlink from /etc/systemd/system/multi-user.target.wants/nmb.service to /usr/lib/syst
+[root@client yum.repos.d]# systemctl status nmb
+● nmb.service - Samba NMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/nmb.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2018-12-05 02:19:02 IST; 8s ago
+     Docs: man:nmbd(8)
+           man:samba(7)
+           man:smb.conf(5)
+ Main PID: 12234 (nmbd)
+   Status: "nmbd: ready to serve connections..."
+   CGroup: /system.slice/nmb.service
+           └─12234 /usr/sbin/nmbd --foreground --no-process-group
+
+Dec 05 02:19:02 client.example.com systemd[1]: Starting Samba NMB Daemon...
+Dec 05 02:19:02 client.example.com nmbd[12234]: [2018/12/05 02:19:02.447677,  0] ../lib/util/
+Dec 05 02:19:02 client.example.com systemd[1]: Started Samba NMB Daemon.
+Dec 05 02:19:02 client.example.com nmbd[12234]:   daemon_ready: STATUS=daemon 'nmbd' finished
+[root@client yum.repos.d]# systemctl start smb
+[root@client yum.repos.d]# systemctl status smb
+● smb.service - Samba SMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/smb.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2018-12-05 02:18:52 IST; 29s ago
+     Docs: man:smbd(8)
+           man:samba(7)
+           man:smb.conf(5)
+ Main PID: 12214 (smbd)
+   Status: "smbd: ready to serve connections..."
+   CGroup: /system.slice/smb.service
+           ├─12214 /usr/sbin/smbd --foreground --no-process-group
+           ├─12218 /usr/sbin/smbd --foreground --no-process-group
+           ├─12219 /usr/sbin/smbd --foreground --no-process-group
+           └─12221 /usr/sbin/smbd --foreground --no-process-group
+
+Dec 05 02:18:52 client.example.com systemd[1]: Starting Samba SMB Daemon...
+Dec 05 02:18:52 client.example.com smbd[12214]: [2018/12/05 02:18:52.888393,  0] ../lib/util/
+Dec 05 02:18:52 client.example.com systemd[1]: Started Samba SMB Daemon.
+Dec 05 02:18:52 client.example.com smbd[12214]:   daemon_ready: STATUS=daemon 'smbd' finished
+[root@client yum.repos.d]#
+[root@client yum.repos.d]#
+[root@client yum.repos.d]# vi /etc/s
+samba/              securetty           sestatus.conf       shadow              smartmontools
+sane.d/             security/           setroubleshoot/     shadow-             sos.conf
+sasl2/              selinux/            setuptool.d/        shells              sound/
+scl/                services            sgml/               skel/               speech-dispat
+[root@client yum.repos.d]# vi /etc/s
+samba/              securetty           sestatus.conf       shadow              smartmontools
+sane.d/             security/           setroubleshoot/     shadow-             sos.conf
+sasl2/              selinux/            setuptool.d/        shells              sound/
+scl/                services            sgml/               skel/               speech-dispat
+[root@client yum.repos.d]# vi /etc/samba/
+lmhosts           smb.conf          smb.conf.example
+[root@client yum.repos.d]# vi /etc/samba/
+lmhosts           smb.conf          smb.conf.example
+[root@client yum.repos.d]# vi /etc/samba/smb.conf
+[root@client yum.repos.d]# grep -i samba /etc/passwd
+[root@client yum.repos.d]# useradd samba1 samba2
+Usage: useradd [options] LOGIN
+       useradd -D
+       useradd -D [options]
+
+Options:
+  -b, --base-dir BASE_DIR       base directory for the home directory of the
+                                new account
+  -c, --comment COMMENT         GECOS field of the new account
+  -d, --home-dir HOME_DIR       home directory of the new account
+  -D, --defaults                print or change default useradd configuration
+  -e, --expiredate EXPIRE_DATE  expiration date of the new account
+  -f, --inactive INACTIVE       password inactivity period of the new account
+  -g, --gid GROUP               name or ID of the primary group of the new
+                                account
+  -G, --groups GROUPS           list of supplementary groups of the new
+                                account
+  -h, --help                    display this help message and exit
+  -k, --skel SKEL_DIR           use this alternative skeleton directory
+  -K, --key KEY=VALUE           override /etc/login.defs defaults
+  -l, --no-log-init             do not add the user to the lastlog and
+                                faillog databases
+  -m, --create-home             create the user's home directory
+  -M, --no-create-home          do not create the user's home directory
+  -N, --no-user-group           do not create a group with the same name as
+                                the user
+  -o, --non-unique              allow to create users with duplicate
+                                (non-unique) UID
+  -p, --password PASSWORD       encrypted password of the new account
+  -r, --system                  create a system account
+  -R, --root CHROOT_DIR         directory to chroot into
+  -s, --shell SHELL             login shell of the new account
+  -u, --uid UID                 user ID of the new account
+  -U, --user-group              create a group with the same name as the user
+  -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
+
+[root@client yum.repos.d]# useradd samba1
+[root@client yum.repos.d]# useradd samba2
+[root@client yum.repos.d]# smbpasswd -u samba1
+smbpasswd: invalid option -- 'u'
+When run by root:
+    smbpasswd [options] [username]
+otherwise:
+    smbpasswd [options]
+
+options:
+  -L                   local mode (must be first option)
+  -h                   print this usage message
+  -s                   use stdin for password prompt
+  -c smb.conf file     Use the given path to the smb.conf file
+  -D LEVEL             debug level
+  -r MACHINE           remote machine
+  -U USER              remote username (e.g. SAM/user)
+extra options when run by root or in local mode:
+  -a                   add user
+  -d                   disable user
+  -e                   enable user
+  -i                   interdomain trust account
+  -m                   machine trust account
+  -n                   set no password
+  -W                   use stdin ldap admin password
+  -w PASSWORD          ldap admin password
+  -x                   delete user
+  -R ORDER             name resolve order
+[root@client yum.repos.d]# smbpasswd -a samba1
+New SMB password:
+Retype new SMB password:
+Added user samba1.
+[root@client yum.repos.d]# smbpasswd -a samba2
+New SMB password:
+Retype new SMB password:
+Added user samba2.
+[root@client yum.repos.d]#
+[root@client yum.repos.d]#
+[root@client yum.repos.d]# testparam
+bash: testparam: command not found...
+[root@client yum.repos.d]# testparm
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section "[clientrhel7]"
+Unknown parameter encountered: "broseable"
+Ignoring unknown parameter "broseable"
+Processing section "[homes]"
+Processing section "[printers]"
+Processing section "[print$]"
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+        printcap name = cups
+        security = USER
+        workgroup = SAMBA
+        idmap config * : backend = tdb
+        cups options = raw
+
+
+[clientrhel7]
+        comment = linux/windows share
+        cups options =
+        hosts allow = 192.168.33
+        path = /naveen-win
+        read only = No
+        valid users = samba1 samba2
+
+
+[homes]
+        browseable = No
+        comment = Home Directories
+        inherit acls = Yes
+        read only = No
+        valid users = %S %D%w%S
+
+
+[printers]
+        browseable = No
+        comment = All Printers
+        create mask = 0600
+        path = /var/tmp
+        printable = Yes
+
+
+[print$]
+        comment = Printer Drivers
+        create mask = 0664
+        directory mask = 0775
+        force group = @printadmin
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+[root@client yum.repos.d]# vi /etc/samba/smb.conf
+[root@client yum.repos.d]# mkdir /naveen-win
+[root@client yum.repos.d]# chmod 775 /naveen-win/
+[root@client yum.repos.d]# systemctl restart smb nmb
+[root@client yum.repos.d]# ping client
+ping: client: Name or service not known
+[root@client yum.repos.d]# ^C
+[root@client yum.repos.d]#
+[root@client yum.repos.d]# ifconfig
+enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 18683  bytes 9154256 (8.7 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2369  bytes 437306 (427.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s10: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 6  bytes 352 (352.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 6  bytes 352 (352.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+team0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.33.4  netmask 255.255.255.0  broadcast 192.168.33.255
+        inet6 fe80::b938:5ebc:7bae:5481  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 11654  bytes 8448327 (8.0 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1956  bytes 370679 (361.9 KiB)
+        TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:7b:8a:de  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@client yum.repos.d]# firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s8 enp0s10 team0
+  sources:
+  services: ssh dhcpv6-client nfs ntp dns
+  ports: 123/tcp 53/tcp 53/udp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
+
+[root@client yum.repos.d]# firewall-cmb --permanent --add-services=samba
+bash: firewall-cmb: command not found...
+[root@client yum.repos.d]# firewall-cmd --permanent --add-services=samba
+usage: see firewall-cmd man page
+firewall-cmd: error: unrecognized arguments: --add-services=samba
+[root@client yum.repos.d]# firewall-cmd --permanent --add-service=samba
+success
+[root@client yum.repos.d]# firewall-cmb --reload
+bash: firewall-cmb: command not found...
+[root@client yum.repos.d]# firewall-cmd --reload
+success
+[root@client yum.repos.d]# cat /etc/samba/smb.conf
+# See smb.conf.example for a more detailed config file or
+# read the smb.conf manpage.
+# Run 'testparm' to verify the config is correct after
+# you modified it.
+
+[clientrhel7]
+        comment = linux/windows share
+        path = /naveen-win
+        valid users = samba1,samba2
+        writable = yes
+        hosts allow = 192.168.33
+        broseable = yes
+        public = no
+
+[global]
+        workgroup = SAMBA
+        security = user
+
+        passdb backend = tdbsam
+
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+
+[homes]
+        comment = Home Directories
+        valid users = %S, %D%w%S
+        browseable = No
+        read only = No
+        inherit acls = Yes
+
+[printers]
+        comment = All Printers
+        path = /var/tmp
+        printable = Yes
+        create mask = 0600
+        browseable = No
+
+[print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/drivers
+        write list = @printadmin root
+        force group = @printadmin
+        create mask = 0664
+        directory mask = 0775
+[root@client yum.repos.d]# cd /naveen-win
+[root@client naveen-win]# passwd samba1
+Changing password for user samba1.
+New password:
+BAD PASSWORD: The password is shorter than 7 characters
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@client naveen-win]# sestatus
+SELinux status:                 disabled
+[root@client naveen-win]# cd /naveen-win/
+[root@client naveen-win]# ll
+total 0
+[root@client naveen-win]# cd ..
+[root@client /]# mkdir /samba
+mkdir: cannot create directory ‘/samba’: File exists
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934496   8638176  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7812    499776   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# mount //192.168.33.4/naveen-win /samba -o username=sabma1
+mount: //192.168.33.4/naveen-win is write-protected, mounting read-only
+mount: cannot mount //192.168.33.4/naveen-win read-only
+[root@client /]# df -
+df: ‘-’: No such file or directory
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934596   8638076  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7812    499776   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# ls -ld /naveen-win/
+drwxrwxr-x 2 root root 6 Dec  5 02:34 /naveen-win/
+[root@client /]# vi /etc/samba/smb.conf
+[root@client /]# systemctl restart smb nmb
+[root@client /]# mount //192.168.33.4/naveen-win /samba -o username=sabma1
+mount: //192.168.33.4/naveen-win is write-protected, mounting read-only
+mount: cannot mount //192.168.33.4/naveen-win read-only
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3935700   8636972  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7812    499776   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# mount //192.168.33.4/naveen-win /samba -o username=sabma1,rw
+mount: //192.168.33.4/naveen-win is write-protected, mounting read-only
+mount: cannot mount //192.168.33.4/naveen-win read-only
+[root@client /]# mount //192.168.33.4/naveen-win /samba -o username=root
+mount: //192.168.33.4/naveen-win is write-protected, mounting read-only
+mount: cannot mount //192.168.33.4/naveen-win read-only
+[root@client /]#
+login as: root
+root@192.168.33.4's password:
+Access denied
+root@192.168.33.4's password:
+Last failed login: Wed Dec  5 03:35:54 IST 2018 from 192.168.33.1 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Wed Dec  5 02:16:15 2018 from 192.168.33.1
+[root@client ~]# rpm -qa |grep -i cifs
+[root@client ~]# mount.
+mount.fuse  mount.nfs   mount.nfs4
+[root@client ~]# mount.
+mount.fuse  mount.nfs   mount.nfs4
+[root@client ~]# yum install cifs
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+No package cifs available.
+Error: Nothing to do
+[root@client ~]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934520   8638152  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client ~]# yum install cifs
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+No package cifs available.
+Error: Nothing to do
+[root@client ~]# yum install samba*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Package samba-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-client-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-tools-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-common-4.8.3-3.el7.noarch already installed and latest version
+Package samba-winbind-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-winbind-clients-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-python-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-winbind-modules-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-krb5-printing-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-libs-4.8.3-3.el7.x86_64 already installed and latest version
+Package samba-client-4.8.3-3.el7.x86_64 already installed and latest version
+Nothing to do
+[root@client ~]# smbclint
+bash: smbclint: command not found...
+[root@client ~]# smbclient
+Usage: smbclient [-?EgqBVNkPeC] [-?|--help] [--usage] [-R|--name-resolve NAME-RESOLVE-ORDER]
+        [-M|--message HOST] [-I|--ip-address IP] [-E|--stderr] [-L|--list HOST]
+        [-m|--max-protocol LEVEL] [-T|--tar <c|x>IXFqgbNan] [-D|--directory DIR]
+        [-c|--command STRING] [-b|--send-buffer BYTES] [-t|--timeout SECONDS]
+        [-p|--port PORT] [-g|--grepable] [-q|--quiet] [-B|--browse]
+        [-d|--debuglevel DEBUGLEVEL] [-s|--configfile CONFIGFILE]
+        [-l|--log-basename LOGFILEBASE] [-V|--version] [--option=name=value]
+        [-O|--socket-options SOCKETOPTIONS] [-n|--netbiosname NETBIOSNAME]
+        [-W|--workgroup WORKGROUP] [-i|--scope SCOPE] [-U|--user USERNAME] [-N|--no-pass]
+        [-k|--kerberos] [-A|--authentication-file FILE] [-S|--signing on|off|required]
+        [-P|--machine-pass] [-e|--encrypt] [-C|--use-ccache] [--pw-nt-hash]
+        service <password>
+[root@client ~]# smbclient -U winuser -L mydns
+Enter SAMBA\winuser's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        winshare        Disk      Public windows Stuff
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        winuser         Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+        SAMBA                MYDNS
+        WHQ_NT_DOMAIN        W1571455
+[root@client ~]# mount -t cifs //mydns/samba /samba -o username=^C
+[root@client ~]# cd /
+[root@client /]# ll
+total 40
+drwxr-xr-x    2 root    root        0 Dec  4 15:01 autohome
+-rw-r--r--    1 root    root        0 Nov 22 12:11 autorelabel
+lrwxrwxrwx.   1 root    root        7 Nov 12 23:39 bin -> usr/bin
+dr-xr-xr-x.   4 root    root     4096 Nov 12 23:55 boot
+drwxr-xr-x    3 root    root       27 Nov 22 20:53 data
+drwxr-xr-x   18 root    root     3060 Dec  4 15:01 dev
+drwxr-xr-x. 144 root    root    12288 Dec  5 02:41 etc
+drwxr-xr-x.   5 root    root       49 Dec  5 02:31 home
+lrwxrwxrwx.   1 root    root        7 Nov 12 23:39 lib -> usr/lib
+lrwxrwxrwx.   1 root    root        9 Nov 12 23:39 lib64 -> usr/lib64
+drwxr-xr-x.   2 root    root        6 Dec 14  2017 media
+drwxr-xr-x    2 root    root        0 Dec  4 15:01 misc
+dr-xr-xr-x    9 student student  4096 Aug 15 04:01 mnt
+drwxr-xr-x    2 root    root        6 Dec  1 11:19 myautohom
+drwxrwxr-x    2 root    root        6 Dec  5 02:34 naveen-win
+drwxr-xr-x    2 root    root        0 Dec  4 15:01 net
+drwxr-xr-x.   3 root    root       16 Nov 12 23:46 opt
+dr-xr-xr-x  213 root    root        0 Dec  4 15:01 proc
+dr-xr-x---.  15 root    root     4096 Dec  4 20:51 root
+drwxr-xr-x   40 root    root     1380 Dec  5 03:46 run
+drwxr-xr-x    2 root    root        6 Dec  1 14:05 samba
+lrwxrwxrwx.   1 root    root        8 Nov 12 23:39 sbin -> usr/sbin
+drwxr-xr-x    2 root    root        6 Dec  1 11:17 serverhome
+drwxr-xr-x.   2 root    root        6 Dec 14  2017 srv
+dr-xr-xr-x   13 root    root        0 Dec  4 15:01 sys
+drwxrwxrwt.  24 root    root     8192 Dec  5 02:55 tmp
+drwxr-xr-x.  13 root    root      155 Nov 12 23:39 usr
+drwxr-xr-x.  20 root    root      282 Nov 13 08:49 var
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934520   8638152  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# df -k^C
+[root@client /]#  mount -t cifs //mydns/samba /samba -o username=winuser,password=winuser
+mount: wrong fs type, bad option, bad superblock on //mydns/samba,
+       missing codepage or helper program, or other error
+       (for several filesystems (e.g. nfs, cifs) you might
+       need a /sbin/mount.<type> helper program)
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+[root@client /]# yum install mountd
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+No package mountd available.
+Error: Nothing to do
+[root@client /]# yum install cifs-utils*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package cifs-utils.x86_64 0:6.2-10.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                Arch               Version                   Repository         Size
+=============================================================================================
+Installing:
+ cifs-utils             x86_64             6.2-10.el7                rhel7              85 k
+
+Transaction Summary
+=============================================================================================
+Install  1 Package
+
+Total download size: 85 k
+Installed size: 175 k
+Is this ok [y/d/N]: y
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : cifs-utils-6.2-10.el7.x86_64                                              1/1
+  Verifying  : cifs-utils-6.2-10.el7.x86_64                                              1/1
+
+Installed:
+  cifs-utils.x86_64 0:6.2-10.el7
+
+Complete!
+[root@client /]#  mount -t cifs //mydns/samba /samba -o username=winuser,password=winuser
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/samba /samba -o username=winuser,password=winuser
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# man mount.cifs
+[root@client /]# vi /smb-multiuser.txt
+[root@client /]# chmod 0600 /smb-multiuser.txt
+[root@client /]# mount -t cifs //mydns/samba /samba -o username=winuser,password=winuser
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# smbclient -L //mydns/samba -U winuser
+Enter SAMBA\winuser's password:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        winshare        Disk      Public windows Stuff
+        print$          Disk      Printer Drivers
+        IPC$            IPC       IPC Service (Samba 4.8.3)
+        winuser         Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+        SAMBA                MYDNS
+        WHQ_NT_DOMAIN        W1571455
+[root@client /]# smb
+bash: smb: command not found...
+[root@client /]# smbclient -L //mydns/samba -U winuser^C
+[root@client /]# mount -t cifs //mydns/samba /samba -o username=winuser
+Password for winuser@//mydns/samba:  *******
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934808   8637864  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7876    499712   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+//mydns/winshare  12572672 4356132   8216540  35% /samba
+[root@client /]# umount /samba/
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+[root@client /]# umount /samba
+[root@client /]# cat /smb-multiuser.txt
+username=winuser
+password=winuser
+[root@client /]# vi /etc/fstab
+[root@client /]# mount -a
+Password for root@//192.168.33.2/samba:
+[root@client /]# vi /etc/fstab
+[root@client /]# mount -a
+Password for root@//192.168.33.2/samba:
+[root@client /]# vi /etc/fstab
+[root@client /]# mount -a
+Password for root@//192.168.33.2/samba:
+[root@client /]# vi /etc/fstab
+[root@client /]# cat /smb-multiuser.txt
+username=winuser
+password=winuser
+[root@client /]# useradd winuser
+[root@client /]# passwd winuser
+Changing password for user winuser.
+New password:
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934908   8637764  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# mount -a
+Password for root@//192.168.33.2/samba:
+[root@client /]# vi /etc/fstab
+[root@client /]# cat /smb-multiuser.txt
+username=winuser
+password=winuser
+[root@client /]# mount.
+mount.cifs  mount.fuse  mount.nfs   mount.nfs4
+[root@client /]# mount.
+mount.cifs  mount.fuse  mount.nfs   mount.nfs4
+[root@client /]# mount.^C
+[root@client /]# yum install smbf*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+No package smbf* available.
+Error: Nothing to do
+[root@client /]# yum install smbfs*
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to
+No package smbfs* available.
+Error: Nothing to do
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934864   8637808  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# mount -t cifs //192.168.33.2/samba /samba -credentials=/smb-multiuser.txt
+mount: invalid option -- 'e'
+
+Usage:
+ mount [-lhV]
+ mount -a [options]
+ mount [options] [--source] <source> | [--target] <directory>
+ mount [options] <source> <directory>
+ mount <operation> <mountpoint> [<target>]
+
+Options:
+ -a, --all               mount all filesystems mentioned in fstab
+ -c, --no-canonicalize   don't canonicalize paths
+ -f, --fake              dry run; skip the mount(2) syscall
+ -F, --fork              fork off for each device (use with -a)
+ -T, --fstab <path>      alternative file to /etc/fstab
+ -h, --help              display this help text and exit
+ -i, --internal-only     don't call the mount.<type> helpers
+ -l, --show-labels       lists all mounts with LABELs
+ -n, --no-mtab           don't write to /etc/mtab
+ -o, --options <list>    comma-separated list of mount options
+ -O, --test-opts <list>  limit the set of filesystems (use with -a)
+ -r, --read-only         mount the filesystem read-only (same as -o ro)
+ -t, --types <list>      limit the set of filesystem types
+     --source <src>      explicitly specifies source (path, label, uuid)
+     --target <target>   explicitly specifies mountpoint
+ -v, --verbose           say what is being done
+ -V, --version           display version information and exit
+ -w, --rw, --read-write  mount the filesystem read-write (default)
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+Source:
+ -L, --label <label>     synonym for LABEL=<label>
+ -U, --uuid <uuid>       synonym for UUID=<uuid>
+ LABEL=<label>           specifies device by filesystem label
+ UUID=<uuid>             specifies device by filesystem UUID
+ PARTLABEL=<label>       specifies device by partition label
+ PARTUUID=<uuid>         specifies device by partition UUID
+ <device>                specifies device by path
+ <directory>             mountpoint for bind mounts (see --bind/rbind)
+ <file>                  regular file for loopdev setup
+
+Operations:
+ -B, --bind              mount a subtree somewhere else (same as -o bind)
+ -M, --move              move a subtree to some other place
+ -R, --rbind             mount a subtree and all submounts somewhere else
+ --make-shared           mark a subtree as shared
+ --make-slave            mark a subtree as slave
+ --make-private          mark a subtree as private
+ --make-unbindable       mark a subtree as unbindable
+ --make-rshared          recursively mark a whole subtree as shared
+ --make-rslave           recursively mark a whole subtree as slave
+ --make-rprivate         recursively mark a whole subtree as private
+ --make-runbindable      recursively mark a whole subtree as unbindable
+
+For more details see mount(8).
+[root@client /]# mount -t cifs //192.168.33.2/samba /samba -o credentials=/smb-multiuser.txt
+mount error(2): No such file or directory
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //192.168.33.2/winshare /samba -o credentials=/smb-multiuser.t
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //192.168.33.2/winshare /samba -o username=winuser
+Password for winuser@//192.168.33.2/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934864   8637808  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# cd /
+[root@client /]# cd /samba
+[root@client samba]# ll
+total 0
+[root@client samba]# cd ..
+[root@client /]# mount -t cifs //192.168.33.2/winshare /samba -o username=winusermount -t cif
+
+Usage:
+ mount [-lhV]
+ mount -a [options]
+ mount [options] [--source] <source> | [--target] <directory>
+ mount [options] <source> <directory>
+ mount <operation> <mountpoint> [<target>]
+
+Options:
+ -a, --all               mount all filesystems mentioned in fstab
+ -c, --no-canonicalize   don't canonicalize paths
+ -f, --fake              dry run; skip the mount(2) syscall
+ -F, --fork              fork off for each device (use with -a)
+ -T, --fstab <path>      alternative file to /etc/fstab
+ -h, --help              display this help text and exit
+ -i, --internal-only     don't call the mount.<type> helpers
+ -l, --show-labels       lists all mounts with LABELs
+ -n, --no-mtab           don't write to /etc/mtab
+ -o, --options <list>    comma-separated list of mount options
+ -O, --test-opts <list>  limit the set of filesystems (use with -a)
+ -r, --read-only         mount the filesystem read-only (same as -o ro)
+ -t, --types <list>      limit the set of filesystem types
+     --source <src>      explicitly specifies source (path, label, uuid)
+     --target <target>   explicitly specifies mountpoint
+ -v, --verbose           say what is being done
+ -V, --version           display version information and exit
+ -w, --rw, --read-write  mount the filesystem read-write (default)
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+Source:
+ -L, --label <label>     synonym for LABEL=<label>
+ -U, --uuid <uuid>       synonym for UUID=<uuid>
+ LABEL=<label>           specifies device by filesystem label
+ UUID=<uuid>             specifies device by filesystem UUID
+ PARTLABEL=<label>       specifies device by partition label
+ PARTUUID=<uuid>         specifies device by partition UUID
+ <device>                specifies device by path
+ <directory>             mountpoint for bind mounts (see --bind/rbind)
+ <file>                  regular file for loopdev setup
+
+Operations:
+ -B, --bind              mount a subtree somewhere else (same as -o bind)
+ -M, --move              move a subtree to some other place
+ -R, --rbind             mount a subtree and all submounts somewhere else
+ --make-shared           mark a subtree as shared
+ --make-slave            mark a subtree as slave
+ --make-private          mark a subtree as private
+ --make-unbindable       mark a subtree as unbindable
+ --make-rshared          recursively mark a whole subtree as shared
+ --make-rslave           recursively mark a whole subtree as slave
+ --make-rprivate         recursively mark a whole subtree as private
+ --make-runbindable      recursively mark a whole subtree as unbindable
+
+For more details see mount(8).
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  ********
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  ********
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser^C
+[root@client /]# mount -t cifs //192.168.33.2/winshare /samba -o username=winuse             rmount -t cifs //mydns/winshare /samba -o username=winuser^C
+[root@client /]# vi /etc/fstab
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934884   8637788  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7844    499744   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      32    101488   1% /run/user/1000
+tmpfs               101520       0    101520   0% /run/user/0
+mydns:/mnt/cdrom   4304640 4304640         0 100% /mnt
+[root@client /]# mount -t cifs -o username=user,password=opensesame,sec=ntlm //m             yserver.com/myshare /mnt/myserver
+Couldn't chdir to /mnt/myserver: No such file or directory
+[root@client /]# mount -t cifs -o username=user,password=opensesame,sec=ntlm //m             yserver.com/^Cshare /mnt/myserver
+[root@client /]# mount -t cifs -o username=user,password=opensesame,sec=ntlm //myserver.com/m
+Couldn't chdir to /mnt/myserver: No such file or directory
+[root@client /]# mount -t cifs -o username=winuser,password=winuser,sec=ntlm //mydns/winshare
+mount error(22): Invalid argument
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs -o username=winuser,password=winuser,sec=ntlmssp //mydns/winsh
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# ifconfig
+enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 26412  bytes 10041610 (9.5 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 6924  bytes 1242559 (1.1 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s10: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 127  bytes 15716 (15.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 127  bytes 15716 (15.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+team0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.33.4  netmask 255.255.255.0  broadcast 192.168.33.255
+        inet6 fe80::b938:5ebc:7bae:5481  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 19327  bytes 9224563 (8.7 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 6480  bytes 1124856 (1.0 MiB)
+        TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:7b:8a:de  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser,sec=ntlm
+Password for winuser@//mydns/winshare:  *******
+mount error(22): Invalid argument
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# mount -t cifs //mydns/winshare /samba -o username=winuser,sec=ntlmssp
+Password for winuser@//mydns/winshare:  *******
+mount error(5): Input/output error
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client /]# ping mydns
+PING mydns.example.com (192.168.33.2) 56(84) bytes of data.
+64 bytes from mydns.example.com (192.168.33.2): icmp_seq=1 ttl=64 time=0.246 ms
+64 bytes from mydns.example.com (192.168.33.2): icmp_seq=2 ttl=64 time=0.434 ms
+^C
+--- mydns.example.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.246/0.340/0.434/0.094 ms
+[root@client /]# reboot
+login as: root
+root@192.168.33.4's password:
+Last login: Wed Dec  5 03:35:57 2018 from 192.168.33.1
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o username=winuser,sec=ntlmssp
+Password for winuser@//mydns/winshare:  *******
+[root@client ~]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934136   8638536  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7544    500044   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520       8    101512   1% /run/user/42
+tmpfs               101520       0    101520   0% /run/user/0
+//mydns/winshare  12572672 4354896   8217776  35% /samba
+[root@client ~]# umount /samba
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+[root@client ~]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934076   8638596  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7540    500048   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520       8    101512   1% /run/user/42
+tmpfs               101520       0    101520   0% /run/user/0
+//mydns/winshare  12572672 4354876   8217796  35% /samba
+[root@client ~]# umount /samba
+[root@client ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 3934076   8638596  32% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7540    500048   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520       8    101512   1% /run/user/42
+tmpfs             101520       0    101520   0% /run/user/0
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+[root@client ~]# vi /smb-multiuser.txt
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client ~]# useradd winusesr3
+[root@client ~]# passwd winuser3
+passwd: Unknown user name 'winuser3'.
+[root@client ~]# passwdwinuser3
+bash: passwdwinuser3: command not found...
+[root@client ~]# passwd winuser3
+passwd: Unknown user name 'winuser3'.
+[root@client ~]# useradd winuser3
+[root@client ~]# passwd winuser3
+Changing password for user winuser3.
+New password:
+BAD PASSWORD: The password contains the user name in some form
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[root@client ~]# vi /smb-multiuser.txt
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client ~]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3933164   8639508  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7528    500060   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      12    101508   1% /run/user/42
+tmpfs               101520       0    101520   0% /run/user/0
+//mydns/winshare  12572672 4354832   8217840  35% /samba
+[root@client ~]# umount /samba/
+[root@client ~]# df -k
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda2       12572672 3933164   8639508  32% /
+devtmpfs          492048       0    492048   0% /dev
+tmpfs             507588       0    507588   0% /dev/shm
+tmpfs             507588    7528    500060   2% /run
+tmpfs             507588       0    507588   0% /sys/fs/cgroup
+tmpfs             101520      12    101508   1% /run/user/42
+tmpfs             101520       0    101520   0% /run/user/0
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs)
+[root@client ~]# vi /smb-multiuser.txt
+[root@client ~]#  mount -t cifs //mydns/winshare /samba -o credentials=/smb-multiuser.txt
+[root@client ~]# ping client
+ping: client: Name or service not known
+[root@client ~]# ifconfig
+enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 1535  bytes 161807 (158.0 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1003  bytes 148417 (144.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s10: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 2  bytes 140 (140.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2  bytes 140 (140.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+team0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.33.4  netmask 255.255.255.0  broadcast 192.168.33.255
+        inet6 fe80::b938:5ebc:7bae:5481  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:65:0e:f4  txqueuelen 1000  (Ethernet)
+        RX packets 1535  bytes 140317 (137.0 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1000  bytes 142483 (139.1 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:7b:8a:de  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@client ~]# blkid
+/dev/sda1: UUID="f82cc6e2-775a-4f65-a91a-e5d7ec57f0b6" TYPE="swap"
+/dev/sda2: UUID="5d94d803-f9eb-48a6-a4aa-a5ece907972b" TYPE="xfs"
+[root@client ~]# fdisk -l
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+[root@client ~]# yum install iscsi-initiator-utils.i686
+.cache/    .dbus/     Documents/ .local/    Pictures/  .ssh/      Videos/
+.config/   Desktop/   Downloads/ Music/     Public/    Templates/
+[root@client ~]# yum install iscsi-initiator-utils.i686
+.cache/    .dbus/     Documents/ .local/    Pictures/  .ssh/      Videos/
+.config/   Desktop/   Downloads/ Music/     Public/    Templates/
+[root@client ~]# yum install iscsi-initiator-utils.i686
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package iscsi-initiator-utils.i686 0:6.2.0.874-9.el7 will be installed
+--> Processing Dependency: libkmod.so.2 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libkmod.so.2(LIBKMOD_5) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1(MOUNT_2.19) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1(MOUNT_2.22) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libpthread.so.0 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libpython2.7.so.1.0 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: librt.so.1 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: librt.so.1(GLIBC_2.2) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libc.so.6(GLIBC_2.7) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Running transaction check
+---> Package glibc.i686 0:2.17-260.el7 will be installed
+--> Processing Dependency: libfreebl3.so for package: glibc-2.17-260.el7.i686
+--> Processing Dependency: libfreebl3.so(NSSRAWHASH_3.12.3) for package: glibc-2.17-260.el7.i686
+---> Package kmod-libs.i686 0:20-22.el7 will be installed
+--> Processing Dependency: libgcc_s.so.1 for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libgcc_s.so.1(GCC_3.0) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libgcc_s.so.1(GCC_3.3.1) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: liblzma.so.5 for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: liblzma.so.5(XZ_5.0) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libz.so.1 for package: kmod-libs-20-22.el7.i686
+---> Package libmount.i686 0:2.23.2-58.el7 will be installed
+--> Processing Dependency: libblkid.so.1 for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_1.0) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_2.15) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_2.17) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libselinux.so.1 for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libuuid.so.1 for package: libmount-2.23.2-58.el7.i686
+---> Package python-libs.i686 0:2.7.5-75.el7 will be installed
+--> Processing Dependency: libbz2.so.1 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(OPENSSL_1.0.1_EC) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(OPENSSL_1.0.2) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(libcrypto.so.10) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libdb-5.3.so for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libexpat.so.1 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libffi.so.6 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libgdbm.so.4 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libgdbm_compat.so.4 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libncursesw.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libpanelw.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libreadline.so.6 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libsqlite3.so.0 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libssl.so.10 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libssl.so.10(libssl.so.10) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libtinfo.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Running transaction check
+---> Package bzip2-libs.i686 0:1.0.6-13.el7 will be installed
+---> Package expat.i686 0:2.1.0-10.el7_3 will be installed
+---> Package gdbm.i686 0:1.10-8.el7 will be installed
+---> Package libblkid.i686 0:2.23.2-58.el7 will be installed
+---> Package libdb.i686 0:5.3.21-24.el7 will be installed
+---> Package libffi.i686 0:3.0.13-18.el7 will be installed
+---> Package libgcc.i686 0:4.8.5-36.el7 will be installed
+---> Package libselinux.i686 0:2.5-14.1.el7 will be installed
+--> Processing Dependency: libsepol(x86-32) >= 2.5-10 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libpcre.so.1 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libsepol.so.1 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libsepol.so.1(LIBSEPOL_1.0) for package: libselinux-2.5-14.1.el7.i686
+---> Package libuuid.i686 0:2.23.2-58.el7 will be installed
+---> Package ncurses-libs.i686 0:5.9-14.20130511.el7_4 will be installed
+--> Processing Dependency: libstdc++.so.6 for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+--> Processing Dependency: libstdc++.so.6(CXXABI_1.3) for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+--> Processing Dependency: libstdc++.so.6(GLIBCXX_3.4) for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+---> Package nss-softokn-freebl.i686 0:3.36.0-5.el7_5 will be installed
+---> Package openssl-libs.i686 1:1.0.2k-15.el7 will be installed
+--> Processing Dependency: libcom_err.so.2 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libgssapi_krb5.so.2 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libk5crypto.so.3 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libk5crypto.so.3(k5crypto_3_MIT) for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libkrb5.so.3 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libkrb5.so.3(krb5_3_MIT) for package: 1:openssl-libs-1.0.2k-15.el7.i686
+---> Package readline.i686 0:6.2-10.el7 will be installed
+---> Package sqlite.i686 0:3.7.17-8.el7 will be installed
+---> Package xz-libs.i686 0:5.2.2-1.el7 will be installed
+---> Package zlib.i686 0:1.2.7-18.el7 will be installed
+--> Running transaction check
+---> Package krb5-libs.i686 0:1.15.1-33.el7 will be installed
+--> Processing Dependency: libkeyutils.so.1 for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_0.3) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_1.0) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_1.5) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libverto.so.1 for package: krb5-libs-1.15.1-33.el7.i686
+---> Package libcom_err.i686 0:1.42.9-13.el7 will be installed
+---> Package libsepol.i686 0:2.5-10.el7 will be installed
+---> Package libstdc++.i686 0:4.8.5-36.el7 will be installed
+---> Package pcre.i686 0:8.32-17.el7 will be installed
+--> Running transaction check
+---> Package keyutils-libs.i686 0:1.5.8-3.el7 will be installed
+---> Package libverto.i686 0:0.2.5-4.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                      Arch        Version                         Repository    Size
+=============================================================================================
+Installing:
+ iscsi-initiator-utils        i686        6.2.0.874-9.el7                 rhel7        425 k
+Installing for dependencies:
+ bzip2-libs                   i686        1.0.6-13.el7                    rhel7         40 k
+ expat                        i686        2.1.0-10.el7_3                  rhel7         80 k
+ gdbm                         i686        1.10-8.el7                      rhel7         70 k
+ glibc                        i686        2.17-260.el7                    rhel7        4.3 M
+ keyutils-libs                i686        1.5.8-3.el7                     rhel7         25 k
+ kmod-libs                    i686        20-22.el7                       rhel7         53 k
+ krb5-libs                    i686        1.15.1-33.el7                   rhel7        767 k
+ libblkid                     i686        2.23.2-58.el7                   rhel7        184 k
+ libcom_err                   i686        1.42.9-13.el7                   rhel7         41 k
+ libdb                        i686        5.3.21-24.el7                   rhel7        731 k
+ libffi                       i686        3.0.13-18.el7                   rhel7         27 k
+ libgcc                       i686        4.8.5-36.el7                    rhel7        109 k
+ libmount                     i686        2.23.2-58.el7                   rhel7        182 k
+ libselinux                   i686        2.5-14.1.el7                    rhel7        166 k
+ libsepol                     i686        2.5-10.el7                      rhel7        294 k
+ libstdc++                    i686        4.8.5-36.el7                    rhel7        318 k
+ libuuid                      i686        2.23.2-58.el7                   rhel7         83 k
+ libverto                     i686        0.2.5-4.el7                     rhel7         16 k
+ ncurses-libs                 i686        5.9-14.20130511.el7_4           rhel7        316 k
+ nss-softokn-freebl           i686        3.36.0-5.el7_5                  rhel7        212 k
+ openssl-libs                 i686        1:1.0.2k-15.el7                 rhel7        992 k
+ pcre                         i686        8.32-17.el7                     rhel7        420 k
+ python-libs                  i686        2.7.5-75.el7                    rhel7        5.6 M
+ readline                     i686        6.2-10.el7                      rhel7        189 k
+ sqlite                       i686        3.7.17-8.el7                    rhel7        397 k
+ xz-libs                      i686        5.2.2-1.el7                     rhel7        109 k
+ zlib                         i686        1.2.7-18.el7                    rhel7         91 k
+
+Transaction Summary
+=============================================================================================
+Install  1 Package (+27 Dependent packages)
+
+Total download size: 16 M
+Installed size: 54 M
+Is this ok [y/d/N]: y
+Downloading packages:
+
+
+Error downloading packages:
+  keyutils-libs-1.5.8-3.el7.i686: [Errno 256] No more mirrors to try.
+  pcre-8.32-17.el7.i686: [Errno 256] No more mirrors to try.
+  kmod-libs-20-22.el7.i686: [Errno 256] No more mirrors to try.
+  glibc-2.17-260.el7.i686: [Errno 256] No more mirrors to try.
+  krb5-libs-1.15.1-33.el7.i686: [Errno 256] No more mirrors to try.
+  libmount-2.23.2-58.el7.i686: [Errno 256] No more mirrors to try.
+  libcom_err-1.42.9-13.el7.i686: [Errno 256] No more mirrors to try.
+  libverto-0.2.5-4.el7.i686: [Errno 256] No more mirrors to try.
+  libuuid-2.23.2-58.el7.i686: [Errno 256] No more mirrors to try.
+  nss-softokn-freebl-3.36.0-5.el7_5.i686: [Errno 256] No more mirrors to try.
+  expat-2.1.0-10.el7_3.i686: [Errno 256] No more mirrors to try.
+  ncurses-libs-5.9-14.20130511.el7_4.i686: [Errno 256] No more mirrors to try.
+  libffi-3.0.13-18.el7.i686: [Errno 256] No more mirrors to try.
+  sqlite-3.7.17-8.el7.i686: [Errno 256] No more mirrors to try.
+  python-libs-2.7.5-75.el7.i686: [Errno 256] No more mirrors to try.
+  iscsi-initiator-utils-6.2.0.874-9.el7.i686: [Errno 256] No more mirrors to try.
+  zlib-1.2.7-18.el7.i686: [Errno 256] No more mirrors to try.
+  libblkid-2.23.2-58.el7.i686: [Errno 256] No more mirrors to try.
+  xz-libs-5.2.2-1.el7.i686: [Errno 256] No more mirrors to try.
+  libstdc++-4.8.5-36.el7.i686: [Errno 256] No more mirrors to try.
+  libsepol-2.5-10.el7.i686: [Errno 256] No more mirrors to try.
+  libdb-5.3.21-24.el7.i686: [Errno 256] No more mirrors to try.
+  libgcc-4.8.5-36.el7.i686: [Errno 256] No more mirrors to try.
+  readline-6.2-10.el7.i686: [Errno 256] No more mirrors to try.
+  gdbm-1.10-8.el7.i686: [Errno 256] No more mirrors to try.
+  bzip2-libs-1.0.6-13.el7.i686: [Errno 256] No more mirrors to try.
+  libselinux-2.5-14.1.el7.i686: [Errno 256] No more mirrors to try.
+  1:openssl-libs-1.0.2k-15.el7.i686: [Errno 256] No more mirrors to try.
+
+[root@client ~]# df -k
+Filesystem       1K-blocks    Used Available Use% Mounted on
+/dev/sda2         12572672 3934780   8637892  32% /
+devtmpfs            492048       0    492048   0% /dev
+tmpfs               507588       0    507588   0% /dev/shm
+tmpfs               507588    7532    500056   2% /run
+tmpfs               507588       0    507588   0% /sys/fs/cgroup
+tmpfs               101520      12    101508   1% /run/user/42
+tmpfs               101520       0    101520   0% /run/user/0
+//mydns/winshare  12572672 4362756   8209916  35% /samba
+[root@client ~]# mount 192.168.33.2:/mnt/cdrom /mnt
+[root@client ~]# yum install iscsi-initiator-utils.i686 -y
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+Resolving Dependencies
+--> Running transaction check
+---> Package iscsi-initiator-utils.i686 0:6.2.0.874-9.el7 will be installed
+--> Processing Dependency: libkmod.so.2 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libkmod.so.2(LIBKMOD_5) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1(MOUNT_2.19) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libmount.so.1(MOUNT_2.22) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libpthread.so.0 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libpython2.7.so.1.0 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: librt.so.1 for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: librt.so.1(GLIBC_2.2) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Processing Dependency: libc.so.6(GLIBC_2.7) for package: iscsi-initiator-utils-6.2.0.874-9.el7.i686
+--> Running transaction check
+---> Package glibc.i686 0:2.17-260.el7 will be installed
+--> Processing Dependency: libfreebl3.so for package: glibc-2.17-260.el7.i686
+--> Processing Dependency: libfreebl3.so(NSSRAWHASH_3.12.3) for package: glibc-2.17-260.el7.i686
+---> Package kmod-libs.i686 0:20-22.el7 will be installed
+--> Processing Dependency: libgcc_s.so.1 for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libgcc_s.so.1(GCC_3.0) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libgcc_s.so.1(GCC_3.3.1) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: liblzma.so.5 for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: liblzma.so.5(XZ_5.0) for package: kmod-libs-20-22.el7.i686
+--> Processing Dependency: libz.so.1 for package: kmod-libs-20-22.el7.i686
+---> Package libmount.i686 0:2.23.2-58.el7 will be installed
+--> Processing Dependency: libblkid.so.1 for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_1.0) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_2.15) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libblkid.so.1(BLKID_2.17) for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libselinux.so.1 for package: libmount-2.23.2-58.el7.i686
+--> Processing Dependency: libuuid.so.1 for package: libmount-2.23.2-58.el7.i686
+---> Package python-libs.i686 0:2.7.5-75.el7 will be installed
+--> Processing Dependency: libbz2.so.1 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(OPENSSL_1.0.1_EC) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(OPENSSL_1.0.2) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libcrypto.so.10(libcrypto.so.10) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libdb-5.3.so for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libexpat.so.1 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libffi.so.6 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libgdbm.so.4 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libgdbm_compat.so.4 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libncursesw.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libpanelw.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libreadline.so.6 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libsqlite3.so.0 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libssl.so.10 for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libssl.so.10(libssl.so.10) for package: python-libs-2.7.5-75.el7.i686
+--> Processing Dependency: libtinfo.so.5 for package: python-libs-2.7.5-75.el7.i686
+--> Running transaction check
+---> Package bzip2-libs.i686 0:1.0.6-13.el7 will be installed
+---> Package expat.i686 0:2.1.0-10.el7_3 will be installed
+---> Package gdbm.i686 0:1.10-8.el7 will be installed
+---> Package libblkid.i686 0:2.23.2-58.el7 will be installed
+---> Package libdb.i686 0:5.3.21-24.el7 will be installed
+---> Package libffi.i686 0:3.0.13-18.el7 will be installed
+---> Package libgcc.i686 0:4.8.5-36.el7 will be installed
+---> Package libselinux.i686 0:2.5-14.1.el7 will be installed
+--> Processing Dependency: libsepol(x86-32) >= 2.5-10 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libpcre.so.1 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libsepol.so.1 for package: libselinux-2.5-14.1.el7.i686
+--> Processing Dependency: libsepol.so.1(LIBSEPOL_1.0) for package: libselinux-2.5-14.1.el7.i686
+---> Package libuuid.i686 0:2.23.2-58.el7 will be installed
+---> Package ncurses-libs.i686 0:5.9-14.20130511.el7_4 will be installed
+--> Processing Dependency: libstdc++.so.6 for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+--> Processing Dependency: libstdc++.so.6(CXXABI_1.3) for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+--> Processing Dependency: libstdc++.so.6(GLIBCXX_3.4) for package: ncurses-libs-5.9-14.20130511.el7_4.i686
+---> Package nss-softokn-freebl.i686 0:3.36.0-5.el7_5 will be installed
+---> Package openssl-libs.i686 1:1.0.2k-15.el7 will be installed
+--> Processing Dependency: libcom_err.so.2 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libgssapi_krb5.so.2 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libk5crypto.so.3 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libk5crypto.so.3(k5crypto_3_MIT) for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libkrb5.so.3 for package: 1:openssl-libs-1.0.2k-15.el7.i686
+--> Processing Dependency: libkrb5.so.3(krb5_3_MIT) for package: 1:openssl-libs-1.0.2k-15.el7.i686
+---> Package readline.i686 0:6.2-10.el7 will be installed
+---> Package sqlite.i686 0:3.7.17-8.el7 will be installed
+---> Package xz-libs.i686 0:5.2.2-1.el7 will be installed
+---> Package zlib.i686 0:1.2.7-18.el7 will be installed
+--> Running transaction check
+---> Package krb5-libs.i686 0:1.15.1-33.el7 will be installed
+--> Processing Dependency: libkeyutils.so.1 for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_0.3) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_1.0) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libkeyutils.so.1(KEYUTILS_1.5) for package: krb5-libs-1.15.1-33.el7.i686
+--> Processing Dependency: libverto.so.1 for package: krb5-libs-1.15.1-33.el7.i686
+---> Package libcom_err.i686 0:1.42.9-13.el7 will be installed
+---> Package libsepol.i686 0:2.5-10.el7 will be installed
+---> Package libstdc++.i686 0:4.8.5-36.el7 will be installed
+---> Package pcre.i686 0:8.32-17.el7 will be installed
+--> Running transaction check
+---> Package keyutils-libs.i686 0:1.5.8-3.el7 will be installed
+---> Package libverto.i686 0:0.2.5-4.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================
+ Package                      Arch        Version                         Repository    Size
+=============================================================================================
+Installing:
+ iscsi-initiator-utils        i686        6.2.0.874-9.el7                 rhel7        425 k
+Installing for dependencies:
+ bzip2-libs                   i686        1.0.6-13.el7                    rhel7         40 k
+ expat                        i686        2.1.0-10.el7_3                  rhel7         80 k
+ gdbm                         i686        1.10-8.el7                      rhel7         70 k
+ glibc                        i686        2.17-260.el7                    rhel7        4.3 M
+ keyutils-libs                i686        1.5.8-3.el7                     rhel7         25 k
+ kmod-libs                    i686        20-22.el7                       rhel7         53 k
+ krb5-libs                    i686        1.15.1-33.el7                   rhel7        767 k
+ libblkid                     i686        2.23.2-58.el7                   rhel7        184 k
+ libcom_err                   i686        1.42.9-13.el7                   rhel7         41 k
+ libdb                        i686        5.3.21-24.el7                   rhel7        731 k
+ libffi                       i686        3.0.13-18.el7                   rhel7         27 k
+ libgcc                       i686        4.8.5-36.el7                    rhel7        109 k
+ libmount                     i686        2.23.2-58.el7                   rhel7        182 k
+ libselinux                   i686        2.5-14.1.el7                    rhel7        166 k
+ libsepol                     i686        2.5-10.el7                      rhel7        294 k
+ libstdc++                    i686        4.8.5-36.el7                    rhel7        318 k
+ libuuid                      i686        2.23.2-58.el7                   rhel7         83 k
+ libverto                     i686        0.2.5-4.el7                     rhel7         16 k
+ ncurses-libs                 i686        5.9-14.20130511.el7_4           rhel7        316 k
+ nss-softokn-freebl           i686        3.36.0-5.el7_5                  rhel7        212 k
+ openssl-libs                 i686        1:1.0.2k-15.el7                 rhel7        992 k
+ pcre                         i686        8.32-17.el7                     rhel7        420 k
+ python-libs                  i686        2.7.5-75.el7                    rhel7        5.6 M
+ readline                     i686        6.2-10.el7                      rhel7        189 k
+ sqlite                       i686        3.7.17-8.el7                    rhel7        397 k
+ xz-libs                      i686        5.2.2-1.el7                     rhel7        109 k
+ zlib                         i686        1.2.7-18.el7                    rhel7         91 k
+
+Transaction Summary
+=============================================================================================
+Install  1 Package (+27 Dependent packages)
+
+Total download size: 16 M
+Installed size: 54 M
+Downloading packages:
+---------------------------------------------------------------------------------------------
+Total                                                         41 MB/s |  16 MB  00:00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : libgcc-4.8.5-36.el7.i686                                                 1/28
+  Installing : nss-softokn-freebl-3.36.0-5.el7_5.i686                                   2/28
+  Installing : glibc-2.17-260.el7.i686                                                  3/28
+  Installing : zlib-1.2.7-18.el7.i686                                                   4/28
+  Installing : libstdc++-4.8.5-36.el7.i686                                              5/28
+  Installing : ncurses-libs-5.9-14.20130511.el7_4.i686                                  6/28
+  Installing : readline-6.2-10.el7.i686                                                 7/28
+  Installing : libcom_err-1.42.9-13.el7.i686                                            8/28
+  Installing : libuuid-2.23.2-58.el7.i686                                               9/28
+  Installing : libblkid-2.23.2-58.el7.i686                                             10/28
+  Installing : sqlite-3.7.17-8.el7.i686                                                11/28
+  Installing : pcre-8.32-17.el7.i686                                                   12/28
+  Installing : libdb-5.3.21-24.el7.i686                                                13/28
+  Installing : libsepol-2.5-10.el7.i686                                                14/28
+  Installing : libselinux-2.5-14.1.el7.i686                                            15/28
+  Installing : libmount-2.23.2-58.el7.i686                                             16/28
+  Installing : libverto-0.2.5-4.el7.i686                                               17/28
+  Installing : expat-2.1.0-10.el7_3.i686                                               18/28
+  Installing : bzip2-libs-1.0.6-13.el7.i686                                            19/28
+  Installing : gdbm-1.10-8.el7.i686                                                    20/28
+  Installing : xz-libs-5.2.2-1.el7.i686                                                21/28
+  Installing : kmod-libs-20-22.el7.i686                                                22/28
+  Installing : keyutils-libs-1.5.8-3.el7.i686                                          23/28
+  Installing : krb5-libs-1.15.1-33.el7.i686                                            24/28
+  Installing : 1:openssl-libs-1.0.2k-15.el7.i686                                       25/28
+  Installing : libffi-3.0.13-18.el7.i686                                               26/28
+  Installing : python-libs-2.7.5-75.el7.i686                                           27/28
+  Installing : iscsi-initiator-utils-6.2.0.874-9.el7.i686                              28/28
+  Verifying  : libdb-5.3.21-24.el7.i686                                                 1/28
+  Verifying  : python-libs-2.7.5-75.el7.i686                                            2/28
+  Verifying  : 1:openssl-libs-1.0.2k-15.el7.i686                                        3/28
+  Verifying  : libsepol-2.5-10.el7.i686                                                 4/28
+  Verifying  : libverto-0.2.5-4.el7.i686                                                5/28
+  Verifying  : glibc-2.17-260.el7.i686                                                  6/28
+  Verifying  : libselinux-2.5-14.1.el7.i686                                             7/28
+  Verifying  : expat-2.1.0-10.el7_3.i686                                                8/28
+  Verifying  : pcre-8.32-17.el7.i686                                                    9/28
+  Verifying  : bzip2-libs-1.0.6-13.el7.i686                                            10/28
+  Verifying  : zlib-1.2.7-18.el7.i686                                                  11/28
+  Verifying  : libstdc++-4.8.5-36.el7.i686                                             12/28
+  Verifying  : libblkid-2.23.2-58.el7.i686                                             13/28
+  Verifying  : sqlite-3.7.17-8.el7.i686                                                14/28
+  Verifying  : libcom_err-1.42.9-13.el7.i686                                           15/28
+  Verifying  : gdbm-1.10-8.el7.i686                                                    16/28
+  Verifying  : readline-6.2-10.el7.i686                                                17/28
+  Verifying  : xz-libs-5.2.2-1.el7.i686                                                18/28
+  Verifying  : keyutils-libs-1.5.8-3.el7.i686                                          19/28
+  Verifying  : libffi-3.0.13-18.el7.i686                                               20/28
+  Verifying  : iscsi-initiator-utils-6.2.0.874-9.el7.i686                              21/28
+  Verifying  : libuuid-2.23.2-58.el7.i686                                              22/28
+  Verifying  : nss-softokn-freebl-3.36.0-5.el7_5.i686                                  23/28
+  Verifying  : ncurses-libs-5.9-14.20130511.el7_4.i686                                 24/28
+  Verifying  : libgcc-4.8.5-36.el7.i686                                                25/28
+  Verifying  : krb5-libs-1.15.1-33.el7.i686                                            26/28
+  Verifying  : libmount-2.23.2-58.el7.i686                                             27/28
+  Verifying  : kmod-libs-20-22.el7.i686                                                28/28
+
+Installed:
+  iscsi-initiator-utils.i686 0:6.2.0.874-9.el7
+
+Dependency Installed:
+  bzip2-libs.i686 0:1.0.6-13.el7                expat.i686 0:2.1.0-10.el7_3
+  gdbm.i686 0:1.10-8.el7                        glibc.i686 0:2.17-260.el7
+  keyutils-libs.i686 0:1.5.8-3.el7              kmod-libs.i686 0:20-22.el7
+  krb5-libs.i686 0:1.15.1-33.el7                libblkid.i686 0:2.23.2-58.el7
+  libcom_err.i686 0:1.42.9-13.el7               libdb.i686 0:5.3.21-24.el7
+  libffi.i686 0:3.0.13-18.el7                   libgcc.i686 0:4.8.5-36.el7
+  libmount.i686 0:2.23.2-58.el7                 libselinux.i686 0:2.5-14.1.el7
+  libsepol.i686 0:2.5-10.el7                    libstdc++.i686 0:4.8.5-36.el7
+  libuuid.i686 0:2.23.2-58.el7                  libverto.i686 0:0.2.5-4.el7
+  ncurses-libs.i686 0:5.9-14.20130511.el7_4     nss-softokn-freebl.i686 0:3.36.0-5.el7_5
+  openssl-libs.i686 1:1.0.2k-15.el7             pcre.i686 0:8.32-17.el7
+  python-libs.i686 0:2.7.5-75.el7               readline.i686 0:6.2-10.el7
+  sqlite.i686 0:3.7.17-8.el7                    xz-libs.i686 0:5.2.2-1.el7
+  zlib.i686 0:1.2.7-18.el7
+
+Complete!
+[root@client ~]# yum install iscsi-initiator-utils.i686 -y^C
+[root@client ~]# vim /etc/iscsi/initiatorname.iscsi
+[root@client ~]# systemctl enable iscsi
+iscsid.service    iscsiuio.service
+[root@client ~]# systemctl enable iscsi
+iscsid.service    iscsiuio.service
+[root@client ~]# systemctl enable iscsi
+iscsid.service    iscsiuio.service
+[root@client ~]# systemctl enable iscsi
+iscsid.service    iscsiuio.service
+[root@client ~]# systemctl enable iscsid.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/iscsid.service to /usr/lib/systemd/system/iscsid.service.
+[root@client ~]# systemctl start iscsid.service
+[root@client ~]# systemctl status iscsid.service
+● iscsid.service - Open-iSCSI
+   Loaded: loaded (/usr/lib/systemd/system/iscsid.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2018-12-05 05:46:24 IST; 11s ago
+     Docs: man:iscsid(8)
+           man:iscsiadm(8)
+  Process: 3845 ExecStart=/usr/sbin/iscsid (code=exited, status=0/SUCCESS)
+ Main PID: 3848 (iscsid)
+    Tasks: 2
+   CGroup: /system.slice/iscsid.service
+           ├─3847 /usr/sbin/iscsid
+           └─3848 /usr/sbin/iscsid
+
+Dec 05 05:46:24 client.example.com systemd[1]: Starting Open-iSCSI...
+Dec 05 05:46:24 client.example.com iscsid[3847]: iSCSI daemon with pid=3848 started!
+Dec 05 05:46:24 client.example.com systemd[1]: Failed to read PID from file /var/run/isc...nt
+Dec 05 05:46:24 client.example.com systemd[1]: Started Open-iSCSI.
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@client ~]# iscsi
+iscsiadm     iscsid       iscsi-iname  iscsistart   iscsiuio
+[root@client ~]# iscsi
+iscsiadm     iscsid       iscsi-iname  iscsistart   iscsiuio
+[root@client ~]# iscsiadm -m discovery -t st -p mydns
+192.168.33.2:3260,1 iqn.2018-12.com.example:mydns
+[root@client ~]# fdisk -l
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+[root@client ~]# partprobe
+[root@client ~]# fdisk -l
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+[root@client ~]# is
+iscsiadm                  isdv4-serial-inputattach  iso-read
+iscsid                    isodebug                  isosize
+iscsi-iname               isodump                   isovfy
+iscsistart                isoinfo
+iscsiuio                  iso-info
+[root@client ~]# is
+iscsiadm                  isdv4-serial-inputattach  iso-read
+iscsid                    isodebug                  isosize
+iscsi-iname               isodump                   isovfy
+iscsistart                isoinfo
+iscsiuio                  iso-info
+[root@client ~]# iscsiadm -m node -T iqn.2018-12.com.example:mydns
+# BEGIN RECORD 6.2.0.874-8
+node.name = iqn.2018-12.com.example:mydns
+node.tpgt = 1
+node.startup = automatic
+node.leading_login = No
+iface.hwaddress = <empty>
+iface.ipaddress = <empty>
+iface.iscsi_ifacename = default
+iface.net_ifacename = <empty>
+iface.gateway = <empty>
+iface.subnet_mask = <empty>
+iface.transport_name = tcp
+iface.initiatorname = <empty>
+iface.state = <empty>
+iface.vlan_id = 0
+iface.vlan_priority = 0
+iface.vlan_state = <empty>
+iface.iface_num = 0
+iface.mtu = 0
+iface.port = 0
+iface.bootproto = <empty>
+iface.dhcp_alt_client_id_state = <empty>
+iface.dhcp_alt_client_id = <empty>
+iface.dhcp_dns = <empty>
+iface.dhcp_learn_iqn = <empty>
+iface.dhcp_req_vendor_id_state = <empty>
+iface.dhcp_vendor_id_state = <empty>
+iface.dhcp_vendor_id = <empty>
+iface.dhcp_slp_da = <empty>
+iface.fragmentation = <empty>
+iface.gratuitous_arp = <empty>
+iface.incoming_forwarding = <empty>
+iface.tos_state = <empty>
+iface.tos = 0
+iface.ttl = 0
+iface.delayed_ack = <empty>
+iface.tcp_nagle = <empty>
+iface.tcp_wsf_state = <empty>
+iface.tcp_wsf = 0
+iface.tcp_timer_scale = 0
+iface.tcp_timestamp = <empty>
+iface.redirect = <empty>
+iface.def_task_mgmt_timeout = 0
+iface.header_digest = <empty>
+iface.data_digest = <empty>
+iface.immediate_data = <empty>
+iface.initial_r2t = <empty>
+iface.data_seq_inorder = <empty>
+iface.data_pdu_inorder = <empty>
+iface.erl = 0
+iface.max_receive_data_len = 0
+iface.first_burst_len = 0
+iface.max_outstanding_r2t = 0
+iface.max_burst_len = 0
+iface.chap_auth = <empty>
+iface.bidi_chap = <empty>
+iface.strict_login_compliance = <empty>
+iface.discovery_auth = <empty>
+iface.discovery_logout = <empty>
+node.discovery_address = mydns
+node.discovery_port = 3260
+node.discovery_type = send_targets
+node.session.initial_cmdsn = 0
+node.session.initial_login_retry_max = 8
+node.session.xmit_thread_priority = -20
+node.session.cmds_max = 128
+node.session.queue_depth = 32
+node.session.nr_sessions = 1
+node.session.auth.authmethod = None
+node.session.auth.username = <empty>
+node.session.auth.password = <empty>
+node.session.auth.username_in = <empty>
+node.session.auth.password_in = <empty>
+node.session.timeo.replacement_timeout = 120
+node.session.err_timeo.abort_timeout = 15
+node.session.err_timeo.lu_reset_timeout = 30
+node.session.err_timeo.tgt_reset_timeout = 30
+node.session.err_timeo.host_reset_timeout = 60
+node.session.iscsi.FastAbort = Yes
+node.session.iscsi.InitialR2T = No
+node.session.iscsi.ImmediateData = Yes
+node.session.iscsi.FirstBurstLength = 262144
+node.session.iscsi.MaxBurstLength = 16776192
+node.session.iscsi.DefaultTime2Retain = 0
+node.session.iscsi.DefaultTime2Wait = 2
+node.session.iscsi.MaxConnections = 1
+node.session.iscsi.MaxOutstandingR2T = 1
+node.session.iscsi.ERL = 0
+node.session.scan = auto
+node.conn[0].address = 192.168.33.2
+node.conn[0].port = 3260
+node.conn[0].startup = manual
+node.conn[0].tcp.window_size = 524288
+node.conn[0].tcp.type_of_service = 0
+node.conn[0].timeo.logout_timeout = 15
+node.conn[0].timeo.login_timeout = 15
+node.conn[0].timeo.auth_timeout = 45
+node.conn[0].timeo.noop_out_interval = 5
+node.conn[0].timeo.noop_out_timeout = 5
+node.conn[0].iscsi.MaxXmitDataSegmentLength = 0
+node.conn[0].iscsi.MaxRecvDataSegmentLength = 262144
+node.conn[0].iscsi.HeaderDigest = None
+node.conn[0].iscsi.IFMarker = No
+node.conn[0].iscsi.OFMarker = No
+# END RECORD
+[root@client ~]# iscsiadm -m discovery -t st -p mydns -l
+192.168.33.2:3260,1 iqn.2018-12.com.example:mydns
+Logging in to [iface: default, target: iqn.2018-12.com.example:mydns, portal: 192.168.33.2,3260] (multiple)
+Login to [iface: default, target: iqn.2018-12.com.example:mydns, portal: 192.168.33.2,3260] successful.
+[root@client ~]# fdisk -l
+
+Disk /dev/sda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d65fe
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048     2099199     1048576   82  Linux swap / Solaris
+/dev/sda2   *     2099200    27265023    12582912   83  Linux
+
+Disk /dev/sdb: 734 MB, 734003200 bytes, 1433600 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 33550336 bytes
+
+[root@client ~]#

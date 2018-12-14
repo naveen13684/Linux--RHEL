@@ -1,0 +1,916 @@
+login as:
+login as: root
+root@192.168.175.5's password:
+Last login: Sun Aug  5 04:18:08 2018
+[root@slave ~]# ifconfig
+ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.175.5  netmask 255.255.255.0  broadcast 192.168.175.255
+        inet6 fe80::7e7a:7ba2:791c:d447  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:69:d7:cb  txqueuelen 1000  (Ethernet)
+        RX packets 56  bytes 7253 (7.0 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 53  bytes 8122 (7.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 132  bytes 10456 (10.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 132  bytes 10456 (10.2 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@slave ~]# hostname
+slave
+[root@slave ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.175.2   slave
+192.168.175.5   master
+[root@slave ~]# ping master
+PING master (192.168.175.5) 56(84) bytes of data.
+64 bytes from master (192.168.175.5): icmp_seq=1 ttl=64 time=0.057 ms
+64 bytes from master (192.168.175.5): icmp_seq=2 ttl=64 time=0.055 ms
+^C
+--- master ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 0.055/0.056/0.057/0.001 ms
+[root@slave ~]# cat /etc/redhat-release
+Red Hat Enterprise Linux Server release 7.5 (Maipo)
+[root@slave ~]# hostnamectl
+   Static hostname: slave
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: d06a060c7d494ef0b67c1646b0a7da50
+           Boot ID: e9515f74e3684df5b9fdf7728d4d564d
+    Virtualization: vmware
+  Operating System: Red Hat Enterprise Linux Server 7.5 (Maipo)
+       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.5:GA:server
+            Kernel: Linux 3.10.0-862.el7.x86_64
+      Architecture: x86-64
+[root@slave ~]# hostnamectl master
+Unknown operation master
+[root@slave ~]# hostnamectl set-hostname master
+[root@slave ~]# man hostnamecl
+No manual entry for hostnamecl
+[root@slave ~]# man hostnamectl
+[root@slave ~]# /etc/init.d/
+-bash: /etc/init.d/: Is a directory
+[root@slave ~]# cd /etc/init.d
+[root@slave init.d]# ll
+total 44
+-rw-r--r--. 1 root root 18104 Jan  2  2018 functions
+-rwxr-xr-x. 1 root root  4334 Jan  2  2018 netconsole
+-rwxr-xr-x. 1 root root  7293 Jan  2  2018 network
+-rw-r--r--. 1 root root  1160 Feb 20 07:47 README
+-rwxr-xr-x. 1 root root  2437 Oct 19  2017 rhnsd
+[root@slave init.d]# vi /etc/sysconfig/network-scripts/ifcfg-
+ifcfg-ens33  ifcfg-lo
+[root@slave init.d]# vi /etc/sysconfig/network-scripts/ifcfg-ens33
+[root@slave init.d]# ls -la /etc/sysconfig/network-scripts/ifcfg-ens33
+-rw-r--r--. 1 root root 395 Aug  5 04:49 /etc/sysconfig/network-scripts/ifcfg-ens33
+[root@slave init.d]# cd /etc/sysconfig/network-scripts/
+[root@slave network-scripts]# ls -la
+total 248
+drwxr-xr-x. 2 root root  4096 Aug  5 04:49 .
+drwxr-xr-x. 7 root root  4096 Jul 22 07:47 ..
+-rw-r--r--. 1 root root   395 Aug  5 04:49 ifcfg-ens33
+-rw-r--r--. 1 root root 12288 Jul 22 08:52 .ifcfg-ens33.swp
+-rw-r--r--. 1 root root   254 Jan  2  2018 ifcfg-lo
+lrwxrwxrwx. 1 root root    24 Jul 22 07:37 ifdown -> ../../../usr/sbin/ifdown
+-rwxr-xr-x. 1 root root   654 Jan  2  2018 ifdown-bnep
+-rwxr-xr-x. 1 root root  6569 Jan  2  2018 ifdown-eth
+-rwxr-xr-x. 1 root root   781 Jan  2  2018 ifdown-ippp
+-rwxr-xr-x. 1 root root  4540 Jan  2  2018 ifdown-ipv6
+lrwxrwxrwx. 1 root root    11 Jul 22 07:37 ifdown-isdn -> ifdown-ippp
+-rwxr-xr-x. 1 root root  2102 Jan  2  2018 ifdown-post
+-rwxr-xr-x. 1 root root  1068 Jan  2  2018 ifdown-ppp
+-rwxr-xr-x. 1 root root   870 Jan  2  2018 ifdown-routes
+-rwxr-xr-x. 1 root root  1456 Jan  2  2018 ifdown-sit
+-rwxr-xr-x. 1 root root  1621 Mar 17  2017 ifdown-Team
+-rwxr-xr-x. 1 root root  1556 Mar 17  2017 ifdown-TeamPort
+-rwxr-xr-x. 1 root root  1462 Jan  2  2018 ifdown-tunnel
+lrwxrwxrwx. 1 root root    22 Jul 22 07:37 ifup -> ../../../usr/sbin/ifup
+-rwxr-xr-x. 1 root root 12415 Jan  2  2018 ifup-aliases
+-rwxr-xr-x. 1 root root   910 Jan  2  2018 ifup-bnep
+-rwxr-xr-x. 1 root root 13442 Jan  2  2018 ifup-eth
+-rwxr-xr-x. 1 root root 12075 Jan  2  2018 ifup-ippp
+-rwxr-xr-x. 1 root root 11893 Jan  2  2018 ifup-ipv6
+lrwxrwxrwx. 1 root root     9 Jul 22 07:37 ifup-isdn -> ifup-ippp
+-rwxr-xr-x. 1 root root   650 Jan  2  2018 ifup-plip
+-rwxr-xr-x. 1 root root  1064 Jan  2  2018 ifup-plusb
+-rwxr-xr-x. 1 root root  4981 Jan  2  2018 ifup-post
+-rwxr-xr-x. 1 root root  4154 Jan  2  2018 ifup-ppp
+-rwxr-xr-x. 1 root root  2001 Jan  2  2018 ifup-routes
+-rwxr-xr-x. 1 root root  3303 Jan  2  2018 ifup-sit
+-rwxr-xr-x. 1 root root  1755 Mar 17  2017 ifup-Team
+-rwxr-xr-x. 1 root root  1876 Mar 17  2017 ifup-TeamPort
+-rwxr-xr-x. 1 root root  2711 Jan  2  2018 ifup-tunnel
+-rwxr-xr-x. 1 root root  1836 Jan  2  2018 ifup-wireless
+-rwxr-xr-x. 1 root root  5419 Jan  2  2018 init.ipv6-global
+-rw-r--r--. 1 root root 19948 Jan  2  2018 network-functions
+-rw-r--r--. 1 root root 31027 Jan  2  2018 network-functions-ipv6
+[root@slave network-scripts]# rm -rf .ifcfg-ens33.swp
+[root@slave network-scripts]# hostname
+master
+[root@slave network-scripts]# reboot
+login as: root
+root@192.168.175.5's password:
+Last login: Sun Aug  5 04:22:00 2018 from 192.168.175.1
+[root@master ~]# ifconfig
+ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.175.5  netmask 255.255.255.0  broadcast 192.168.175.255
+        inet6 fe80::7e7a:7ba2:791c:d447  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:69:d7:cb  txqueuelen 1000  (Ethernet)
+        RX packets 37  bytes 4694 (4.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 44  bytes 6101 (5.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 100  bytes 7928 (7.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 100  bytes 7928 (7.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@master ~]# cd /etc/sysconfig/network-scripts/
+[root@master network-scripts]# ll
+total 228
+-rw-r--r--. 1 root root   395 Aug  5 04:49 ifcfg-ens33
+-rw-r--r--. 1 root root   254 Jan  2  2018 ifcfg-lo
+lrwxrwxrwx. 1 root root    24 Jul 22 07:37 ifdown -> ../../../usr/sbin/ifdown
+-rwxr-xr-x. 1 root root   654 Jan  2  2018 ifdown-bnep
+-rwxr-xr-x. 1 root root  6569 Jan  2  2018 ifdown-eth
+-rwxr-xr-x. 1 root root   781 Jan  2  2018 ifdown-ippp
+-rwxr-xr-x. 1 root root  4540 Jan  2  2018 ifdown-ipv6
+lrwxrwxrwx. 1 root root    11 Jul 22 07:37 ifdown-isdn -> ifdown-ippp
+-rwxr-xr-x. 1 root root  2102 Jan  2  2018 ifdown-post
+-rwxr-xr-x. 1 root root  1068 Jan  2  2018 ifdown-ppp
+-rwxr-xr-x. 1 root root   870 Jan  2  2018 ifdown-routes
+-rwxr-xr-x. 1 root root  1456 Jan  2  2018 ifdown-sit
+-rwxr-xr-x. 1 root root  1621 Mar 17  2017 ifdown-Team
+-rwxr-xr-x. 1 root root  1556 Mar 17  2017 ifdown-TeamPort
+-rwxr-xr-x. 1 root root  1462 Jan  2  2018 ifdown-tunnel
+lrwxrwxrwx. 1 root root    22 Jul 22 07:37 ifup -> ../../../usr/sbin/ifup
+-rwxr-xr-x. 1 root root 12415 Jan  2  2018 ifup-aliases
+-rwxr-xr-x. 1 root root   910 Jan  2  2018 ifup-bnep
+-rwxr-xr-x. 1 root root 13442 Jan  2  2018 ifup-eth
+-rwxr-xr-x. 1 root root 12075 Jan  2  2018 ifup-ippp
+-rwxr-xr-x. 1 root root 11893 Jan  2  2018 ifup-ipv6
+lrwxrwxrwx. 1 root root     9 Jul 22 07:37 ifup-isdn -> ifup-ippp
+-rwxr-xr-x. 1 root root   650 Jan  2  2018 ifup-plip
+-rwxr-xr-x. 1 root root  1064 Jan  2  2018 ifup-plusb
+-rwxr-xr-x. 1 root root  4981 Jan  2  2018 ifup-post
+-rwxr-xr-x. 1 root root  4154 Jan  2  2018 ifup-ppp
+-rwxr-xr-x. 1 root root  2001 Jan  2  2018 ifup-routes
+-rwxr-xr-x. 1 root root  3303 Jan  2  2018 ifup-sit
+-rwxr-xr-x. 1 root root  1755 Mar 17  2017 ifup-Team
+-rwxr-xr-x. 1 root root  1876 Mar 17  2017 ifup-TeamPort
+-rwxr-xr-x. 1 root root  2711 Jan  2  2018 ifup-tunnel
+-rwxr-xr-x. 1 root root  1836 Jan  2  2018 ifup-wireless
+-rwxr-xr-x. 1 root root  5419 Jan  2  2018 init.ipv6-global
+-rw-r--r--. 1 root root 19948 Jan  2  2018 network-functions
+-rw-r--r--. 1 root root 31027 Jan  2  2018 network-functions-ipv6
+[root@master network-scripts]# cat ifcfg-ens33
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+#BOOTPROTO="dhcp"
+BOOTPROTO="static"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="ens33"
+UUID="6f55117d-d29d-4e1c-98e5-50f7f49bb070"
+DEVICE="ens33"
+ONBOOT="yes"
+IPADDR="192.168.175.5"
+NETMASK="255.255.255.0"
+HOSTNAME="master"
+[root@master network-scripts]# ping slave
+PING slave (192.168.175.2) 56(84) bytes of data.
+64 bytes from slave (192.168.175.2): icmp_seq=1 ttl=128 time=0.608 ms
+64 bytes from slave (192.168.175.2): icmp_seq=2 ttl=128 time=0.201 ms
+^C
+--- slave ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1003ms
+rtt min/avg/max/mdev = 0.201/0.404/0.608/0.204 ms
+[root@master network-scripts]# ping master
+PING master (192.168.175.5) 56(84) bytes of data.
+64 bytes from master (192.168.175.5): icmp_seq=1 ttl=64 time=0.059 ms
+64 bytes from master (192.168.175.5): icmp_seq=2 ttl=64 time=0.070 ms
+64 bytes from master (192.168.175.5): icmp_seq=3 ttl=64 time=0.065 ms
+^C
+--- master ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+rtt min/avg/max/mdev = 0.059/0.064/0.070/0.010 ms
+[root@master network-scripts]# ^C
+[root@master network-scripts]# df -k
+Filesystem            1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root  28289540 1452012  26837528   6% /
+devtmpfs                 920396       0    920396   0% /dev
+tmpfs                    932640       0    932640   0% /dev/shm
+tmpfs                    932640    9728    922912   2% /run
+tmpfs                    932640       0    932640   0% /sys/fs/cgroup
+/dev/sda1               1038336  148032    890304  15% /boot
+tmpfs                    186532       0    186532   0% /run/user/0
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master network-scripts]# sync
+[root@master network-scripts]# reboot
+login as: root
+root@192.168.175.5's password:
+Last login: Sun Aug  5 04:51:08 2018 from 192.168.175.1
+[root@master ~]# df -k
+Filesystem            1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root  28289540 1453412  26836128   6% /
+devtmpfs                 920396       0    920396   0% /dev
+tmpfs                    932640       0    932640   0% /dev/shm
+tmpfs                    932640    9748    922892   2% /run
+tmpfs                    932640       0    932640   0% /sys/fs/cgroup
+/dev/sda1               1038336  148032    890304  15% /boot
+tmpfs                    186532       0    186532   0% /run/user/0
+[root@master ~]# fdisk -l
+
+Disk /dev/sda: 32.2 GB, 32212254720 bytes, 62914560 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000f2141
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     2099199     1048576   83  Linux
+/dev/sda2         2099200    62914559    30407680   8e  Linux LVM
+
+Disk /dev/sdb: 21.5 GB, 21474836480 bytes, 41943040 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sdc: 21.5 GB, 21474836480 bytes, 41943040 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-root: 29.0 GB, 28982640640 bytes, 56606720 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/rhel-swap: 2147 MB, 2147483648 bytes, 4194304 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@master ~]# sfdisk
+
+Usage:
+ sfdisk [options] <device> [...]
+
+Options:
+ -s, --show-size           list size of a partition
+ -c, --id                  change or print partition Id
+     --change-id           change Id
+     --print-id            print Id
+ -l, --list                list partitions of each device
+ -d, --dump                idem, but in a format suitable for later input
+ -i, --increment           number cylinders etc. from 1 instead of from 0
+ -u, --unit <letter>       units to be used; <letter> can be one of
+                             S (sectors), C (cylinders), B (blocks), or M (MB)
+ -1, --one-only            reserved option that does nothing currently
+ -T, --list-types          list the known partition types
+ -D, --DOS                 for DOS-compatibility: waste a little space
+ -E, --DOS-extended        DOS extended partition compatibility
+ -R, --re-read             make the kernel reread the partition table
+ -N <number>               change only the partition with this <number>
+ -n                        do not actually write to disk
+ -O <file>                 save the sectors that will be overwritten to <file>
+ -I <file>                 restore sectors from <file>
+ -V, --verify              check that the listed partitions are reasonable
+ -v, --version             display version information and exit
+ -h, --help                display this help text and exit
+
+Dangerous options:
+ -f, --force               disable all consistency checking
+     --no-reread           do not check whether the partition is in use
+ -q, --quiet               suppress warning messages
+ -L, --Linux               do not complain about things irrelevant for Linux
+ -g, --show-geometry       print the kernel's idea of the geometry
+ -G, --show-pt-geometry    print geometry guessed from the partition table
+ -A, --activate[=<device>] activate bootable flag
+ -U, --unhide[=<dev>]      set partition unhidden
+ -x, --show-extended       also list extended partitions in the output,
+                             or expect descriptors for them in the input
+     --leave-last          do not allocate the last cylinder
+     --IBM                 same as --leave-last
+     --in-order            partitions are in order
+     --not-in-order        partitions are not in order
+     --inside-outer        all logicals inside outermost extended
+     --not-inside-outer    not all logicals inside outermost extended
+     --nested              every partition is disjoint from all others
+     --chained             like nested, but extended partitions may lie outside
+     --onesector           partitions are mutually disjoint
+
+Override the detected geometry using:
+ -C, --cylinders <number>  set the number of cylinders to use
+ -H, --heads <number>      set the number of heads to use
+ -S, --sectors <number>    set the number of sectors to use
+
+[root@master ~]# sfdisk -l
+
+Disk /dev/sda: 3916 cylinders, 255 heads, 63 sectors/track
+Units: cylinders of 8225280 bytes, blocks of 1024 bytes, counting from 0
+
+   Device Boot Start     End   #cyls    #blocks   Id  System
+/dev/sda1   *      0+    130-    131-   1048576   83  Linux
+/dev/sda2        130+   3916-   3786-  30407680   8e  Linux LVM
+/dev/sda3          0       -       0          0    0  Empty
+/dev/sda4          0       -       0          0    0  Empty
+
+Disk /dev/sdb: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/sdc: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-root: 3523 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-swap: 261 cylinders, 255 heads, 63 sectors/track
+[root@master ~]# sfdisk -l -uM
+
+Disk /dev/sda: 3916 cylinders, 255 heads, 63 sectors/track
+Units: 1MiB = 1024*1024 bytes, blocks of 1024 bytes, counting from 0
+
+   Device Boot Start   End    MiB    #blocks   Id  System
+/dev/sda1   *     1   1024   1024    1048576   83  Linux
+/dev/sda2      1025  30719  29695   30407680   8e  Linux LVM
+/dev/sda3         0      -      0          0    0  Empty
+/dev/sda4         0      -      0          0    0  Empty
+
+Disk /dev/sdb: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/sdc: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-root: 3523 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-swap: 261 cylinders, 255 heads, 63 sectors/track
+[root@master ~]# sfdisk -l -uG
+sfdisk: unrecognized format - using sectors
+
+
+Disk /dev/sda: 3916 cylinders, 255 heads, 63 sectors/track
+Units: sectors of 512 bytes, counting from 0
+
+   Device Boot    Start       End   #sectors  Id  System
+/dev/sda1   *      2048   2099199    2097152  83  Linux
+/dev/sda2       2099200  62914559   60815360  8e  Linux LVM
+/dev/sda3             0         -          0   0  Empty
+/dev/sda4             0         -          0   0  Empty
+
+Disk /dev/sdb: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/sdc: 2610 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-root: 3523 cylinders, 255 heads, 63 sectors/track
+
+Disk /dev/mapper/rhel-swap: 261 cylinders, 255 heads, 63 sectors/track
+[root@master ~]# cfdisk
+
+[root@master ~]# parted -l
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sda: 32.2GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags:
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      1049kB  1075MB  1074MB  primary  xfs          boot
+ 2      1075MB  32.2GB  31.1GB  primary               lvm
+
+
+Error: /dev/sdb: unrecognised disk label
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sdb: 21.5GB
+Sector size (logical/physical): 512B/512B
+Partition Table: unknown
+Disk Flags:
+
+Error: /dev/sdc: unrecognised disk label
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sdc: 21.5GB
+Sector size (logical/physical): 512B/512B
+Partition Table: unknown
+Disk Flags:
+
+Model: Linux device-mapper (linear) (dm)
+Disk /dev/mapper/rhel-swap: 2147MB
+Sector size (logical/physical): 512B/512B
+Partition Table: loop
+Disk Flags:
+
+Number  Start  End     Size    File system     Flags
+ 1      0.00B  2147MB  2147MB  linux-swap(v1)
+
+
+Model: Linux device-mapper (linear) (dm)
+Disk /dev/mapper/rhel-root: 29.0GB
+Sector size (logical/physical): 512B/512B
+Partition Table: loop
+Disk Flags:
+
+Number  Start  End     Size    File system  Flags
+ 1      0.00B  29.0GB  29.0GB  xfs
+
+
+[root@master ~]# pydf
+-bash: pydf: command not found
+[root@master ~]# lsblk
+NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda             8:0    0   30G  0 disk
+├─sda1          8:1    0    1G  0 part /boot
+└─sda2          8:2    0   29G  0 part
+  ├─rhel-root 253:0    0   27G  0 lvm  /
+  └─rhel-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb             8:16   0   20G  0 disk
+sdc             8:32   0   20G  0 disk
+sr0            11:0    1 1024M  0 rom
+[root@master ~]# blkid
+/dev/sda1: UUID="7607fac6-8257-436c-a385-09704cd4f596" TYPE="xfs"
+/dev/sda2: UUID="303B07-qm6q-88oD-1DC8-wbrJ-psPy-sgp4Qh" TYPE="LVM2_member"
+/dev/mapper/rhel-root: UUID="bc6f76bd-bbd2-4b55-8a41-422a4d5010ba" TYPE="xfs"
+/dev/mapper/rhel-swap: UUID="35365d13-af22-4b93-a416-8feb7fc09a65" TYPE="swap"
+[root@master ~]# hwinfo
+-bash: hwinfo: command not found
+[root@master ~]# lsblk
+NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda             8:0    0   30G  0 disk
+├─sda1          8:1    0    1G  0 part /boot
+└─sda2          8:2    0   29G  0 part
+  ├─rhel-root 253:0    0   27G  0 lvm  /
+  └─rhel-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb             8:16   0   20G  0 disk
+sdc             8:32   0   20G  0 disk
+sr0            11:0    1 1024M  0 rom
+[root@master ~]# lsbk
+-bash: lsbk: command not found
+[root@master ~]# lsblk
+NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda             8:0    0   30G  0 disk
+├─sda1          8:1    0    1G  0 part /boot
+└─sda2          8:2    0   29G  0 part
+  ├─rhel-root 253:0    0   27G  0 lvm  /
+  └─rhel-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb             8:16   0   20G  0 disk
+sdc             8:32   0   20G  0 disk
+sr0            11:0    1 1024M  0 rom
+[root@master ~]# vgscan
+  Reading volume groups from cache.
+  Found volume group "rhel" using metadata type lvm2
+[root@master ~]# vgdisk
+-bash: vgdisk: command not found
+[root@master ~]# cd /tmp
+[root@master tmp]# ll
+total 262080
+-rw-r--r--. 1 root root 135310287 Aug  5 05:29 mysql-community-server-8.0.12-1.el7.x86_64.rpm.filepart
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# ll
+total 262080
+-rw-r--r--. 1 root root 211755852 Aug  5 05:29 mysql-community-server-8.0.12-1.el7.x86_64.rpm.filepart
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# ll
+total 262080
+-rw-r--r--. 1 root root 222985329 Aug  5 05:29 mysql-community-server-8.0.12-1.el7.x86_64.rpm.filepart
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# ll]
+-bash: ll]: command not found
+[root@master tmp]# sshpass
+-bash: sshpass: command not found
+[root@master tmp]# yum install sshpass
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+There are no enabled repos.
+ Run "yum repolist all" to see the repos you have.
+ To enable Red Hat Subscription Management repositories:
+     subscription-manager repos --enable <repo>
+ To enable custom repositories:
+     yum-config-manager --enable <repo>
+[root@master tmp]# ll
+total 357308
+-rw-r--r--. 1 root root 365857924 Aug  5 04:58 mysql-community-server-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root     21896 Aug  5 05:30 sshpass-1.06-2.el7.x86_64.rpm
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# rpm -ivh sshpass-1.06-2.el7.x86_64.rpm
+warning: sshpass-1.06-2.el7.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:sshpass-1.06-2.el7               ################################# [100%]
+[root@master tmp]# rpm -ivh mysql-community-server-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-server-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-client(x86-64) >= 8.0.0 is needed by mysql-community-server-8.0.12-1.el7.x86_64
+        mysql-community-common(x86-64) = 8.0.12-1.el7 is needed by mysql-community-server-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -ivh^C
+[root@master tmp]# dir
+mysql-community-common-8.0.12-1.el7.x86_64.rpm  sshpass-1.06-2.el7.x86_64.rpm                                            systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb            vmware-root
+mysql-community-server-8.0.12-1.el7.x86_64.rpm  systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz  systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+[root@master tmp]# ls -l
+total 357852
+-rw-r--r--. 1 root root    554016 Aug  5 05:33 mysql-community-common-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root 365857924 Aug  5 04:58 mysql-community-server-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root     21896 Aug  5 05:30 sshpass-1.06-2.el7.x86_64.rpm
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# rpm -ivh mysql-community-common-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-common-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mysql-community-common-8.0.12-1.e################################# [100%]
+[root@master tmp]# ll
+total 388124
+-rw-r--r--. 1 root root  26767652 Aug  5 05:34 mysql-community-client-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root    554016 Aug  5 05:33 mysql-community-common-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root   4223292 Aug  5 05:34 mysql-community-devel-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root 365857924 Aug  5 04:58 mysql-community-server-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root     21896 Aug  5 05:30 sshpass-1.06-2.el7.x86_64.rpm
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# rpm -ivh mysql-community-client-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-client-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-libs(x86-64) >= 8.0.0 is needed by mysql-community-client-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -ivh mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-libs-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mariadb-libs is obsoleted by mysql-community-libs-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -ivh mysql-community-server-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-server-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-client(x86-64) >= 8.0.0 is needed by mysql-community-server-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -ivh mysql-community-client-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-client-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-libs(x86-64) >= 8.0.0 is needed by mysql-community-client-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -qa |grep -i mysql
+mysql-community-common-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -qa |grep -i mariadb
+mariadb-libs-5.5.56-2.el7.x86_64
+[root@master tmp]# /etc/init.d/mariadb start
+-bash: /etc/init.d/mariadb: No such file or directory
+[root@master tmp]# locate mariadb
+/etc/ld.so.conf.d/mariadb-x86_64.conf
+/usr/share/doc/mariadb-libs-5.5.56
+/usr/share/doc/mariadb-libs-5.5.56/COPYING
+/usr/share/doc/mariadb-libs-5.5.56/COPYING.Google
+/usr/share/doc/mariadb-libs-5.5.56/COPYING.Percona
+/usr/share/doc/mariadb-libs-5.5.56/README
+/usr/share/doc/mariadb-libs-5.5.56/README.mysql-license
+[root@master tmp]# how to uninstall mariadb-libs
+-bash: how: command not found
+[root@master tmp]# rpm -e mariadb-libs-5.5.56-2.el7.x86_64
+error: Failed dependencies:
+        libmysqlclient.so.18()(64bit) is needed by (installed) postfix-2:2.10.1-6.el7.x86_64
+        libmysqlclient.so.18(libmysqlclient_18)(64bit) is needed by (installed) postfix-2:2.10.1-6.el7.x86_64
+[root@master tmp]# rpm -ivh mysql-community-server-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-server-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-client(x86-64) >= 8.0.0 is needed by mysql-community-server-8.0.12-1.el7.x86_64
+[root@master tmp]#  rpm -ivh mysql-community-client-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-client-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mysql-community-libs(x86-64) >= 8.0.0 is needed by mysql-community-client-8.0.12-1.el7.x86_64
+[root@master tmp]#  rpm -ivh mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-libs-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mariadb-libs is obsoleted by mysql-community-libs-8.0.12-1.el7.x86_64
+[root@master tmp]#  rpm -ivh -f mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-libs-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mariadb-libs is obsoleted by mysql-community-libs-8.0.12-1.el7.x86_64
+[root@master tmp]#  rpm -ivh --force mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-libs-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        mariadb-libs is obsoleted by mysql-community-libs-8.0.12-1.el7.x86_64
+[root@master tmp]# rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
+[root@master tmp]#  rpm -ivh mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-libs-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mysql-community-libs-8.0.12-1.el7################################# [100%]
+[root@master tmp]#  rpm -ivh mysql-community-client-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-client-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mysql-community-client-8.0.12-1.e################################# [100%]
+[root@master tmp]# ls -l
+total 390420
+-rw-r--r--. 1 root root  26767652 Aug  5 05:34 mysql-community-client-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root    554016 Aug  5 05:33 mysql-community-common-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root   4223292 Aug  5 05:34 mysql-community-devel-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root   2349720 Aug  5 05:35 mysql-community-libs-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root 365857924 Aug  5 04:58 mysql-community-server-8.0.12-1.el7.x86_64.rpm
+-rw-r--r--. 1 root root     21896 Aug  5 05:30 sshpass-1.06-2.el7.x86_64.rpm
+drwx------. 3 root root        17 Aug  5 05:06 systemd-private-22174bb68a96432e8a41356123fbee28-chronyd.service-YPjZTz
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-chronyd.service-KqPLjb
+drwx------. 3 root root        17 Aug  5 04:09 systemd-private-451475933d7c43f682dbb194c07e1804-systemd-hostnamed.service-VZTLlM
+drwx------. 2 root root         6 Aug  5 04:50 vmware-root
+[root@master tmp]# rpm -ivh mysql-community-server-8.0.12-1.el7.x86_64.rpm
+warning: mysql-community-server-8.0.12-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mysql-community-server-8.0.12-1.e################################# [100%]
+[root@master tmp]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root   27G  3.5G   24G  13% /
+devtmpfs               899M     0  899M   0% /dev
+tmpfs                  911M     0  911M   0% /dev/shm
+tmpfs                  911M  9.6M  902M   2% /run
+tmpfs                  911M     0  911M   0% /sys/fs/cgroup
+/dev/sda1             1014M  145M  870M  15% /boot
+tmpfs                  183M     0  183M   0% /run/user/0
+[root@master tmp]# mysql
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+[root@master tmp]# service mysql start
+Redirecting to /bin/systemctl start mysql.service
+Failed to start mysql.service: Unit not found.
+[root@master tmp]# service mysqld start
+Redirecting to /bin/systemctl start mysqld.service
+[root@master tmp]# service mysqld status
+Redirecting to /bin/systemctl status mysqld.service
+● mysqld.service - MySQL Server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2018-08-05 05:57:36 PDT; 7s ago
+     Docs: man:mysqld(8)
+           http://dev.mysql.com/doc/refman/en/using-systemd.html
+  Process: 1837 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)
+ Main PID: 1905 (mysqld)
+   Status: "SERVER_OPERATING"
+   CGroup: /system.slice/mysqld.service
+           └─1905 /usr/sbin/mysqld
+
+Aug 05 05:57:25 master systemd[1]: Starting MySQL Server...
+Aug 05 05:57:36 master systemd[1]: Started MySQL Server.
+[root@master tmp]# systemctl status mysql.service
+Unit mysql.service could not be found.
+[root@master tmp]# systemctl status mysqld.service
+● mysqld.service - MySQL Server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2018-08-05 05:57:36 PDT; 1min 11s ago
+     Docs: man:mysqld(8)
+           http://dev.mysql.com/doc/refman/en/using-systemd.html
+  Process: 1837 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)
+ Main PID: 1905 (mysqld)
+   Status: "SERVER_OPERATING"
+   CGroup: /system.slice/mysqld.service
+           └─1905 /usr/sbin/mysqld
+
+Aug 05 05:57:25 master systemd[1]: Starting MySQL Server...
+Aug 05 05:57:36 master systemd[1]: Started MySQL Server.
+[root@master tmp]# systemctl stop mysqld.service
+[root@master tmp]# systemctl status mysqld.service
+● mysqld.service - MySQL Server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+   Active: inactive (dead) since Sun 2018-08-05 05:58:55 PDT; 9s ago
+     Docs: man:mysqld(8)
+           http://dev.mysql.com/doc/refman/en/using-systemd.html
+  Process: 1905 ExecStart=/usr/sbin/mysqld $MYSQLD_OPTS (code=exited, status=0/SUCCESS)
+  Process: 1837 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)
+ Main PID: 1905 (code=exited, status=0/SUCCESS)
+   Status: "SERVER_SHUTTING_DOWN"
+
+Aug 05 05:57:25 master systemd[1]: Starting MySQL Server...
+Aug 05 05:57:36 master systemd[1]: Started MySQL Server.
+Aug 05 05:58:53 master systemd[1]: Stopping MySQL Server...
+Aug 05 05:58:55 master systemd[1]: Stopped MySQL Server.
+[root@master tmp]# systemctl start mysqld.service
+[root@master tmp]# chkconfig --list
+
+Note: This output shows SysV services only and does not include native
+      systemd services. SysV configuration data might be overridden by native
+      systemd configuration.
+
+      If you want to list systemd services use 'systemctl list-unit-files'.
+      To see services enabled on particular target use
+      'systemctl list-dependencies [target]'.
+
+netconsole      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+network         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+rhnsd           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+[root@master tmp]# chkconfig --list grep 'temporary password' /var/log/mysqld.log^C
+[root@master tmp]# grep 'temporary password' /var/log/mysqld.log
+2018-08-05T12:57:31.596638Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: 3PHEUEI,lWYg
+[root@master tmp]# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.12
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'
+    -> ;
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root1#3'
+    -> ;
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPasswd1!';
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>

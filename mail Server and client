@@ -1,0 +1,239 @@
+RHEL7: Configure a central mail server.
+=======================================
+#yum install -y postfix
+
+#systemctl enable postfix
+#systemctl start postfix
+
+#firewall-cmd --permanent --add-service=smtp
+#firewall-cmd --permanent --add-port=25/tcp
+#firewall-cmd --reload
+
+#cd /etc/postfix
+#vi main.cf
+
+myhostname = mail.example.com
+mydomain = example.com
+myorigin = $mydomain
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+mynetworks = 192.168.33.0/24, 127.0.0.0/8 
+
+Check the syntax:
+#postfix check
+
+Check the parameters set in main.cf
+#postconf -n
+
+Allow SeLinux
+#setsebool -P allow_postfix_local_write_mail_spool on
+
+#systemctl restart postfix
+
+# yum install -y nmap
+
+check if mail server is reachable
+===================================
+[root@mydns mail]# nmap mail.example.com
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2018-12-30 17:07 IST
+mass_dns: warning: Unable to determine any DNS servers. Reverse DNS is disabled. Try using --system-dns or specify valid servers with --dns-servers
+Nmap scan report for mail.example.com (192.168.33.2)
+Host is up (0.000012s latency).
+rDNS record for 192.168.33.2: mydns.example.com
+Not shown: 983 closed ports
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+25/tcp   open  smtp
+53/tcp   open  domain
+80/tcp   open  http
+110/tcp  open  pop3
+111/tcp  open  rpcbind
+139/tcp  open  netbios-ssn
+143/tcp  open  imap
+445/tcp  open  microsoft-ds
+993/tcp  open  imaps
+995/tcp  open  pop3s
+2049/tcp open  nfs
+3260/tcp open  iscsi
+6000/tcp open  X11
+8080/tcp open  http-proxy
+8443/tcp open  https-alt
+
+Nmap done: 1 IP address (1 host up) scanned in 0.07 seconds
+[root@mydns mail]#
+
+
+[root@mydns mail]# telnet mail.example.com 25
+Trying 192.168.33.2...
+Connected to mail.example.com.
+Escape character is '^]'.
+220 mail.example.com ESMTP Postfix
+HELO client
+250 mail.example.com
+quit
+221 2.0.0 Bye
+Connection closed by foreign host.
+[root@mydns mail]#
+
+
+Add user 'me'
+# adduser me
+
+send test email 
+# echo "This is a test." | mail -s "Test" me@example.com
+
+# su - me
+$ mail
+Heirloom Mail version 12.5 7/5/10.  Type ? for help.
+"/var/spool/mail/me": 1 message 1 new
+>N  1 root                  Tue Aug  5 23:47  21/785   "Test"
+
+
+
+
+
+RHEL7: Configure a system to forward all email to a central mail server.
+=======================================================================
+# yum install -y postfix
+# systemctl enable postfix
+# systemctl restart postfix
+
+
+There are two cases to distinguish:
+
+the system doesn’t receive any mail from outside but forwards all mails sent by local users (even mails from local users to local users) to a central mail server: this is the null-client configuration,
+the system accepts any mail from the local network and forwards them with the ones sent by the local users to a central mail server: this is the mail gateway configuration.
+The RHCE 7 exam objective seems to be more geared towards the null-client configuration.
+This tutorial will explain how to put in place this configuration. Details related to the mail gateway configuration will be shown later.
+
+Null-client Configuration
+
+#vi  /etc/postfix/main.cf
+
+myhostname = client.example.com
+mydomain = example.com
+myorigin = $mydomain
+inet_interfaces = loopback-only
+mydestination =
+relayhost = 192.168.33.2    # or you can put mail.example.com
+
+
+Check the syntax:
+
+# postfix check
+Check the non-default configuration:
+
+# postconf -n
+Reload the postfix configuration:
+
+# systemctl restart postfix
+
+# postconf -e 'relayhost = 192.168.33.2'
+
+
+# postconf relayhost
+relayhost = 192.168.1.1
+
+
+Test on client
+=====
+# echo "This is a test." | mail -s "Test" me@example.com
+
+
+check the mail on server and user 'me'
+===================================
+# mailq
+-Queue ID- --Size-- ----Arrival Time---- -Sender/Recipient-------
+822FA3DE4       535 Tue Aug  5 16:54:45  root@example.com
+(cannot update mailbox /var/mail/me for user me. destination /var/mail/me is not owned by recipient)
+me@example.com
+
+-- 0 Kbytes in 1 Request.
+
+
+To requeue a mail (-r), type:
+
+# postsuper -r 822FA3DE4
+postsuper: name_mask: all
+postsuper: inet_addr_local: configured 2 IPv4 addresses
+postsuper: inet_addr_local: configured 2 IPv6 addresses
+postsuper: renamed file deferred/8/822FA3DE4 as maildrop/822FA3DE4
+postsuper: 822FA3DE4: requeued
+postsuper: Requeued: 1 message
+
+To delete the mail (-d) in the local queue, type:
+
+# postsuper -d 822FA3DE4
+
+
+[root@mydns mail]# tail -f /var/log/maillog
+Dec 30 17:03:44 mydns postfix/smtp[12744]: 3D9CC1A2A5D7: to=<me1@client.example.com>, relay=none, delay=527, delays=527/0.06/0.02/0, dsn=4.4.1, status=deferred (connect to client.example.com[192.168.33.4]:25: No route to host)
+Dec 30 17:03:44 mydns postfix/smtp[12745]: 4C6261A2A5D8: to=<me1@client.example.com>, relay=none, delay=411, delays=411/0.08/0/0, dsn=4.4.1, status=deferred (connect to client.example.com[192.168.33.4]:25: No route to host)
+Dec 30 17:08:28 mydns postfix/smtpd[12786]: connect from mydns.example.com[192.168.33.2]
+Dec 30 17:08:45 mydns postfix/smtpd[12786]: disconnect from mydns.example.com[192.168.33.2]
+Dec 30 17:13:44 mydns postfix/qmgr[10969]: 3D9CC1A2A5D7: from=<root@example.com>, size=648, nrcpt=1 (queue active)
+Dec 30 17:13:44 mydns postfix/qmgr[10969]: 4C6261A2A5D8: from=<root@example.com>, size=3240, nrcpt=1 (queue active)
+Dec 30 17:13:44 mydns postfix/smtp[12853]: connect to client.example.com[192.168.33.4]:25: No route to host
+Dec 30 17:13:44 mydns postfix/smtp[12854]: connect to client.example.com[192.168.33.4]:25: No route to host
+Dec 30 17:13:44 mydns postfix/smtp[12853]: 3D9CC1A2A5D7: to=<me1@client.example.com>, relay=none, delay=1128, delays=1128/0.02/0.01/0, dsn=4.4.1, status=deferred (connect to client.example.com[192.168.33.4]:25: No route to host)
+Dec 30 17:13:44 mydns postfix/smtp[12854]: 4C6261A2A5D8: to=<me1@client.example.com>, relay=none, delay=1012, delays=1012/0.02/0.01/0, dsn=4.4.1, status=deferred (connect to client.example.com[192.168.33.4]:25: No route to host)
+
+
+
+
+Gateway Configuration
+=======================
+In case you want to set up a mail gateway configuration (a server receiving emails from the local network and forwarding them to a central mail server), execute the following steps.
+
+Edit the /etc/postfix/main.cf file and change the following directives:
+
+myhostname = server.example.com
+mydomain = example.com
+myorigin = $mydomain
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 192.168.1.0/24, 127.0.0.0/8
+relayhost = 192.168.1.1
+Note: Compared to the null-client configuration, Postfix processes listen to all network interfaces (the inet_interfaces directive), accept mails sent to the example.com domain (the mydestination directive) restricted to the local network (the mynetworks directive).
+
+Caution: Don’t specify $mydomain in the mydestination variable if you don’t want to store mails locally (this mistake was previously made in this tutorial).
+
+Check the syntax:
+
+# postfix check
+Check the non-default configuration:
+
+# postconf -n
+Reload the postfix configuration:
+
+# systemctl restart postfix
+Open the firewall to receive emails from outside:
+
+# firewall-cmd --permanent --add-service=smtp
+success
+Reload the firewall configuration:
+
+# firewall-cmd --reload
+success
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,389 @@
+Opensource for all
+ 
+SUBSCRIBE
+RHEL 7 RHCSA Exam Questions and Answers
+November 26, 2016
+
+1)  Reset Root Password ?
+
+=> This is the first and  very important Question in RHCSA exam. If  you will not able to reset password then its not possible to get into the machine and solve other question.
+
+a. Enter Emergency Mode
+    - Reboot and enter grub edit menu by pressing the 'e' button
+    - Find the linux16 or linuxefi line and add rd.break selinux=0 to the end of the line
+    - Start the boot process by pressing CTRL+x
+
+b. Reset the password
+    - Remount the sysroot file system in r/w mode and then use chroot at /sysroot
+      ─────────────────────────────
+   ~]# mount -o remount,rw  /sysroot
+   ~]# chroot /sysroot
+   ─────────────────────────────
+
+    - Change the password
+      ──────
+   ~]# passwd
+
+  Exit from the shell and reboot system for login with root using new password.
+
+2) Set network settings and hostname ?
+
+=>  a. Configure Network
+
+   The easiest/fastest way to do this is to use the nmtui command.
+
+     b. Set hostname
+      
+  ~]# hostnamectl set-hostname NEW_HOSTNAME
+
+
+3) Set SELinux into enforcing mode ?
+
+=>  ~]#  setenforce enforcing 
+
+      ~]# vi /etc/selinux/config
+
+      Edit line starting with SELINUX=enforcing
+
+4) Enable yum repository.
+
+=> Configure the machine to access a yum repo at server.example.com/repo
+
+a. Create repo file /etc/yum.repos.d/yum.repo
+
+   Contents:
+    ─────────────────────────────────────────────
+  [update]
+  name=update
+  baseurl=http://server.example.com/repo
+  gpgcheck=0
+  enabled=1
+  ─────────────────────────────────────────────
+
+b. Verify that your new repo is available.
+
+   ~]# yum repolist
+
+c. Verify access to the repo by installing something
+   
+   ~]# yum install system-config-*
+
+5) User creation.
+
+=>  Create 3 users - larry, curly, and moe.
+All 3 users belong to supplemental group stooges.
+User moe should have a shell of nologin
+
+You'll need to pay attention to the wording here. The instructions say the users have to belong to a supplemental group stooges - that means they need to also belong to a primary group. The most logical assumption is that they each belong to their own private group (ex. larry:larry, curly:curly, etc…)
+
+~]# groupadd stooges
+~]# useradd larry  -G stooges
+~]# useradd curly -G stooges
+~]# useradd moe -s /bin/nologin -G stooges
+
+6) Create a shared folder ?
+
+=> Create a directory that members of the stooges group can access.
+Ensure that files created in the directory are owned by the stooges group.
+
+The solution is to use the SGID bit on the directory
+────────────────────────────────────────────────
+~]# mkdir /shared
+~]# chown :stooges /shared
+~]# chmod g+s /shared OR chmod 2775 /shared
+────────────────────────────────────────────────
+
+7) Activate and start services via systemctl ?
+
+=> In exam you will ask to activate and start any service. Here, Iam enabling GUI target.
+   ~]#  systemctl enable graphical.target
+ ~]# systemctl start graphical.target
+
+8)  Find all files owned by user bob and copy them to a newly created directory /tmp/bobs_files ?
+
+=> We can do this using find command
+
+     ~]# mkdir /tmp/bobs_files
+  ~]# find / -user bob | xargs -I {} cp {} /tmp/bobs_files/
+
+9) Find strings matching xyz in the file /tmp/test-log-file and save them in /tmp/matching-log-entries ?
+
+=> ~]# grep xyz /tmp/test-log-file > /tmp/matching-log-entries
+
+10) Create a gzipped tar archive (/tmp/log_archive.tgz) containing all the files in /var/log ?
+
+=>  ~]# tar -zcvf /tmp/log_archive.tgz /var/log
+
+11) Use ACLs on files ?
+
+=> Create file /tmp/acl_file.
+      The file is owned by bob:bob.
+      Allow larry and curly to rwx the file.
+      Don’t allow moe to access the file (rwx).
+      All member of stooges (except moe) should be able to access the file (rw).
+
+ a. Create the file
+    
+  ~]# touch /tmp/acl_file
+  
+
+b. Set the ownership
+    
+  ~]# chown bob:bob /tmp/acl_file
+  
+
+c. Allow larry/curly access
+    
+  ~]# setafcl -m u:larry:rwx /tmp/acl_file
+  ~]# setafcl -m u:curly:rwx /tmp/acl_file
+  
+
+d. Deny moe access
+    
+  ~]# setfacl -m u:moe:- /tmp/acl_file
+  
+
+e. Allow members of stooges access
+    
+  ~]# setfacl -m g:stooges:rw  /tmp/acl_file
+  
+
+12) Update the kernel via new YUM-repo ?
+
+=> A kernel update is available in a different location (not the first yum repo). 
+      In exam you will get the location of the kernel where it is store accordingly create yum repo for that.
+
+     a. Create a yum repo for the new location (refer to question #4)
+
+     b. Issue the command to update the kernel
+     
+  ~]# yum update kernel
+
+    c. Reboot to enable new kernel (Edit the entry in the /boot/grub2/grub.cfg file to set new kernel as default)
+    
+  ~]# reboot
+  
+13) Create a Cronjob for bob that runs /bin/date daily at 3:18pm and redirects the output to /home/bob/stamp ?
+
+=> a. Modify bob crontab entry
+    
+  ~]# crontab -eu bob
+  
+     b. Add the command
+
+ 18 15 * * * /bin/date >> /home/bob/stamp
+
+14) Create a new 800MiB swap partition ?
+
+=>  In exam probably you will get single disk with 3 partitions
+      P1 - Boot
+      P2 - LVM
+      P3 - LVM
+
+The question didn't specify that the new swap partition had to be part of the LVM so the easiest way to do this is to create another partition to use as a swap partition.
+
+a. Use fdisk to create the partition (use +800M for Last Sector)
+b. Issue the command blkid to get the UUID for the newly created disk
+c. Add an entry to fstab (ex. UUID=<blkid-output> swap swap 0 0)
+d. Issue the command swapon -a to enable the newly added partition
+
+15) Create a new logical volume cattle with a size of 25 extents belonging to volume group farming with a PE size of 32M ?
+
+=> a. Create a new PV
+    This is where we would create a new partition with fdisk  or parted and after that create physical volume.
+    Here, I am assuming you have created new partition /dev/sda3
+    ~]# pvcreate /dev/sda3   
+
+b. Create a new VG
+    Use the vgcreate command with the flags:
+     -s or --physicalextentsize set to 32M
+   ~]# vgcreate -s 32M farming /dev/sda3
+
+c. Create new LV
+    Use lvcreate with the flags:
+    -n or --name to provide the name
+    -l or --extents to provide the size
+   ~]# lvcreate -l 25 farming -n cattle
+
+
+d. Create filesystem on the new Logical Volume.
+    ~]# mkfs.ext4 /dev/farming/cattle
+
+e. Mount LV and add an entry to fstab.
+    ~]# mkdir /cattle
+    ~]# mount /dev/farming/cattle /cattle
+    ~]# vi /etc/fstab
+         /dev/farming/cattle   /cattle    ext4     defaults   0 0
+
+
+16) Create a connection to LDAP ?
+
+=> LDAP is used for users and authentication
+
+     A certificate is required (available for download)
+
+    ~]# yum install -y openldap-clients nss-pam-ldapd
+    ~]# authconfig --enableforcelegacy --update
+    ~]# authconfig --enableldap --enableldapauth --enableldapserver="server.example.com" --ldapbasedn="dc=example,dc=com" --update
+    
+    To enable creation of Home directories if not exist:
+
+   ~]# yum install oddjob-mkhomedir
+   ~]# authconfig --enablemkhomedir
+
+    Put the LDAP server certificate into the /etc/openldap/cacerts directory:
+
+    ~]# scp root@server.example.com:/etc/openldap/certs/cert.pem /etc/openldap/certs/cacert/cert.pem
+    ~]# restorecon /etc/openldap/certs/cert.pem
+
+     To enable TLS
+    ~]# authconfig --enableldaptls --update
+   
+     Testing configuration
+    ~]# getent passwd ldapuser01
+   
+
+17) Use the NFS-automounter to get home directory mounted ?
+
+=>  ~]# yum install -y autofs nfs-utils
+
+      ~]# vi /etc/auto.master
+            /home/guests /etc/auto.misc
+
+       ~]# vi /etc/auto.misc
+            * -rw,nfs4 server.example.com:/home/guests/&
+
+        ~]# systemctl enable autofs
+        ~]# systemctl start autofs
+
+        Test Configuration.
+        ~]# su - ldapuser01
+  
+        
+
+18) Configure NTP to synchronize with time.example.com ?
+
+=> a. Add the entry to /etc/chrony.conf
+      ~]# vi /etc/chrony.conf
+            server time.example.com
+
+     b. Restart the service and ensure it's enabled (systemctl)
+      ~]# systemctl restart chronyd
+
+     c. Query chrony to verify (chronyc sources -v) o/p should display time.example.com
+     ~]# chronyc sources -v
+     
+
+
+
+
+
+
+
+Comments
+1.	 
+UnHackable Things11 October 2017 at 09:15
+I LOVE THIS ONE.AS LIKE UPLOAD AS MORE AS
+REPLY
+2.	 
+Gopika Raj12 April 2018 at 08:50
+Worth reading. Post gains everyone’s attention. Keep writing.nata coaching centres in chennai
+REPLY
+3.	 
+Unknown2 June 2018 at 02:49
+Its a really informative post..
+
+RHCSA Certification Training
+REPLY
+4.	 
+Muthuraj Rsk16 July 2018 at 07:47
+like this..
+REPLY
+5.	Anonymous13 August 2018 at 21:50
+good
+REPLY
+6.	 
+Unknown12 October 2018 at 00:34
+Thank you for the post , but there are some Qs needs modifications , such as 
+1- selinux=0 means it's disabled which requires you to re label whole hard disk on next boot which is very time consuming.
+
+2- No Need to edit /boot/grub2/grub.conf .. it's not even recommended to do it . 
+
+Instead /etc/default/grub && grub2-mkconfig
+REPLY
+7.	 
+Charlotteava9 November 2018 at 09:20
+I pass the RHCSA EX200 exam recently and I was very thankful to RealExamCollection. I got 92% marks. I prepare this exam from latest EX200 dumps. This rehearsal is the best way to evaluate your preparation. I am sure you will pass your exam on the first attempt.
+
+Best of luck.
+REPLY
+1.	 
+safaa15 November 2018 at 23:47
+can you please send me this passforsure fo EX200 exam ?
+2.	 
+Charlotteava25 November 2018 at 11:35
+You can visit this site RealExamCollection they provide latest file.
+8.	 
+Multi Wood13 November 2018 at 10:03
+RedHat EX200 free real EX200 dumps latest Red Hat Certified System Administrator (RHCSA) questions and answers for RHCSA cerification.
+REPLY
+1.	 
+safaa15 November 2018 at 23:49
+please send me the free dump.
+9.	 
+Bethzy Braylon28 November 2018 at 22:55
+Product Features:
+
+After Purchase Instant Downloads
+
+Verified And Updated Questions & Answers
+
+You Can Easily Print Our PDF's
+
+100% Money Back Guarantee
+
+Get 90 Days Free Updates
+
+Try Free Demos Any Certification Exams
+
+24/7 Customer Support
+
+You can certainly get RedHat EX200 exam dumps at dumpsForSure. RedHat EX200 valid dumps provide you with test questions that are enclosed in details and utmost care is taken in selecting the right answers.Dumpsforsure is Leader of Certifications gives substantial RedHat PDF addresses and checked answers that will you pass the exam in a friendless attempt.For further information, please follow this link: RedHat EX200 Dumps PDF
+REPLY
+10.	 
+Scott19 January 2019 at 20:21
+Do you have more questions
+REPLY
+Post a Comment
+Popular Posts
+ 
+OpenLDAP with Kerberos authentication and NFS in RHEL/CENTOS7
+Introduction
+In this article we are going to configure OpenLDAP with Kerberos as authentication mechanism and  we will configure autofs to automount  directories on client's. 
+I recommend to refer my previous article of How to configure LDAP server. 
+1) Configuring Kerberos 
+Kerberos is the protocol for authenticating service requests between trusted hosts across an untrusted network. It is the default authentication mechanism in Windows OS. Almost all OS supports kerberos authentication. 
+
+As shown in above screen edit krb5.conf file and replace example.com with  your ldap domain also change kdc server name with your ldap server. 
+Next, file in which we need to made changes is kdc.conf file. Here, just change realms from example.com to your ldap domain.We are using linux.com as shown bellow: 
+
+
+Last file we need to change is kadm5.acl here also change from example.com to linux.com as shown bellow: 
+
+
+After making changes in configuration files we have to create database for kerberos i.e. kdb databas…
+ 
+OpenLDAP Server Configuration RHEL/Centos 7
+IntroductionOpenLDAP is an open source implementation of Lightweight Directory Access Protocol. I am starting series of LDAP configuration in which will explain how to configure LDAP server, authenticate users through LDAP. It is going to be very interesting series and every Linux administrator must have a knowledge on LDAP configuration.
+
+1) Installing OpenLDAP Packages.
+
+
+~]# yum install -y openldap* migrationtools 
+This will install packages required for Openldap server configuration. Migrationtools is a set of scripts which we require to convert local users and groups in ldif format.After installing above packages run bellow command and set password for LDAP admin.  
+~]# slappasswdAfter running above command you will get your password in encrypted format just copy that password for future reference. 
+2) Configuring LDAP Server. 
+Important configuration file: i) olcDatabase={0}config.ldif ii) olcDatabase={1}monitor.ldif iii) olcDatabase={2}hdb.ldif 
+Above three files are the main configuration files…
+ Powered by Blogger
+

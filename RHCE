@@ -1,0 +1,652 @@
+Qs-1. SELinux should be in enforcing mode on your both systems.
+
+Solutions:
+
+# getenforce
+enforcing
+
+If it is not in enforcing mode, then change it to enforcing mode by,
+
+# vim /etc/selinux/config
+SELINUX=enforcing
+:wq!
+
+# reboot
+Note: In order to reflect the changes, it is mandatory to reboot the system.
+
+===================================================================================
+
+Qs-2. Configure yum client-side repository using the following URL: http://link_will_be_given_in_the_question/content/rhel7.0/x86_64/dvd
+
+Note: This is not actually a question which contains marks, but in order to solve the rest of the questions you will have to configure Yum other wise installing packages will hardly be possible in the given time period.
+
+Solution:
+
+# yum repolist      // To check the repositories
+# cd /etc/yum.repos.d/
+# vim devopsage.repo
+
+[devopsage]
+gpgcheck = 0
+enabled = 1
+baseurl = http://link_will_be_given_in_the_question/content/rhel7.0/x86_64/dvd
+name = devopsage-tech
+:wq!
+
+# yum repolist
+===================================================================================
+
+Qs-3. Configure SSH access on your both systems as follows.
+
+Users should have SSH access to your systems from remotely.
+Clients within my133t.org should not have SSH access to your systems.
+Solution:
+
+Note: By default in both of your systems SSH Service is already enabled.
+
+Note: Address provided = “my133t.org(192.168.114.128)”   // Ip will be different, make sure to change the provided IP.
+
+# systemctl status sshd.service   // just verify
+# firewall-cmd --list-all    // verify the port
+
+# firewall-cmd --add-rich-rule 'rule family="ipv4" source address="192.168.12.23/24" service name="ssh" reject' --permanent
+# firewall-cmd --reload
+
+Note: You can find above command from the manual page of firewalld.richlanguage. refer the example 3 and make changes accordingly.
+
+# firewall-cmd --list-all
+Note: Make Sure, you apply these changes on both the virtual machines during your examinations.
+
+===================================================================================
+
+Qs-4. Create a new customized envoirment for your users.
+
+Create a new custom command called “userstat” whos output should be similar to “/bin/ps -Ao pid,tt,user,fname,rsz”
+Make sure “userstat” command should available by-default for all users on both systems.
+Solution:
+
+# vim /etc/bashrc     // Add at the end of the file
+
+alias userstat="/bin/ps -Ao pid,tt,user,fname,rsz"
+:wq!
+
+# logout  or  ctrl+d
+# ssh root@ServerIP -X
+# userstat  // verify whether the Alias is working as expected or not.
+Note: Don’t forget to set this alias in both the machines.
+
+===================================================================================
+
+Qs-5. Configure port forwarding on your server.
+
+The traffic coming from the desktop on port 415/tcp should be forwarded to port 22/tcp on your system1.
+Solution:
+
+# firewall-cmd --add-rich-rule 'rule family="ipv4" source address="172.10.1.10" forward-port to-addr="172.10.1.11" to- port="22"protocol="tcp" port="415"' --permanent
+# firewall-cmd --reload
+# firewall-cmd --list-all
+# ssh -p 415 root@serverIP   // verify whether the above applied rule is working or not.
+Note: You can find above command from the manual page of firewalld.richlanguage. refer the example 5 and make changes accordingly.
+
+====================================================================================
+
+Qs-6. Configure a new network teaming link on both systems.
+
+Both systems have a network interface “eno1” and “eno2”
+These two interfaces should be Slaved for the new teaming device called “team1”. (Make sure “team1” should remain active even if one of the interfaces goes down)
+Assign the given IP address for “team1” on a 1st system – 192.168.X.111
+Assign the given IP address for “team1” on a 2nd system – 192.168.X.222
+Solution:
+
+Note: In the examination, you will be provided with 2 network interfaces, While practicing on your local machine you have to first configure 2 network interfaces, between which you will be creating teaming link.
+
+# nmcli con add con-name devopsage ifname team1 type team config '{"runner": {"name": "activebackup"}}'
+# nmcli con add con-name team-slave1 ifname eno1 type team-slave master team1
+# nmcli con add con-name team-slave2 ifname eno2 type team-slave master team1
+# nmcli con modify devopsage ipv4.addresses "192.168.X.111/24" ipv4.method manual
+# teamdctl team1 state
+# systemctl restart network
+# ifconfig // Verify whether teaming link has been created or not
+Note: Make Sure you configure this on both the machines.
+
+====================================================================================
+
+Qs-7. Configure the following IPV6 IP address for interface eth0 on your both systems.
+
+IPV6 address for system1 – “fddb:fe2a:ab1e::c0a8:1/64”
+IPV6 address for system2 – “fddb:fe2a:ab1e::c0a8:fe/64”
+Solution:
+
+On Syetem 1:
+
+# nmcli con modify "System eth0" ipv6.addresses "fddb:fe2a:ab1e::c0a8:1/64" ipv6.method manual
+# systemctl restart network
+# ifconfig
+On System 2:
+
+# nmcli con modify "System eth0" ipv6.addresses "fddb:fe2a:ab1e::c0a8:fe/64" ipv6.method manual
+# systemctl restart network
+# ifconfig
+====================================================================================
+
+Qs-8. Implement a web server for the site http://serverX.example.com, then perform the following steps:
+
+Download http://classroom.example.com/server.html
+Rename the downloaded file to index.html
+Copy this index.html to the DocumentRoot of your web server
+Do NOT make any modifications to the content of index.html
+Solution:
+
+# yum groupinstall 'basic web server' -y
+# cd /var/www/html/
+# wget -O index.html http://link_provided/server.html
+# firewall-cmd --add-service=http --permanent
+# firewall-cmd --reload
+# firewall-cmd --list-all  // Verify Whether http port is added on firewall or not. 
+
+# systemctl enable httpd.service 
+
+# systemctl restart httpd.service 
+
+# cd /etc/httpd/conf.d/      // here we will be creating our own configurations for web servers 
+
+# vim devopsage.conf
+
+<virtualhost *:80>
+
+ servername serverX.example.com
+
+ documentroot /var/www/html
+
+ directoryindex index.html
+
+ </virtualhost>
+
+:wq!
+
+# systemctl restart httpd.service  # firefox   // Verify on firefox http://serverX.example.com, you can also use curl http://serverX.example.com
+====================================================================================
+
+Qs-9. Extend your web server to include a virtual host for the site, http://wwwX.example.com, then perform the following steps:
+
+Set the DocumentRoot to /var/www/virtual
+Download http://classroom.example.com/pub/www.html
+Rename the downloaded file to index.html
+Copy this index.html to the DocumentRoot of the virtual host
+Do NOT make any modifications to the content of index.html
+Ensure that harry is able to create content in /var/www/virtual
+Solution:
+
+# mkdir /var/www/virtual
+# cd /var/www/virtual/
+# wget -O index.html http://link_provided/www.html
+# useradd harry
+# setfacl -m u:harry:rwx /var/www/virtual/
+# vim /etc/httpd/conf.d/devopsage.conf
+
+<virtualhost *:80>
+servername wwwX.example.com
+documentroot /var/www/virtual
+directoryindex index.html
+</virtualhost>
+
+:wq!
+
+# httpd -t  // This command will check for any syntax error.
+# systemctl restart httpd.service
+# firefox    // http://wwwX.example.com
+====================================================================================
+
+Qs-10. Secure web service.
+
+Configure TLS encryption for the web server “http://serverX.example.com”
+A signed certificate for the web server is available at http://link_provided/pub/tls/certs/serverX.crt
+The required key for this certificate file is available at http://link_providedclassroom.example.com/pub/tls/private/serverX.key
+The certificate for signing authority is provided at http://classroom.example.com/pub/example-ca.crt
+Solution:
+
+Note: For this question, generate a self-signed certificate if you are practicing on your local machine.
+
+# cd /etc/pki/tls/certs/
+# wget http://link_provided/pub/tls/certs/serverX.crt
+# wget http://link_provided/pub/example-ca.crt
+# cd ..
+# cd private/
+# wget http://classroom.example.com/pub/tls/private/serverX.key
+# cd /etc/httpd/conf.d/
+# vim devopsage.conf
+
+<virtualhost *:443>
+servername serverX.example.com
+documentroot /var/www/html
+directoryindex index.html
+SSLEngine on
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+SSLCertificateFile /etc/pki/tls/certs/serverX.crt
+SSLCertificateKeyFile /etc/pki/tls/private/serverX.key
+SSLCertificateChainFile /etc/pki/tls/certs/example-ca.crt
+</virtualhost>
+
+:wq!
+
+# httpd -t  // Check Syntax
+# firewall-cmd --add-service=https --permanent
+# firewall-cmd --reload
+# firewall-cmd --add-port=443/tcp --permanent
+# firewall-cmd --reload
+# systemctl restart httpd.service
+# firefox // https://serverX.example.com.
+Note: If you see untrusted connection where you have to confirm the security exceptions meansyou config is OK. This is because we are using self signed certificate.
+
+====================================================================================
+
+Qs-11. Create a directory named as secret in default DocumentRoot of your default web server.
+
+Download a file – http://classroom.example.com/pub/private.html to the secret directory.
+Rename this file as index.html
+The secret directory should be only available to localhost.
+Solution:
+
+# mkdir /var/www/html/secret
+ # wget -O /var/www/html/secret/index.html http://classroom.example.com/pub/private.html
+ # ls -l /var/www/html/secret/
+ # vim devopsage.conf
+
+<virtualhost *:80>
+ servername serverX.example.com/secret
+ documentroot /var/www/html/secret
+ directoryindex index.html
+ <directory /var/www/html/secret>
+ order deny,allow
+ deny from all
+ allow from localhost or IP
+ </directory>
+ </virtualhost>
+
+:wq!
+
+# httpd -t
+ # systemctl restart httpd.service
+ # firefox  //  http://serverX.example.com/secret
+====================================================================================
+
+Qs-12. Configure your web server to display the dynamic web contents.
+
+Dynamic content is provided by a virtual host named as http://webappX.example.com
+This host should listen on port no 8877
+Download a copy of the script from http://classroom.example.com/pub/webapp.wsgi and place it on appropriate location for the virtual host so that it generates dynamic web contents.
+Do not make any changes in webapp.wsgi file
+Clients connecting to http://webappX.example.com:8877 should get the output of dynamic web contents.
+This virtual host must be accessible to all the systems in example.com.
+Solution:
+
+# mkdir /var/www/dynamic
+# cd /var/www/dynamic/
+# wget http://classroom.example.com/pub/webapp.wsgi
+# firewall-cmd --add-port=8877/tcp --permanent
+# firewall-cmd --reload
+# semanage port -a -t http_port_t -p tcp 8877
+# yum install mod_wsgi.x86_64
+# vim /etc/httpd/conf.d/devopsage.conf
+
+listen 8877
+<virtualhost *:8877>
+servername webappX.example.com
+documentroot /var/www/dynamic
+wsgiscriptalias / /var/www/dynamic/webapp.wsgi
+</virtualhost>
+
+:wq!
+
+# httpd -t
+# systemctl restart httpd.service
+# firefox   //  http://webappX.example.com:8877
+====================================================================================
+
+Qs-13. Write a script naming as bar.sh in the root directory
+
+If we give redhat as input it should print fedora.
+If we give fedora as input it should print redhat.
+If we give other than redhat or fedora it should print “./root/bar.sh redhat|fedora” as an standerd error.
+Solution:
+
+# vim bar.sh
+
+#!/bin/bash
+
+if [ "$1" = 'redhat' ];then
+echo "fedora"
+elif [ "$1" = 'fedora' ];then
+echo "redhat"
+else
+echo "./root/bar.sh redhat|fedora" > /dev/stderr
+fi
+
+:wq!
+
+# bash bar.sh
+# bash bar.sh redhat
+# bash bar.sh fedora
+====================================================================================
+
+Qs-14. Configure NFS on serverX as follow
+
+export /public directory with read only acess to desktopX machine.
+export /protected directory with read write acess to desktopX
+Acess to /protected is authenticate by using Kerborse.You can use keytab file from http://classroom.example.com/pub/keytabs/ serverX.keytab
+ Create a secure directory inside the /protected directory
+User ldapuserX have read and write acess on secure directory
+Solution:
+
+On Server Side:
+
+# yum install nfs* krb5* -y
+# mkdir /public /protected
+# wget -O /etc/krb5.keytab http://link_provided/pub/keytabs/serverX.keytab
+# vim /etc/exports
+
+/public 172.25.5.10(ro,sec=sys,sync)
+/protected 172.25.5.10(rw,sec=krb5p,sync)
+:wq!
+
+# exportfs -avr
+# firewall-cmd --add-service=nfs --permanent
+# firewall-cmd --reload
+# mkdir /protected/secure
+# getent passwd ldapuser5
+# chown ldapuserX:ldapuserX /protected/secure
+# systemctl enable nfs-secure-server.service
+# systemctl enable nfs-server.service
+# systemctl restart nfs-secure-server.service
+# systemctl restart nfs-server.service
+====================================================================================
+
+Qs-15. Mount nfs on following Directory
+
+public Directory exported by ServerX should be mounted across reboot on /mnt/data
+protected Directory exported by ServerX should be mounted across reboot on /protected
+Solution:
+
+On Client Side:
+
+# yum install nfs* krb5* -y
+# mkdir /mnt/data /protected
+# wget -O /etc/krb5.keytab http://classroom.example.com/pub/keytabs/ServerX.keytab
+# vim /etc/fstab
+172.10.1.11:/public /mnt/data nfs defaults,sec=sys,sync 0 0
+172.10.1.11:/protected /protected nfs defaults,sec=krb5p,sync 0 0
+:wq!
+
+# systemctl enable nfs-secure.service
+# systemctl restart nfs-secure.service
+# mount -a
+# df -h
+# getent passwd ldapuser5
+# cd /protected/secure/      // Check whether configuration is done correctly or not
+# touch sample.txt      // Permission Denied
+# ssh ldapuserX@localhost   // passwod - kerberos
+$ ldapuserhomedir]$ cd /protected/secure/
+$ touch sample.txt  //If you can create a file, means configuration is OK.
+$ logout
+# df -h
+====================================================================================
+
+Qs-16. Share /common directory via smb from your serverX
+
+Share name must be samba.
+Samba share must browseable.
+User natasha should have read access to it and authenticate with the password “postroll”.
+sarah should have read and write access to share and authenticate with the “postroll”.
+Solution:
+
+On Server Side:
+
+# yum install samba samba-client.x86_64 -y
+# mkdir /common
+# semanage fcontext -a -t samba_share_t '/common(/.*)?'
+# restorecon -Rv /common
+# useradd natasha
+# useradd sarah
+# setfacl -m u:natasha:r-x /common
+# setfacl -m u:sarah:rwx /common
+# getfacl /common
+# vim /etc/samba/smb.conf    // Make changes at the end of the file
+[samba]
+path = /common
+writable = no
+write list = sarah
+valid users = natasha , sarah
+browseable = yes
+:wq!
+
+# testparm   // Check Configuration Syntax
+# smbpasswd -a natasha    //password: postroll
+# smbpasswd -a sarah     //password: postroll
+# firewall-cmd --add-service=samba --permanent
+# firewall-cmd --reload
+# systemctl enable smb nmb
+# systemctl restart smb nmb
+===================================================================================
+
+Qs-17. The samba share must be permanently mounted on DesktopX machine on /mnt/samba directory and this share must allow anyone who can authenticate as sarah.
+
+Solution:
+
+On Client Side
+
+# mkdir /mnt/samba
+# yum install cifs-utils.x86_64 -y
+# vim /tmp/pass
+username=sarah
+password=postroll
+# vim /etc/fstab
+//172.10.1.111/samba /mnt/samba cifs defaults,sec=ntlmssp,multiuser,creds=/tmp/pass 0 0
+:wq!
+# mount -a
+# df -h
+// For temporary Mounting, don not use below command, just for your understanding.
+# mount -o username=sarah //172.25.5.11/samba /mnt/samba      // password: postroll
+====================================================================================
+
+Qs-18. Configure iscsi target on ServerX machine.
+
+iscsi disk name is iqn.2014-06.com.example:serverX
+iscsi should use default port as 3260.
+ target should use 3G backing volume nameing as datavol.
+ target should available to only desktopX machine.
+Solution:
+
+On Server Side
+
+# fdisk /dev/vdb
+:n     // new partition
+:+5G
+:t    // toggle, displays all hex codes
+:8e  // (lvm)
+:w    // To save
+# partprobe
+# pvcreate /dev/vdb1
+# vgcreate devopsage_vg /dev/vdb1
+# lvcreate -n redhat -L 3G devopsage_vg 
+# yum install targetcli.noarch -y
+# targetcli
+/> cd
+o- / .........................................................................................................................[...]
+o- backstores ..............................................................................................................[...]
+| o- block ..................................................................................................[Storage Objects: 0]
+| o- fileio .................................................................................................[Storage Objects: 0]
+| o- pscsi ..................................................................................................[Storage Objects: 0]
+| o- ramdisk ................................................................................................[Storage Objects: 0]
+o- iscsi ............................................................................................................[Targets: 0]
+o- loopback .........................................................................................................[Targets: 0]
+/backstores/block> create datavol /dev/devopsage/redhat
+/backstores/block> cd
+/iscsi> create iqn.2014-06.com.example:serverX
+/iscsi> cd
+/iscsi/iqn.20...er5/tpg1/acls> create iqn.2014-06.com.example:desktopX
+/iscsi/iqn.20...er5/tpg1/acls> cd
+/iscsi/iqn.20...er5/tpg1/luns> create /backstores/block/datavol
+/iscsi/iqn.20...er5/tpg1/luns> cd
+/iscsi/iqn.20.../tpg1/portals> create 172.10.1.11 ip_port=3260
+/iscsi/iqn.20.../tpg1/portals> cd
+o- / .........................................................................................................................[...]
+/> saveconfig
+/> exit
+
+# firewall-cmd --add-port=3260/tcp --permanent
+# firewall-cmd --reload
+# systemctl enable target.service
+# systemctl restart target.service
+====================================================================================
+
+Qs-19. Configure DesktopX machine for iscsi intiator.
+
+Iscsi device should be automatically mounted at booting time.
+Iscsi should contain a block of 2000MB and should have xfs file system on it.
+The partion must be mounted on /mnt/iscsi and it should be automatically mounted.
+Solution:
+
+On Server Side.
+
+# yum install iscsi-initiator-utils.i686 -y
+# vim /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.2014-06.com.example:desktopX
+:wq!
+# systemctl enable iscsid.service
+# systemctl restart iscsid.service
+# iscsiadm --mode discoverydb --type sendtargets --portal 172.25.5.11 --discover
+
+Note: You will get this cmd from example section of man page of iscscadm
+
+# iscsiadm --mode node --targetname iqn.2014-06.com.example:server5 --portal 172.25.5.11:3260 --login
+# lsblk
+
+sda 8:0 0 3G 0 disk
+
+# fdisk /dev/sda
+
+:p
+:n
+:+2000M
+:w
+# partprobe
+# mkfs.xfs /dev/sda1
+# blkid
+# vim /etc/fstab
+UUID=668CF9BD8CF987B7 /mnt/iscsi xfs defaults,_netdev 0 0
+]# mkdir /mnt/iscsi
+]# mount -a
+]# df -h
+
+Note/Caution: Do not forget to logout from ISCSI Server, if you failed to do so, your system will be hung.
+
+# iscsiadm --mode node --targetname iqn.2014-06.com.example:serverX --portal 172.10.1.11:3260 --logout
+====================================================================================
+
+Qs-20. create A MariaDB database by using the dump file.
+
+create database named as legacy and import dump file into database.
+dump file is provided by http://classroom.example.com/pub/mariadb.dump
+create user smith and grant select access on legacy database.
+Solution:
+
+# yum groupinstall mariadb mariadb-client -y
+# systemctl enable mariadb.service
+# systemctl restart mariadb.service
+# mysql_secure_installation   // Set password (say, password), and for every prompt press "y"
+# mysql -u root -ppassword
+# show databases;
+# create database legacy;
+# exit (ctrl+d)
+# wget http://classroom.example.com/pub/mariadb.dump
+# mysql -u root -ppassword legacy < mariadb.dump
+# mysql -u root -ppassword
+# use legacy;
+# show tables;
+# create user smith@"localhost" identified by "password";
+# grant select on legacy.* to smith@'localhost'; > exit (ctrl+d)
+=======================================================================================
+
+Qs-21. Ans the following question in the file /root/mariadb.txt
+
+count the number of product which are having id_catagory=10
+Solution:
+
+# mysql -u root -ppassword
+# use legacy;
+# select count(*) from product where id_category=10;
+#  exit(ctrl+d)
+# vim /root/mariadb.txt
+ans=10
+:wq!
+====================================================================================
+
+Qs-22. Write a script naming as foo.sh in root directory
+
+create users provided by the file http://classroom.example.com/pub/users
+if the appropriate file is not provided then it should return error /root/foo.sh [Valid File]
+and return with an appropirate error status
+Solution
+
+# vim /root/foo.sh
+#!/bin/bash
+
+b=`basename $1`
+a=`cat $1`
+if [ -s $1 -a "$b" = "user.txt" ];then
+for i in $a
+do
+useradd $i -s /sbin/nologin
+echo "$i"|passwd $i --stdin
+echo "$i is added"
+done
+else
+echo "/root/foo.sh [Valid File]" > /dev/stderr
+exit 2
+fi
+:wq!
+
+# vim user.txt   // list of users
+daniel
+owen
+sara
+
+# bash foo.sh user.txt
+=====================================================================================
+
+Qs-23. Configure mail access on both the systems as follows
+
+system should not accept mail from external sources.
+mail sent locally from both systems get routed through example.com
+mail send from systems shows up as coming from serverX.example.com.
+Solution:
+
+# yum install postfix
+# vim /etc/postfix/main.cf
+
+LINE NUMBER TO CHANGE
+
+75 myhostname = serverX.example.com
+83 mydomain = example.com
+98 myorigin = $mydomain
+116 inet_interfaces = all
+119 inet_protocols = all
+164 mydestination =
+264 mynetworks = 172.10.0.0/16, 127.0.0.0/8
+314 relayhost = [smtpX.example.com]
+
+@END local_transport = error: local delivery disabled
+
+# systemctl enable postfix
+# systemctl restart postfix
+# mail -s 'test' user@desktopX.example.com
+
+Note: Take care of the my_networks carefully in your exam.
+
+# hostname
+# hostname -d
+# hostnamectl set-hostname serverX.example.com
+# systemctl enable postfix
+# systemctl restart postfix
+# mail -s 'test22' user@desktopX.example.com

@@ -243,3 +243,33 @@ Communications link failure
 The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
   Connection refused: connect
   Connection refused: connect
+  
+  
+  
+  mysql> create user 'airflow'@'localhost' identified by 'airflow';
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+mysql> SHOW VARIABLES LIKE 'validate_password%';
++--------------------------------------+--------+
+| Variable_name                        | Value  |
++--------------------------------------+--------+
+| validate_password_check_user_name    | OFF    |
+| validate_password_dictionary_file    |        |
+| validate_password_length             | 8      |
+| validate_password_mixed_case_count   | 1      |
+| validate_password_number_count       | 1      |
+| validate_password_policy             | MEDIUM |
+| validate_password_special_char_count | 1      |
++--------------------------------------+--------+
+7 rows in set (0.03 sec)
+
+mysql> SET GLOBAL validate_password_length = 6;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET GLOBAL validate_password_number_count = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET GLOBAL validate_password_special_char_count = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+

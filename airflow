@@ -1,3 +1,33 @@
+To Open the Ports
+=====================
+
+[root@server ~]# firewall-cmd --permanent --add-port=8080/tcp
+success
+[root@server ~]# firewall-cmd --permanent --add-port=8080/udp
+success
+[root@server ~]# firewall-cmd --reload
+
+
+Start airflow webserver
+=======================
+[airflow@server ~]$ airflow webserver -p 8080
+[2019-02-06 15:28:30,280] {settings.py:174} INFO - settings.configure_orm(): Using pool settings. pool_size=5, pool_recycle=1800, pid=4124
+[2019-02-06 15:28:31,329] {__init__.py:51} INFO - Using executor CeleryExecutor
+  ____________       _____________
+ ____    |__( )_________  __/__  /________      __
+____  /| |_  /__  ___/_  /_ __  /_  __ \_ | /| / /
+___  ___ |  / _  /   _  __/ _  / / /_/ /_ |/ |/ /
+ _/_/  |_/_/  /_/    /_/    /_/  \____/____/|__/
+
+[2019-02-06 15:28:32,114] {models.py:273} INFO - Filling up the DagBag from /home/airflow/airflow/dags
+Running the Gunicorn Server with:
+Workers: 4 sync
+Host: 0.0.0.0:8080
+Timeout: 120
+Logfiles: - -
+=================================================================
+
+
 [root@server ~]# airflow list_dags
 [2019-01-28 19:08:47,030] {__init__.py:51} INFO - Using executor SequentialExecutor
 [2019-01-28 19:08:47,819] {models.py:273} INFO - Filling up the DagBag from /root/airflow/dags

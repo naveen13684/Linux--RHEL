@@ -1,3 +1,14 @@
+Airflow can be a bit tricky to setup.
+
+Do you have the airflow scheduler running?
+Do you have the airflow webserver running?
+Have you checked that all DAGs you want to run are set to On in the web ui?
+Do all the DAGs you want to run have a start date which is in the past?
+Do all the DAGs you want to run have a proper schedule which is shown in the web ui?
+If nothing else works, you can use the web ui to click on the dag, then on Graph View. 
+Now select the first task and click on Task Instance. 
+In the paragraph Task Instance Details you will see why a DAG is waiting or not running.
+
 To Open the Ports
 =====================
 

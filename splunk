@@ -1,0 +1,415 @@
+server logs
+============
+source IP traffic
+security threats
+network vulnerability 
+network traffic and spike
+
+
+System logs
+===========
+Sytem performance
+cpu usage and loaded
+user access logs
+app performance monitoring
+
+why splunk?
+==========
+Real Time - 
+Log forwarding
+syslog analysis
+Realtime server monitoring
+Realtime alerts and notifications
+historical data or log store and analysis
+
+splunk buckets 
+==============
+
+splunk Components
+===================
+
+1) Forwarders 
+
+2) Indexers / Peer Nodes - Is the place where data is stored.
+
+3) Search Heads  - Captain - 
+
+1) Deployer - updates to configurations, save searches , search head clustering , monitors search head clustering
+2) Cluster Master - monitores all indexers are up and running and replication is happening b/w indexer, 
+3) Deployment server
+4) License Master - responsible for making sure that right amount of data gets indexed as splunk license is based on 
+the data volume that comes to platform withink24 hour window. If this server goes down, only searching is blocked not the 
+data coming.
+
+
+Splunk search head
+==================
+[root@server usr]# rpm -ivh splunk-7.2.1-be11b2c46e23-linux-2.6-x86_64.rpm
+warning: splunk-7.2.1-be11b2c46e23-linux-2.6-x86_64.rpm: Header V4 RSA/SHA1 Signature, ke                                                                                                    y ID b3cd4420: NOKEY
+Preparing...                          ################################# [100%]
+useradd: cannot create directory /opt/splunk
+Updating / installing...
+   1:splunk-7.2.1-be11b2c46e23        ################################# [100%]
+complete
+[root@server usr]# 
+
+---- 
+./splunk start --accept-license
+
+[root@server bin]# ./splunk start
+SPLUNK SOFTWARE LICENSE AGREEMENT
+
+Splunk Software License Agreement 10.01.2018
+Do you agree with this license? [y/n]: y
+
+This appears to be your first time running this version of Splunk.
+
+Splunk software must create an administrator account during startup. Otherwise, you cannot log in.
+Create credentials for the administrator account.
+Characters do not appear on the screen when you type in credentials.
+
+Please enter an administrator username: naveen
+Password must contain at least:
+   * 8 total printable ASCII character(s).
+Please enter a new password:
+Please confirm new password:
+ERROR: Password did not meet complexity requirements. Password must contain at least:
+   * 8 total printable ASCII character(s).
+Please enter a new password:
+Please confirm new password:
+Copying '/opt/splunk/etc/openldap/ldap.conf.default' to '/opt/splunk/etc/openldap/ldap.conf'.
+Generating RSA private key, 2048 bit long modulus
+.........+++++
+....................................................................................+++++
+e is 65537 (0x10001)
+writing RSA key
+
+Generating RSA private key, 2048 bit long modulus
+.................................................+++++
+...............................................................................................................+++++
+e is 65537 (0x10001)
+writing RSA key
+
+Moving '/opt/splunk/share/splunk/search_mrsparkle/modules.new' to '/opt/splunk/share/splunk/search_mrsparkle/modules'.
+
+Splunk> All batbelt. No tights.
+
+Checking prerequisites...
+        Checking http port [8000]: open
+        Checking mgmt port [8089]: open
+        Checking appserver port [127.0.0.1:8065]: open
+        Checking kvstore port [8191]: open
+        Checking configuration...  Done.
+                Creating: /opt/splunk/var/lib/splunk
+                Creating: /opt/splunk/var/run/splunk
+                Creating: /opt/splunk/var/run/splunk/appserver/i18n
+                Creating: /opt/splunk/var/run/splunk/appserver/modules/static/css
+                Creating: /opt/splunk/var/run/splunk/upload
+                Creating: /opt/splunk/var/spool/splunk
+                Creating: /opt/splunk/var/spool/dirmoncache
+                Creating: /opt/splunk/var/lib/splunk/authDb
+                Creating: /opt/splunk/var/lib/splunk/hashDb
+New certs have been generated in '/opt/splunk/etc/auth'.
+        Checking critical directories...        Done
+        Checking indexes...
+                Validated: _audit _internal _introspection _telemetry _thefishbucket history main summary
+        Done
+        Checking filesystem compatibility...  Done
+        Checking conf files for problems...
+        Done
+        Checking default conf files for edits...
+        Validating installed files against hashes from '/opt/splunk/splunk-7.2.1-be11b2c46e23-linux-2.6-x86_64-manifest'
+        All installed files intact.
+        Done
+All preliminary checks passed.
+
+Starting splunk server daemon (splunkd)...
+Generating a 2048 bit RSA private key
+.............................+++++
+.......................+++++
+writing new private key to 'privKeySecure.pem'
+-----
+Signature ok
+subject=/CN=server/O=SplunkUser
+Getting CA Private Key
+writing RSA key
+Done
+                                                           [  OK  ]
+
+Waiting for web server at http://127.0.0.1:8000 to be available..... Done
+
+
+If you get stuck, we're here to help.
+Look for answers here: http://docs.splunk.com
+
+The Splunk web interface is at http://server:8000
+
+[root@server bin]#
+
+
+[root@server usr]# cd /opt/splunk/bin/
+
+
+
+--in case if you are using tar file
+chmod -R 777 /splunk
+chmod -R 777 splunkforwarder
+
+[root@client usr]# firewall-cmd --add-port=8000/tcp --permanent
+success
+[root@client usr]# firewall-cmd --reload
+success
+[root@client usr]#
+
+
+open the port at splunk level
+=============================
+[root@server bin]# ./splunk enable listen 9997
+Splunk username: naveen
+Password:
+Listening for Splunk data on TCP port 9997.
+[root@server bin]#
+
+check if port is opened
+=========================
+[root@server ~]# netstat -an|grep -i 9997
+tcp        0      0 0.0.0.0:9997            0.0.0.0:*               LISTEN
+[root@server ~]#
+
+open the splunk at OS firewall level
+======================================
+[root@server bin]# firewall-cmd --permanent --add-port=9997/tcp
+success
+
+[root@server bin]# firewall-cmd --permanent --add-port=9997/udp
+success
+[root@server bin]# firewall-cmd --reload
+success
+[root@server bin]#
+
+
+[root@server bin]# systemctl status httpd
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2019-02-07 12:05:15 IST; 4h 18min ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+ Main PID: 1303 (httpd)
+   Status: "Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec"
+    Tasks: 6
+   CGroup: /system.slice/httpd.service
+           ├─1303 /usr/sbin/httpd -DFOREGROUND
+           ├─1523 /usr/sbin/httpd -DFOREGROUND
+           ├─1524 /usr/sbin/httpd -DFOREGROUND
+           ├─1533 /usr/sbin/httpd -DFOREGROUND
+           ├─1534 /usr/sbin/httpd -DFOREGROUND
+           └─1540 /usr/sbin/httpd -DFOREGROUND
+
+Feb 07 12:05:13 server systemd[1]: Starting The Apache HTTP Server...
+Feb 07 12:05:14 server httpd[1303]: AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive gl... this message
+Feb 07 12:05:15 server systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@server bin]#
+
+
+[root@server bin]# ./splunk status
+splunkd is running (PID: 10249).
+splunk helpers are running (PIDs: 10253 10269 10332 10368).
+[root@server bin]#
+
+
+=========================================================================================================================================================================
+
+
+Splunk forwarder
+================
+
+[root@client usr]# rpm -ivh splunkforwarder-7.2.1-be11b2c46e23-linux-2.6-x86_64.rpm
+warning: splunkforwarder-7.2.1-be11b2c46e23-linux-2.6-x86_64.rpm: Header V4 RSA/SHA1 Signature, k                                                                                            ey ID b3cd4420: NOKEY
+Preparing...                          ################################# [100%]
+useradd: cannot create directory /opt/splunkforwarder
+Updating / installing...
+   1:splunkforwarder-7.2.1-be11b2c46e2################################# [100%]
+complete
+[root@client usr]#
+
+
+[root@client bin]# ./splunk start --accept-license
+
+This appears to be your first time running this version of Splunk.
+
+Splunk software must create an administrator account during startup. Otherwise, you cannot log in.
+Create credentials for the administrator account.
+Characters do not appear on the screen when you type in credentials.
+
+Please enter an administrator username: naveen
+Password must contain at least:
+   * 8 total printable ASCII character(s).
+Please enter a new password:
+Please confirm new password:
+
+Splunk> All batbelt. No tights.
+
+Checking prerequisites...
+        Checking mgmt port [8089]: open
+                Creating: /opt/splunkforwarder/var/lib/splunk
+                Creating: /opt/splunkforwarder/var/run/splunk
+                Creating: /opt/splunkforwarder/var/run/splunk/appserver/i18n
+                Creating: /opt/splunkforwarder/var/run/splunk/appserver/modules/static/css
+                Creating: /opt/splunkforwarder/var/run/splunk/upload
+                Creating: /opt/splunkforwarder/var/spool/splunk
+                Creating: /opt/splunkforwarder/var/spool/dirmoncache
+                Creating: /opt/splunkforwarder/var/lib/splunk/authDb
+                Creating: /opt/splunkforwarder/var/lib/splunk/hashDb
+New certs have been generated in '/opt/splunkforwarder/etc/auth'.
+        Checking conf files for problems...
+        Done
+        Checking default conf files for edits...
+        Validating installed files against hashes from '/opt/splunkforwarder/splunkforwarder-7.2.1-be11b2c46e23-linux-2.6-x86_64-manifest'
+        All installed files intact.
+        Done
+All preliminary checks passed.
+
+Starting splunk server daemon (splunkd)...
+Done
+                                                           [  OK  ]
+[root@client bin]#
+
+
+Data forwarding pipeline
+=========================
+[root@client bin]# ./splunk add forward-server 10.182.246.200:9997
+Splunk username: naveen
+Password: changeme
+Added forwarding to: 10.182.246.200:9997.
+[root@client bin]#
+
+
+Monitor
+=======
+[root@client bin]# ./splunk add monitor /var/log/messages -index main -sourcetype MyUFServerLog
+Added monitor of '/var/log/messages'.
+[root@client bin]#
+
+
+Restart splunk web
+==================
+[root@server bin]# ./splunk restart
+Stopping splunkd...
+Shutting down.  Please wait, as this may take a few minutes.
+..                                                         [  OK  ]
+Stopping splunk helpers...
+                                                           [  OK  ]
+Done.
+
+Splunk> All batbelt. No tights.
+
+Checking prerequisites...
+        Checking http port [8000]: open
+        Checking mgmt port [8089]: open
+        Checking appserver port [127.0.0.1:8065]: open
+        Checking kvstore port [8191]: open
+        Checking configuration...  Done.
+        Checking critical directories...        Done
+        Checking indexes...
+                Validated: _audit _internal _introspection _telemetry _thefishbucket history main summary
+        Done
+        Checking filesystem compatibility...  Done
+        Checking conf files for problems...
+        Done
+        Checking default conf files for edits...
+        Validating installed files against hashes from '/opt/splunk/splunk-7.2.1-be11b2c46e23-linux-2.6-x86_64-manifest'
+        All installed files intact.
+        Done
+All preliminary checks passed.
+
+Starting splunk server daemon (splunkd)...
+Done
+                                                           [  OK  ]
+
+Waiting for web server at http://127.0.0.1:8000 to be available... Done
+
+
+If you get stuck, we're here to help.
+Look for answers here: http://docs.splunk.com
+
+The Splunk web interface is at http://server:8000
+
+
+
+
+Restart universal forwarder
+==========================
+
+[root@client ~]# firewall-cmd --permanent --add-port=8089/tcp
+success
+[root@client ~]# firewall-cmd --permanent --add-port=8089/udp
+success
+[root@client ~]# firewall-cmd --reload
+success
+[root@client ~]#
+
+
+=====================================================================================================================================================
+
+
+how to list the indexes
+=======================
+| eventcount summarize=false index=* | dedup index | fields index
+
+
+
+============================
+
+[root@client ~]# splunk list forward-server
+Your session is invalid.  Please login.
+Splunk username: naveen
+Password:
+Active forwards:
+        None
+Configured but inactive forwards:
+        10.182.246.200:9997
+
+
+[root@client ~]# splunk remove forward-server 10.182.246.200:9997
+Stopped forwarding to: 10.182.246.200:9997.
+
+[root@client ~]#  splunk list forward-server
+Active forwards:
+        None
+Configured but inactive forwards:
+        None
+[root@client ~]#
+
+how to check list of monitors
+==============================
+
+[root@client ~]# splunk list monitor
+Monitored Directories:
+        $SPLUNK_HOME/var/log/splunk
+                /opt/splunkforwarder/var/log/splunk/audit.log
+                /opt/splunkforwarder/var/log/splunk/btool.log
+                /opt/splunkforwarder/var/log/splunk/conf.log
+                /opt/splunkforwarder/var/log/splunk/first_install.log
+                /opt/splunkforwarder/var/log/splunk/health.log
+                /opt/splunkforwarder/var/log/splunk/license_usage.log
+                /opt/splunkforwarder/var/log/splunk/mongod.log
+                /opt/splunkforwarder/var/log/splunk/remote_searches.log
+                /opt/splunkforwarder/var/log/splunk/scheduler.log
+                /opt/splunkforwarder/var/log/splunk/searchhistory.log
+                /opt/splunkforwarder/var/log/splunk/splunkd-utility.log
+                /opt/splunkforwarder/var/log/splunk/splunkd_access.log
+                /opt/splunkforwarder/var/log/splunk/splunkd_stderr.log
+                /opt/splunkforwarder/var/log/splunk/splunkd_stdout.log
+                /opt/splunkforwarder/var/log/splunk/splunkd_ui_access.log
+        $SPLUNK_HOME/var/log/splunk/license_usage_summary.log
+                /opt/splunkforwarder/var/log/splunk/license_usage_summary.log
+        $SPLUNK_HOME/var/log/splunk/metrics.log
+                /opt/splunkforwarder/var/log/splunk/metrics.log
+        $SPLUNK_HOME/var/log/splunk/splunkd.log
+                /opt/splunkforwarder/var/log/splunk/splunkd.log
+        $SPLUNK_HOME/var/spool/splunk/...stash_new
+Monitored Files:
+        $SPLUNK_HOME/etc/splunk.version
+        /var/log/messages
+[root@client ~]#

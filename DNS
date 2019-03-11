@@ -99,6 +99,10 @@ $TTL 1D
 classroom       IN              A               192.168.56.114
 server          IN              A               192.168.56.110
 desktop         IN              A               192.168.56.112
+#MX mail server record.
+@               IN              MX      10      classroom.example.com.
+mail            IN              A               192.168.56.114
+
 [root@classroom named]#
 
 

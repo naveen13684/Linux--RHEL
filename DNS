@@ -57,12 +57,13 @@ systemctl status named
  file "forward.example.com";  #file should exist under /var/named
  allow-update { none;};
  };
- 
- zone "192.168.33.in-addr.arpa" IN {     #leave the last IP Number of static IP
- type master;
- file "reverse.example.com";
- allow-update { none; };
- };
+  
+zone "56.168.192.in-addr.arpa" IN {     #leave the last IP Number of static IP
+        type master;
+        file "reverse.example.com";  #file should exist under /var/named
+        allow-update {none;};
+};
+
  
  Check if your configuration is correct
  =====================================

@@ -38,6 +38,19 @@ systemctl status named
  firewall-cmd --list-all
  
  6) vim /etc/named.conf
+ 
+ # initial configuration to all port and IP to listen and allow-query to range of IP address.
+ 
+ options {
+        listen-on port 53 { 127.0.0.1; 192.168.56.114; };
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { 192.168.56.0/24; };
+}
+
  zone "example.com" IN {
  type master;
  file "forward.example.com";  #file should exist under /var/named

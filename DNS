@@ -86,37 +86,38 @@ zone 0.in-addr.arpa/IN: loaded serial 0
  7) cd /var/named
  Create below two files
  
-[root@server named]# cat forward.example.com
+[root@classroom named]# cat forward.example.com
 $TTL 1D
-@       IN SOA  server.example.com. root.example.com. (
-                                        01      ; serial
-                                        1D      ; refresh
-                                        1H      ; retry
-                                        1W      ; expire
-                                        3H )    ; minimum
-@       IN      NS      server.example.com.
-@       IN      A       192.168.33.4
-server  IN      A       192.168.33.4
-client  IN      A       192.168.33.6
-[root@server named]#
-
-
-
-
-[root@server named]# cat reverse.example.com
-$TTL 1D
-@       IN SOA  server.example.com. root.example.com. (
+@       IN SOA  classroom.example.com. root.example.com (
                                         0       ; serial
                                         1D      ; refresh
                                         1H      ; retry
                                         1W      ; expire
                                         3H )    ; minimum
-@       IN      NS      server.example.com.
-server  IN      A       192.168.33.4
-client  IN      A       192.168.33.6
-4       IN      PTR     server.example.com.
-6       IN      PTR     client.example.com.
-[root@server named]#
+@               IN              NS              classroom.example.com.
+@               IN              A               192.168.56.114
+classroom       IN              A               192.168.56.114
+server          IN              A               192.168.56.110
+desktop         IN              A               192.168.56.112
+[root@classroom named]#
+
+
+[root@classroom named]# cat reverse.example.com
+$TTL 1D
+@       IN SOA  classroom.example.com. root.example.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+@               IN              NS      classroom.example.com.
+classroom       IN              A       192.168.56.114
+server          IN              A       192.168.56.110
+desktop         IN              A       192.168.56.112
+110             IN              PTR     server.example.com.
+112             IN              PTR     desktop.example.com.
+114             IN              PTR     classroom.example.com.
+[root@classroom named]#
 
 
 

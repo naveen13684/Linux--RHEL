@@ -88,7 +88,7 @@ zone 0.in-addr.arpa/IN: loaded serial 0
  
 [root@classroom named]# cat forward.example.com
 $TTL 1D
-@       IN SOA  classroom.example.com. root.example.com (
+@       IN SOA  classroom.example.com. root.example.com. (
                                         0       ; serial
                                         1D      ; refresh
                                         1H      ; retry

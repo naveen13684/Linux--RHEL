@@ -1,0 +1,42 @@
+mail server for home
+====================
+
+yum install postfix [ both server and desktop ]
+systemctl enable postfix
+systemctl restart postfix
+
+Server Postfix configuration
+=============================
+myorigin = example.com
+inet_interfaces = loopback-only
+relayhost = [smtp.example.com]   ## Alias for desktop
+local_transport = error: local delivary disabled"
+mynetworks = 127.0.0.1/8, [::1]/128
+mydestination =
+
+Desktop postfix configuration
+=============================
+myorigin = example.com
+inet_interfaces = all
+mynetworks = 127.0.0.1/8, [::1]/128, 192.168.56.0/24
+mydestination = $myhostname, localhost.$mydomain, localhost
+
+Add firewall rule for smtp for both server and desktop
+
+firewall-cmd --permanent --add-service=smtp
+firewall-cmd --permanent --add-port=587/tcp
+firewall-cmd --permanent --add-port=993/tcp
+
+from server
+===========
+mail -s "Test email from server" student@desktop.example.com
+This is a test email
+.
+EOD
+
+mailq
+
+From desktop
+============
+su - student
+mail

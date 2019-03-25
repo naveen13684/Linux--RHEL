@@ -48,11 +48,14 @@ tcp6       0      0 :::389                  :::*                    LISTEN      
 
 slappasswd - OpenLDAP password utility
 
-[root@master named]# slappasswd
-New password:
-Re-enter new password:
-{SSHA}TaxXv1nAEn7OPrhxlgnP8YCzNeepfk8p
-[root@master named]#
+[root@server named]# slappasswd -h {SSHA} -s <ldppassword>  # replace ldappassword with your password
+{SSHA}ookkU8MdVEtEa3jWjR+gNVdyPxfNz8sM
+[root@server named]#
+
+[root@server named]# slappasswd -h {SSHA} -s Redhat@123
+{SSHA}ORyy8ypUDjbYjMh/fKlVbtpI+1HcYkbx
+[root@server named]#
+
 
 3) Edit the OpenLDAP Server Configuration
 ================================================

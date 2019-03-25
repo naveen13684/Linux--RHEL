@@ -20,7 +20,29 @@ Pre-requisites:
 1) Install the required LDAP Packages "Openldap"
 =================================================
 
-yum -y install openldap migrationtools openldap-clients
+yum -y install openldap migrationtools openldap-clients compat-openldap openldap-servers openldap-servers-sql openldap-devel
+
+
+[root@server named]# rpm -qa |grep -i openldap
+openldap-servers-2.4.44-13.el7.x86_64
+openldap-clients-2.4.44-13.el7.x86_64
+openldap-2.4.44-13.el7.x86_64
+compat-openldap-2.3.43-5.el7.x86_64
+openldap-devel-2.4.44-13.el7.x86_64
+[root@server named]#
+
+start the openldap service
+--------------------------
+[root@server named]# systemctl enable slapd
+[root@server named]# systemctl start slapd
+
+check if 389 port is listening
+------------------------------
+[root@server named]# netstat -antup|grep -i 389
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      8839/slapd
+tcp6       0      0 :::389                  :::*                    LISTEN      8839/slapd
+[root@server named]#
+
 
 2) Create a LDAP root password for administration purpose
 

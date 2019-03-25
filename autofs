@@ -25,6 +25,13 @@ First you need to configure NFS server and client model
 Filesystem     1K-blocks  Used Available Use% Mounted on
 /dev/sda3         999320  2572    927936   1% /nfsfileshare1
 
+open firewall
+-------------
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --reload
+firewall-cmd --list-all
 
 Client Side
 ===========
@@ -159,4 +166,28 @@ total 4
 drwx------ 15 student student 4096 Dec  1 08:00 student
 drwx------  3    1001    1001   78 Nov 21 20:12 test
 [root@client remotehome]#
+
+
+
+WORKING
+=======
+
+[mailuser@desktop ~]$ df -k
+Filesystem                         1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root               20469760 3626704  16843056  18% /
+devtmpfs                              490776       0    490776   0% /dev
+tmpfs                                 507752       0    507752   0% /dev/shm
+tmpfs                                 507752    7800    499952   2% /run
+tmpfs                                 507752       0    507752   0% /sys/fs/cgroup
+/dev/sr0                             4509696 4509696         0 100% /mnt/cdrom
+/dev/sda1                             996004  160420    835584  17% /boot
+tmpfs                                 101552      32    101520   1% /run/user/0
+server.example.com:/home/ldapuser1  20469760 3674624  16795136  18% /home/ldapuser1
+
+[mailuser@desktop ~]$ cat /etc/home.master
+ldapuser1 -rw,v3,sync server.example.com:/home/ldapuser1
+
+[mailuser@desktop ~]$ cat /etc/auto.master.d/map.autofs
+/home   /etc/home.master
+[mailuser@desktop ~]$
 

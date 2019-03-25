@@ -267,3 +267,163 @@ vi migrate_common.ph
 11) Import Users in to the LDAP Database
 
 12) Test the configuration
+
+===============================================================================================
+
+
+cn (Common Name) 
+ou (Organizational Unit)
+dc (Domain Component)
+dn (Distinguished Name)
+
+CN      commonName
+L       localityName
+ST      stateOrProvinceName
+O       organizationName
+OU      organizationalUnitName
+C       countryName
+STREET  streetAddress
+DC      domainComponent
+UID     userid
+
+
+[root@server cn=config]# cat olcDatabase={2}hdb.ldif
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 9cd5d5ad
+dn: olcDatabase={2}hdb
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {2}hdb
+olcDbDirectory: /var/lib/ldap
+olcSuffix: dc=my-domain,dc=com
+olcRootDN: cn=Manager,dc=my-domain,dc=com
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+structuralObjectClass: olcHdbConfig
+entryUUID: 595d560e-e288-1038-8425-a703084d8b17
+creatorsName: cn=config
+createTimestamp: 20190324135621Z
+entryCSN: 20190324135621.351539Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20190324135621Z
+
+--------------------------------------------------
+[root@server cn=config]# ldapmodify -Y EXTERNAL  -H ldapi:/// -f db.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "olcDatabase={2}hdb,cn=config"
+
+modifying entry "olcDatabase={2}hdb,cn=config"
+
+modifying entry "olcDatabase={2}hdb,cn=config"
+--------------------------------------------------
+[root@server cn=config]# cat olcDatabase={2}hdb.ldif
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 e3576318
+dn: olcDatabase={2}hdb
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {2}hdb
+olcDbDirectory: /var/lib/ldap
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+structuralObjectClass: olcHdbConfig
+entryUUID: 595d560e-e288-1038-8425-a703084d8b17
+creatorsName: cn=config
+createTimestamp: 20190324135621Z
+olcSuffix: dc=example,dc=com
+olcRootDN: cn=ldapadm,dc=example,dc=com
+olcRootPW:: e1NTSEF9T1J5eTh5cFVEamJZak1oL2ZLbFZidHBJKzFIY1lrYng=
+entryCSN: 20190324142536.730374Z#000000#000#000000
+modifiersName: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+modifyTimestamp: 20190324142536Z
+[root@server cn=config]#
+
+========================
+
+
+[root@server cn=config]# cat olcDatabase={1}monitor.ldif
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 bc57e9ff
+dn: olcDatabase={1}monitor
+objectClass: olcDatabaseConfig
+olcDatabase: {1}monitor
+olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=extern
+ al,cn=auth" read by dn.base="cn=Manager,dc=my-domain,dc=com" read by * none
+structuralObjectClass: olcDatabaseConfig
+entryUUID: 595d48a8-e288-1038-8424-a703084d8b17
+creatorsName: cn=config
+createTimestamp: 20190324135621Z
+entryCSN: 20190324135621.351197Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20190324135621Z
+[root@server cn=config]# vi monitor.ldif
+
+---------------------------------------------------------
+[root@server cn=config]# ldapmodify -Y EXTERNAL  -H ldapi:/// -f monitor.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "olcDatabase={1}monitor,cn=config"
+----------------------------------------------------------
+[root@server cn=config]# cat cat olcDatabase={1}monitor.ldif
+cat: cat: No such file or directory
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 6743c8a6
+dn: olcDatabase={1}monitor
+objectClass: olcDatabaseConfig
+olcDatabase: {1}monitor
+structuralObjectClass: olcDatabaseConfig
+entryUUID: 595d48a8-e288-1038-8424-a703084d8b17
+creatorsName: cn=config
+createTimestamp: 20190324135621Z
+olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=extern
+ al, cn=auth" read by dn.base="cn=ldapadm,dc=example,dc=com" read by * none
+entryCSN: 20190324142840.357643Z#000000#000#000000
+modifiersName: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+modifyTimestamp: 20190324142840Z
+[root@server cn=config]#
+==============================================
+
+
+cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+chown ldap:ldap /var/lib/ldap/*
+
+
+
+Create base config
+------------------
+vi base.ldif
+------------
+dn: dc=example,dc=com
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o: example com
+dc: example
+
+dn: cn=Manager,dc=example,dc=com
+objectClass: organizationalRole
+cn: Manager
+description: Directory Manager
+
+dn: ou=People,dc=example,dc=com
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Group
+----------------------
+[root@server cn=config]# ldapadd -x -W -D "cn=ldapadm,dc=example,dc=com" -f base.ldif
+Enter LDAP Password:
+adding new entry "dc=example,dc=com"
+
+adding new entry "cn=Manager,dc=example,dc=com"
+
+adding new entry "ou=People,dc=example,dc=com"
+
+adding new entry "ou=Group,dc=example,dc=com"
+
+[root@server cn=config]#

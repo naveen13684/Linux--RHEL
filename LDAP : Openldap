@@ -427,3 +427,13 @@ adding new entry "ou=People,dc=example,dc=com"
 adding new entry "ou=Group,dc=example,dc=com"
 
 [root@server cn=config]#
+
+
+how to change the ldapuser password
+====================================
+
+[root@desktop ~]# ldappasswd -H ldap://server.example.com -x -D "cn=ldapadm,dc=example,dc=com" -W -S "uid=ldapuser1,ou=People,dc=example,dc=com"
+New password:
+Re-enter new password:
+Enter LDAP Password:
+[root@desktop ~]#

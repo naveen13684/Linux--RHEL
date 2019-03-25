@@ -191,3 +191,12 @@ ldapuser1 -rw,v3,sync server.example.com:/home/ldapuser1
 /home   /etc/home.master
 [mailuser@desktop ~]$
 
+changing ldap password
+----------------------
+ldappasswd -H ldap://server_domain_or_IP -x -D "user_dn" -W -A -S
+ldappasswd -H ldap://server_domain_or_IP -x -D "user's_dn" -w old_passwd -a old_passwd -S
+ldappasswd -H ldap://server_domain_or_IP -x -D "cn=admin,dc=example,dc=com" -W -S "uid=bob,ou=people,dc=example,dc=com"
+
+finding rootDN
+=-============
+sudo ldapsearch -H ldapi:// -LLL -Q -Y EXTERNAL -b "cn=config" "(olcRootDN=*)" dn olcRootDN olcRootPW | tee ~/newpasswd.ldif

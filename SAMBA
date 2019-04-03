@@ -156,6 +156,8 @@ Press enter to see a dump of your service definitions
         workgroup = SAMBA
         idmap config * : backend = tdb
         cups options = raw
+        hostname looksups = yes
+        dns proxy = yes
 
 
 [sharepoint]
@@ -163,6 +165,7 @@ Press enter to see a dump of your service definitions
         cups options =
         path = /sharepoint
         read only = No
+        hosts allow = .exmample.com, 192.168.56.110, 192.168.56.110/24, 192.168.56., desktop.example.com
 
 
 [homes]

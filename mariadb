@@ -1,0 +1,229 @@
+service: mariadb
+port: 3306
+config file : /etc/my.cnf
+
+yum groupinstall mariadb mariadb-client -y
+systemctl enable mariadb
+systemctl start mariadb
+
+firewall-cmd --permanent --add-service=mysql
+firewall-cmd --permanent --add-port=3306/tcp
+
+ss -tulpn |grep -i mysql
+netstat -tulpn |grep -i mysql
+
+vim /etc/my.cnf
+[mysqld]
+bind-address <IP address >
+skip-networking=1|0    
+
+1= only local host has access to db, remote login disabled 
+0= remote login enabled
+
+#mysql_secure_installation
+---set root password and select yes to all default questions
+
+create table
+==================
+
+mysql -u root -p
+>create database iant;
+>use iant;
+MariaDB [iant]> create table iant_users(name varchar(20),id int,fname varchar(20),lname varchar(20),age int);
+Query OK, 0 rows affected (0.08 sec)
+
+inset values to tables
+=========================
+
+MariaDB [iant]> insert into iant.iant_users values ('NK020131', 020, 'Naveen', 'KumarHS', 34);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [iant]> select * from iant_users;
++----------+------+--------+---------+------+
+| name     | id   | fname  | lname   | age  |
++----------+------+--------+---------+------+
+| NK020131 |   20 | Naveen | KumarHS |   34 |
++----------+------+--------+---------+------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]>
+
+update
+=======
+
+MariaDB [iant]> update iant.iant_users set lname='Kumar HS' where name='NK020131';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [iant]> select * from iant_users;
++----------+------+--------+----------+------+
+| name     | id   | fname  | lname    | age  |
++----------+------+--------+----------+------+
+| NK020131 |   20 | Naveen | Kumar HS |   34 |
++----------+------+--------+----------+------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]>
+
+
+
+MariaDB [iant]> insert into iant.iant_users values ('NK12345', 123, 'Naveen1', 'KumarHS1', 30);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [iant]> select * from iant_users;
++----------+------+---------+----------+------+
+| name     | id   | fname   | lname    | age  |
++----------+------+---------+----------+------+
+| NK020131 |   20 | Naveen  | Kumar HS |   34 |
+| NK12345  |  123 | Naveen1 | KumarHS1 |   30 |
++----------+------+---------+----------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [iant]>
+
+Delete
+========
+MariaDB [iant]> delete from iant.iant_users where age=30;
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [iant]> select * from iant_users;
++----------+------+--------+----------+------+
+| name     | id   | fname  | lname    | age  |
++----------+------+--------+----------+------+
+| NK020131 |   20 | Naveen | Kumar HS |   34 |
++----------+------+--------+----------+------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]>
+
+
+create local Local User
+=====================
+MariaDB [iant]> create user u1@localhost identified by 'u1';
+Query OK, 0 rows affected (0.00 sec)
+
+
+create remote Local User
+=====================
+MariaDB [iant]> create user u2@'%' identified by 'u2';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]>
+
+% above means he can able to remotely connect to database from anywhere.
+
+from server : database exist in desktop
+=======================================
+[root@server ~]# mysql -u u2 -h desktop -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 24
+Server version: 5.5.56-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]>
+
+
+Granting access 
+==============
+
+Granting access to all tables;
+--------------------------------
+MariaDB [iant]> grant insert,update,delete,select on iant.* to u2;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]> grant select on iant.* to u1;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]>
+
+iant.*  = * means - all tables access; if you want ristric access to specific tables
+
+ristricting access to tables;
+------------------------------
+MariaDB [iant]> grant insert,update,delete,select on iant.* to u2;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]> grant select on iant.* to u1;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]> create user u3@'%' identified by 'u3';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]> grant select on iant.iant_users to u3;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]>
+
+he can see only iant_users tables
+=================================
+MariaDB [(none)]> use iant;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [iant]> show tables;
++----------------+
+| Tables_in_iant |
++----------------+
+| iant_users     |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]>
+
+Revoke permissions
+==================
+
+desktop:
+MariaDB [iant]> revoke select on iant.iant_users from u3;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [iant]>
+
+server:
+MariaDB [iant]> show tables;
+ERROR 1044 (42000): Access denied for user 'u3'@'%' to database 'iant'
+MariaDB [iant]>
+
+viewing grants
+==============
+MariaDB [iant]> show grants for u1@localhost;
++-----------------------------------------------------------------------------------------------------------+
+| Grants for u1@localhost                                                                                   |
++-----------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'u1'@'localhost' IDENTIFIED BY PASSWORD '*556BEF296211C2AF58F53DA3EDDD0A3371B6ECD5' |
++-----------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]> show grants for u2@'%';
++---------------------------------------------------------------------------------------------------+
+| Grants for u2@%                                                                                   |
++---------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'u2'@'%' IDENTIFIED BY PASSWORD '*A9FD3BA43189B0F4E7E2E759AACCE67511CC034E' |
+| GRANT SELECT, INSERT, UPDATE, DELETE ON `iant`.* TO 'u2'@'%'                                      |
++---------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [iant]> show grants for u3@'%';
++---------------------------------------------------------------------------------------------------+
+| Grants for u3@%                                                                                   |
++---------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'u3'@'%' IDENTIFIED BY PASSWORD '*40A7C3ED7EA876E5ED51B9716F44A7DDE64AD66A' |
++---------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [iant]>
+
+
+
+To give access to root user of remoate machine to access database;
+-----------------------------------------------------------------
+MariaDB [(none)]> grant all privileges on *.* to 'root'@'192.168.56.%' identified by 'redhat' with grant option;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> FLUSH PRIVILEGES:
+    -> ;

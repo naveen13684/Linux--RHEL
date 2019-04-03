@@ -1,0 +1,10 @@
+https:
+======
+yum install httpd
+yum install mod_wsgi
+yum install crypto-utils
+yum install mod_ssl
+
+
+
+

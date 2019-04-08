@@ -1,0 +1,16 @@
+#route
+#route -n
+
+[root@server ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.56.1    0.0.0.0         UG    0      0        0 T
+0.0.0.0         172.29.65.1     0.0.0.0         UG    101    0        0 enp0s3
+0.0.0.0         192.168.56.1    0.0.0.0         UG    350    0        0 T
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+172.29.65.0     0.0.0.0         255.255.255.0   U     101    0        0 enp0s3
+192.168.56.0    0.0.0.0         255.255.255.0   U     350    0        0 T
+192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
+[root@server ~]#
+
+

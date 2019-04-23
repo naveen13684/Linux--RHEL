@@ -1,0 +1,679 @@
+Kubernetes
+==========
+
+Kubernetes Components
+=====================
+
+Master components : Required to run PODS + daemonsets + This is first thing to setup/cri/
+=================
+-etcd
+-API server
+-Controller manager
+-Scheduler
+-kube-cron (alpha , cron jobs)
+-kube-dns (for service DNS names)
+-Dashbaord (a webinterface )
+-update kernel on master node as well ( yum -y install kernel* )
+
+Worker-Node components : Required for some not all API resources . On every worker node
+=======================
+-Docker Daemon
+-kubelet ( Docker + kubelet run all other componets )
+-supervisord/systemd ( to keep kublet and docker running )
+-Kube-proxy ( Makes service Ip's work
+- upgrade the kernel on woker node ( yum -y install kernel*)
+
+Installation of kubectl
+------------------------
+[root@master yum.repos.d]# cat kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+[root@master yum.repos.d]#
+
+yum -y install kubectl
+
+Installation of minikube
+------------------------
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64  && chmod +x minikube
+cp minikube /usr/local/bin && rm minikube
+
+
+Installation of docker
+----------------------
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+http://ftp.riken.jp/Linux/cern/centos/7/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm
+rpm -ivh container-selinux-2.9-4.el7.noarch.rpm
+yum -y install docker-ce*
+[root@master yum.repos.d]# systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+[root@master yum.repos.d]# systemctl start docker
+[root@master yum.repos.d]#
+docker version
+
+Installation of kubeadm
+------------------------
+yum -y install kubeadm
+[root@master yum.repos.d]# systemctl enable kubelet
+Created symlink from /etc/systemd/system/multi-user.target.wants/kubelet.service to /usr/lib/systemd/system/kubelet.service.
+[root@master yum.repos.d]# systemctl start kubelet
+[root@master yum.repos.d]#
+
+disale swap
+-----------
+[root@master yum.repos.d]# vim /etc/fstab
+[root@master yum.repos.d]# swapoff -a
+[root@master yum.repos.d]# free -m
+              total        used        free      shared  buff/cache   available
+Mem:           3789        1111        1580           9        1097        2409
+Swap:             0           0           0
+[root@master yum.repos.d]#
+
+make changes to below files
+---------------------------
+vim /etc/sysctl.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+
+[root@master yum.repos.d]# sysctl -p
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+[root@master yum.repos.d]#
+
+start the cluster
+================
+
+
+[root@master yum.repos.d]# kubeadm init --pod-network-cidr=172.30.0.0/16
+[init] Using Kubernetes version: v1.14.1
+[preflight] Running pre-flight checks
+        [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup                                                           driver. The recommended driver is "systemd". Please follow the guide at https:/                                                          /kubernetes.io/docs/setup/cri/
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your inte                                                          rnet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config                                                           images pull'
+
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Activating the kubelet service
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [master localhost] and IPs [192.168.0.104 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [master localhost] and IPs [192.168.0.104 127.0.0.1 ::1]
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [master kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 192.168.0.104]
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 20.168853 seconds
+[upload-config] storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config-1.14" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --experimental-upload-certs
+[mark-control-plane] Marking the node master as control-plane by adding the label "node-role.kubernetes.io/master=''"
+[mark-control-plane] Marking the node master as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: wmtzjz.89fnpjdnqprfor1g
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.0.104:6443 --token wmtzjz.89fnpjdnqprfor1g \
+    --discovery-token-ca-cert-hash sha256:c48ce6559b68fc3d02592af3a7c0050d4e5a99155cad4aa04f0414226caf6f13
+[root@master yum.repos.d]#
+[root@master yum.repos.d]#
+
+
+check the images which it downloaded during startup
+=============
+
+[root@master ~]#  docker images
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+k8s.gcr.io/kube-proxy                v1.14.1             20a2d7035165        12 days ago         82.1MB
+k8s.gcr.io/kube-apiserver            v1.14.1             cfaa4ad74c37        12 days ago         210MB
+k8s.gcr.io/kube-controller-manager   v1.14.1             efb3887b411d        12 days ago         158MB
+k8s.gcr.io/kube-scheduler            v1.14.1             8931473d5bdb        12 days ago         81.6MB
+k8s.gcr.io/coredns                   1.3.1               eb516548c180        3 months ago        40.3MB
+k8s.gcr.io/etcd                      3.3.10              2c4adeb21b4f        4 months ago        258MB
+k8s.gcr.io/pause                     3.1                 da86e6ba6ca1        16 months ago       742kB
+[root@master ~]#
+
+
+[root@master yum.repos.d]#  mkdir -p $HOME/.kube
+[root@master yum.repos.d]# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@master yum.repos.d]#  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+[root@master yum.repos.d]# kubectl get node
+NAME     STATUS     ROLES    AGE     VERSION
+master   NotReady   master   6m44s
+
+[root@master yum.repos.d]# kubectl get node -o wide
+NAME     STATUS     ROLES    AGE     VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE                                      KERNEL-VERSION          CONTAINER-RUNTIME
+master   NotReady   master   7m23s   v1.14.1   192.168.56.110   <none>        Red Hat Enterprise Linux Server 7.5 (Maipo)   3.10.0-862.el7.x86_64   docker://18.9.5
+[root@master yum.repos.d]#
+
+Create network layer for kubernetes
+-----------------------------------
+https://github.com/coreos/flannel
+
+[root@master yum.repos.d]# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+podsecuritypolicy.extensions/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.extensions/kube-flannel-ds-amd64 created
+daemonset.extensions/kube-flannel-ds-arm64 created
+daemonset.extensions/kube-flannel-ds-arm created
+daemonset.extensions/kube-flannel-ds-ppc64le created
+daemonset.extensions/kube-flannel-ds-s390x created
+[root@master yum.repos.d]#
+
+OR
+
+[root@master ~]# kubectl apply -f \
+> https://docs.projectcalico.org/v3.6/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
+configmap/calico-config created
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrole.rbac.authorization.k8s.io/calico-node created
+clusterrolebinding.rbac.authorization.k8s.io/calico-node created
+daemonset.extensions/calico-node created
+serviceaccount/calico-node created
+deployment.extensions/calico-kube-controllers created
+serviceaccount/calico-kube-controllers created
+[root@master ~]# 
+
+
+Status will be ready only after you create flannel
+---------------------------------------------------
+[root@master yum.repos.d]# kubectl get nodes
+NAME     STATUS   ROLES    AGE   VERSION
+master   Ready    master   30m   v1.14.1
+[root@master yum.repos.d]#
+
+
+commands
+========
+[root@master yum.repos.d]# kubectl get node --all-namespaces
+NAME     STATUS   ROLES    AGE   VERSION
+master   Ready    master   33m   v1.14.1
+[root@master yum.repos.d]#
+
+[root@master yum.repos.d]# docker image ls
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+k8s.gcr.io/kube-proxy                v1.14.1             20a2d7035165        12 days ago         82.1MB
+k8s.gcr.io/kube-apiserver            v1.14.1             cfaa4ad74c37        12 days ago         210MB
+k8s.gcr.io/kube-controller-manager   v1.14.1             efb3887b411d        12 days ago         158MB
+k8s.gcr.io/kube-scheduler            v1.14.1             8931473d5bdb        12 days ago         81.6MB
+quay.io/coreos/flannel               v0.11.0-amd64       ff281650a721        2 months ago        52.6MB
+k8s.gcr.io/coredns                   1.3.1               eb516548c180        3 months ago        40.3MB
+k8s.gcr.io/etcd                      3.3.10              2c4adeb21b4f        4 months ago        258MB
+k8s.gcr.io/pause                     3.1                 da86e6ba6ca1        16 months ago       742kB
+[root@master yum.repos.d]#
+
+
+[root@master yum.repos.d]# kubectl get pods
+No resources found.
+[root@master yum.repos.d]#
+
+since I used calico network , network manager showing calico interfaces
+=======================================================================
+
+[root@master ~]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:9b:2b:1a brd ff:ff:ff:ff:ff:ff
+    inet 192.168.56.110/24 brd 192.168.56.255 scope global noprefixroute enp0s3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::7ba9:b472:3773:f055/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:27:f7:ee brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.104/24 brd 192.168.0.255 scope global noprefixroute dynamic enp0s8
+       valid_lft 1395sec preferred_lft 1395sec
+    inet6 fe80::7c71:566b:e630:3487/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default qlen 1000
+    link/ether 52:54:00:be:69:16 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+       valid_lft forever preferred_lft forever
+5: virbr0-nic: <BROADCAST,MULTICAST> mtu 1500 qdisc pfifo_fast master virbr0 state DOWN group default qlen 1000
+    link/ether 52:54:00:be:69:16 brd ff:ff:ff:ff:ff:ff
+6: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 02:42:96:3c:c4:4b brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+7: cali6e18362f0f4@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1440 qdisc noqueue state UP group default
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link
+       valid_lft forever preferred_lft forever
+8: caliad0e3e03140@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1440 qdisc noqueue state UP group default
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 1
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link
+       valid_lft forever preferred_lft forever
+9: tunl0@NONE: <NOARP,UP,LOWER_UP> mtu 1440 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/ipip 0.0.0.0 brd 0.0.0.0
+    inet 192.168.219.64/32 brd 192.168.219.64 scope global tunl0
+       valid_lft forever preferred_lft forever
+10: cali865ba1afcb7@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1440 qdisc noqueue state UP group default
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 2
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link
+       valid_lft forever preferred_lft forever
+11: cali3730fba439b@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1440 qdisc noqueue state UP group default
+    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 3
+    inet6 fe80::ecee:eeff:feee:eeee/64 scope link
+       valid_lft forever preferred_lft forever
+[root@master ~]#
+
+
+
+[root@master yum.repos.d]# kubectl get pods --all-namespaces
+NAMESPACE     NAME                             READY   STATUS    RESTARTS   AGE
+kube-system   coredns-fb8b8dccf-bxchf          1/1     Running   0          38m
+kube-system   coredns-fb8b8dccf-r2dbj          1/1     Running   0          38m
+kube-system   etcd-master                      1/1     Running   0          37m
+kube-system   kube-apiserver-master            1/1     Running   0          37m
+kube-system   kube-controller-manager-master   1/1     Running   0          37m
+kube-system   kube-flannel-ds-amd64-bxv6v      1/1     Running   0          8m48s
+kube-system   kube-proxy-vpm6c                 1/1     Running   0          38m
+kube-system   kube-scheduler-master            1/1     Running   0          37m
+[root@master yum.repos.d]#
+
+To check in detail about a pod
+-------------------------------
+kubectl describe pods kube-flannel-ds-amd64-bxv6v --namespace=kube-system
+
+
+
+[root@master ~]#  kubectl get all --namespace=kube-system
+NAME                                 READY   STATUS    RESTARTS   AGE
+pod/coredns-fb8b8dccf-bxchf          1/1     Running   2          5h56m
+pod/coredns-fb8b8dccf-r2dbj          1/1     Running   2          5h56m
+pod/etcd-master                      1/1     Running   2          5h55m
+pod/kube-apiserver-master            1/1     Running   2          5h55m
+pod/kube-controller-manager-master   1/1     Running   2          5h55m
+pod/kube-flannel-ds-amd64-bxv6v      1/1     Running   2          5h27m
+pod/kube-proxy-vpm6c                 1/1     Running   2          5h56m
+pod/kube-scheduler-master            1/1     Running   2          5h55m
+
+NAME               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns   ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   5h56m
+
+NAME                                     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR                     AGE
+daemonset.apps/kube-flannel-ds-amd64     1         1         1       1            1           beta.kubernetes.io/arch=amd64     5h27m
+daemonset.apps/kube-flannel-ds-arm       0         0         0       0            0           beta.kubernetes.io/arch=arm       5h27m
+daemonset.apps/kube-flannel-ds-arm64     0         0         0       0            0           beta.kubernetes.io/arch=arm64     5h27m
+daemonset.apps/kube-flannel-ds-ppc64le   0         0         0       0            0           beta.kubernetes.io/arch=ppc64le   5h27m
+daemonset.apps/kube-flannel-ds-s390x     0         0         0       0            0           beta.kubernetes.io/arch=s390x     5h27m
+daemonset.apps/kube-proxy                1         1         1       1            1           <none>                            5h56m
+
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/coredns   2/2     2            2           5h56m
+
+NAME                                DESIRED   CURRENT   READY   AGE
+replicaset.apps/coredns-fb8b8dccf   2         2         2       5h56m
+[root@master ~]#
+
+
+
+
+How to join worker node to cluser
+================================
+Before you join node to cluster you need to install required services in worker node as well
+yum install -y kubelet kubeadm kubectl
+
+systemctl enable kubelet
+systemctl start kubelet
+
+[root@client ~]# swapoff -a ( comment the sawp line in fstab file )
+
+Last command which you saw in the output of kubeinit command from master to join any woker node to cluster. 
+-----------------------------------------------------------
+[root@client ~]# kubeadm join 192.168.0.104:6443 --token 61fi0q.hxpxxju2lo0t437w     --discovery-token-ca-cert-hash sha256:c48ce6559b68fc3d02592af3a7c0050d4e5a99155cad4aa04f0414226caf6f13
+[preflight] Running pre-flight checks
+        [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[kubelet-start] Downloading configuration for the kubelet from the "kubelet-config-1.14" ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Activating the kubelet service
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+
+[root@client ~]#
+
+Generate new token to join worker node to master : in case if you have forgot token which was generated during creating master node.
+======================================================================================================================
+
+[root@master ~]# kubeadm token list
+TOKEN                     TTL       EXPIRES                     USAGES                   DESCRIPTION                                                EXTRA GROUPS
+wmtzjz.89fnpjdnqprfor1g   17h       2019-04-22T07:53:27-04:00   authentication,signing   The default bootstrap token generated by 'kubeadm init'.   system:bootstrappers:kubeadm:default-node-token
+[root@master ~]# date
+Sun Apr 21 13:57:50 EDT 2019
+[root@master ~]#
+
+[root@master ~]# kubeadm token create --print-join-command
+kubeadm join 192.168.0.104:6443 --token 61fi0q.hxpxxju2lo0t437w     --discovery-token-ca-cert-hash sha256:c48ce6559b68fc3d02592af3a7c0050d4e5a99155cad4aa04f0414226caf6f13
+[root@master ~]#
+
+On the master node
+--------------------
+
+[root@master ~]# kubectl get nodes
+NAME     STATUS   ROLES    AGE     VERSION
+client   Ready    <none>   57s     v1.14.1
+master   Ready    master   6h10m   v1.14.1
+[root@master ~]#
+
+
+check the events
+================
+[root@master ~]# kubectl get events
+LAST SEEN   TYPE     REASON                    OBJECT        MESSAGE
+3m5s        Normal   NodeHasSufficientMemory   node/client   Node client status is now: NodeHasSufficientMemory
+3m5s        Normal   NodeHasNoDiskPressure     node/client   Node client status is now: NodeHasNoDiskPressure
+3m3s        Normal   RegisteredNode            node/client   Node client event: Registered Node client in Controller
+2m43s       Normal   Starting                  node/client   Starting kube-proxy.
+5h42m       Normal   NodeReady                 node/master   Node master status is now: NodeReady
+172m        Normal   Starting                  node/master   Starting kubelet.
+172m        Normal   NodeHasSufficientMemory   node/master   Node master status is now: NodeHasSufficientMemory
+172m        Normal   NodeHasNoDiskPressure     node/master   Node master status is now: NodeHasNoDiskPressure
+172m        Normal   NodeHasSufficientPID      node/master   Node master status is now: NodeHasSufficientPID
+172m        Normal   NodeAllocatableEnforced   node/master   Updated Node Allocatable limit across pods
+172m        Normal   Starting                  node/master   Starting kube-proxy.
+171m        Normal   RegisteredNode            node/master   Node master event: Registered Node master in Controller
+29m         Normal   Starting                  node/master   Starting kubelet.
+29m         Normal   NodeHasSufficientMemory   node/master   Node master status is now: NodeHasSufficientMemory
+29m         Normal   NodeHasNoDiskPressure     node/master   Node master status is now: NodeHasNoDiskPressure
+29m         Normal   NodeHasSufficientPID      node/master   Node master status is now: NodeHasSufficientPID
+29m         Normal   NodeAllocatableEnforced   node/master   Updated Node Allocatable limit across pods
+28m         Normal   Starting                  node/master   Starting kube-proxy.
+28m         Normal   RegisteredNode            node/master   Node master event: Registered Node master in Controller
+[root@master ~]#
+
+
+[root@master ~]# kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   6h32m
+kube-node-lease   Active   6h32m
+kube-public       Active   6h32m
+kube-system       Active   6h32m
+[root@master ~]#
+
+create deployment
+=================
+[root@master ~]# kubectl create deployment nginx --image=nginx
+deployment.apps/nginx created
+[root@master ~]# kubectl get deployments
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   0/1     1            0           12s
+[root@master ~]# 
+
+[root@master ~]# kubectl get deployments
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   1/1     1            1           73m
+[root@master ~]#
+
+
+[root@master ~]# kubectl describe deployment nginx
+Name:                   nginx
+Namespace:              default
+CreationTimestamp:      Sun, 21 Apr 2019 14:13:06 -0400
+Labels:                 app=nginx
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=nginx
+Replicas:               1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        nginx
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  <none>
+NewReplicaSet:   nginx-65f88748fd (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  25s   deployment-controller  Scaled up replica set nginx-65f88748fd to 1
+[root@master ~]# 
+
+create service
+==============
+[root@master ~]# kubectl create service nodeport nginx --tcp=80:80
+service/nginx created
+
+[root@master ~]# kubectl get svc -o wide
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE     SELECTOR
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        87m     <none>
+nginx        NodePort    10.101.228.228   <none>        80:30743/TCP   5m12s   app=nginx
+[root@master ~]#
+
+
+[root@master ~]# kubectl get pods -o wide
+NAME                     READY   STATUS    RESTARTS   AGE   IP               NODE     NOMINATED NODE   READINESS GATES
+nginx-65f88748fd-4brvc   1/1     Running   0          73m   192.168.219.68   master   <none>           <none>
+[root@master ~]#
+
+
+
+[root@master ~]# elinks 192.168.219.68:80
+
+OR
+
+[root@master ~]# curl 192.168.219.68:80
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+[root@master ~]#
+
+
+[root@master ~]# curl  192.168.0.104:30743
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+[root@master ~]#
+
+OR
+
+brower
+http://192.168.0.104:30743/
+
+
+Remove the taints on the master so that you can schedule pods on it.
+=======================================
+[root@master ~]# kubectl taint nodes --all node-role.kubernetes.io/master-
+node/master untainted
+[root@master ~]#
+
+check cluster info
+===================
+[root@master ~]# kubectl cluster-info
+Kubernetes master is running at https://192.168.0.104:6443
+KubeDNS is running at https://192.168.0.104:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+[root@master ~]#
+
+check the kubectl config
+======================== 
+[root@master ~]# kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://192.168.0.104:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+[root@master ~]#
+
+
+How to delete deployment
+==========================
+root@kube-master:~# kubectl delete deployment nginx
+deployment "nginx" deleted
+
+root@kube-master:~# kubectl get deployments
+No resources found.
+
+===============================
+
+consolidated setps
+==================
+1. Install packages on master and minions
+yum install kubeadm docker -y
+
+2. Stop firewall/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+
+3. Start docker and kubelet service
+for i in kubelet docker; do systemctl start $i; systemctl enable $i;systemctl status $i; done
+
+4. Ensure swap is off and comment in fstab
+swapoff -a
+
+5. Enable IP forwarding or iptables. Update below lines in /etc/sysctl.conf
+
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+
+6. To take effect the new kernel paramater settings:
+sysctl -p
+
+7. Set IP range for pods or docker container:
+kubeadm init --pod-network-cidr=172.30.0.0/16
+
+8. mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+9. Configure flannel networking for your docker containner.
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+

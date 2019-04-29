@@ -1,0 +1,69 @@
+find command
+============
+
+find .
+find -type d
+find -type find
+find -type f -size +1M
+find -type f -size +1M -size -100M
+find -type f -size +100M -delete
+find . -type f -size +500M -exec ls -lh {} \;
+find . -type f -size +500M -exec rm -rf {} \;
+find . -name <file name>
+find . -name "minikube*" -exec rm -rf {} \;
+find . -name "rc.conf" -exec chmod o+r '{}' \;
+find . -name "*.bak" -delete
+find -iname testfile1.txt  => case sensitive search
+find . -not -name “*.txt” => display names that dont match search pattern
+find . -maxdepth 3 -name "*.txt"  => How to limit search to directory level
+[root@master tmp]# find . -name "*.txt" -maxdepth 3
+./naveen.txt
+./first/f1.txt
+./first/f2.txt
+./first/f3.txt
+./first/f4.txt
+./first/f5.txt
+./first/f6.txt
+./first/second/fs1.txt
+./first/second/fs2.txt
+./first/second/fs3.txt
+./first/second/fs4.txt
+./first/second/fs5.txt
+[root@master tmp]# find . -name "*.txt" -maxdepth 4
+./naveen.txt
+./first/f1.txt
+./first/f2.txt
+./first/f3.txt
+./first/f4.txt
+./first/f5.txt
+./first/f6.txt
+./first/second/fs1.txt
+./first/second/fs2.txt
+./first/second/fs3.txt
+./first/second/fs4.txt
+./first/second/fs5.txt
+./first/second/third/ft1.txt
+./first/second/third/ft2.txt
+./first/second/third/ft3.txt
+./first/second/third/ft4.txt
+[root@master tmp]#
+[root@master tmp]# find . -name "*.txt" -mindepth 3
+./first/second/fs1.txt
+./first/second/fs2.txt
+./first/second/fs3.txt
+./first/second/fs4.txt
+./first/second/fs5.txt
+./first/second/third/ft1.txt
+./first/second/third/ft2.txt
+./first/second/third/ft3.txt
+./first/second/third/ft4.txt
+[root@master tmp]#
+
+find -mindepth 2 -maxdepth 4 -name "*.txt"
+find . -empty  => to display empty files
+find . -group howtoforge -name "*.txt"  => files belongs to particular group
+find . -user himanshu -name "*.txt" => files belongs to particular user
+find . -mmin 1 -name "*.txt" => find recently modified files
+find . -newer ./examples/find/howtoforge/old.txt -name "*.txt" =>How to search for files that were modified more recently than a file
+find . -inum 525897
+find -amin 1 -name "*.txt" => How to search files based on their last access time

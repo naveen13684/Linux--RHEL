@@ -1,0 +1,116 @@
+How to Create self signed Certificate in RHEL7
+==============================================
+1) Create a repo
+[root@master ~]# cat /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+[root@master ~]#
+
+2) Install nginx
+yum install -y nginx
+
+3) Start the service
+	systemctl enable nginx
+    systemctl start nginx
+
+4) Create self signed certificate
+
+Public Certificate location: /etc/ssl/certs   
+Private Certificate location: /etc/ssl/private
+
+chmod 700 /etc/ssl/private
+chmod 700 /etc/ssl/certs
+
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+
+openssl: This is the basic command line tool for creating and managing OpenSSL certificates, keys, and other files.
+
+req: This subcommand specifies that we want to use X.509 certificate signing request (CSR) management. The "X.509" is a public key infrastructure standard that SSL and TLS adheres to for its key and certificate management. We want to create a new X.509 cert, so we are using this subcommand.
+-x509: This further modifies the previous subcommand by telling the utility that we want to make a self-signed certificate instead of generating a certificate signing request, as would normally happen.
+-nodes: This tells OpenSSL to skip the option to secure our certificate with a passphrase. We need Nginx to be able to read the file, without user intervention, when the server starts up. A passphrase would prevent this from happening because we would have to enter it after every restart.
+-days 365: This option sets the length of time that the certificate will be considered valid. We set it for one year here.
+-newkey rsa:2048: This specifies that we want to generate a new certificate and a new key at the same time. We did not create the key that is required to sign the certificate in a previous step, so we need to create it along with the certificate. The rsa:2048 portion tells it to make an RSA key that is 2048 bits long.
+-keyout: This line tells OpenSSL where to place the generated private key file that we are creating.
+-out: This tells OpenSSL where to place the certificate that we are creating.
+
+5)we are using OpenSSL, we should also create a strong Diffie-Hellman group, which is used in negotiating Perfect Forward Secrecy with clients.
+openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+6)Configure Nginx to Use SSL
+
+vi ssl.conf
+
+server {
+    listen 443 http2 ssl;
+    listen [::]:443 http2 ssl;
+
+    server_name 192.168.56.110;
+
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+
+    ########################################################################
+    # from https://cipherli.st/                                            #
+    # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html #
+    ########################################################################
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_ecdh_curve secp384r1;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+    # Disable preloading HSTS for now.  You can use the commented out header line that includes
+    # the "preload" directive if you understand the implications.
+    #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+
+    ##################################
+    # END https://cipherli.st/ BLOCK #
+    ##################################
+	
+	    root /usr/share/nginx/html;
+
+    location / {
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+    }
+
+}	
+
+
+check the configuration
+
+[root@master conf.d]# nginx -t
+nginx: [warn] "ssl_stapling" ignored, issuer certificate not found for certificate "/etc/ssl/certs/nginx-selfsigned.crt"
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+[root@master conf.d]#
+
+
+7) systemctl restart nginx
+
+
+[root@master conf.d]# ss -nlatup |grep -i nginx
+tcp    LISTEN     0      128       *:80                    *:*                   users:(("nginx",pid=23729,fd=6),("nginx",pid=23728,fd=6))
+tcp    LISTEN     0      128       *:443                   *:*                   users:(("nginx",pid=23729,fd=7),("nginx",pid=23728,fd=7))
+tcp    LISTEN     0      128      :::443                  :::*                   users:(("nginx",pid=23729,fd=8),("nginx",pid=23728,fd=8))
+[root@master conf.d]#

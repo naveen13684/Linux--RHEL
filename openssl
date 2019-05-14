@@ -15,6 +15,9 @@ openssl x509 -x509toreq -in certificate.crt -out CSR.csr -signkey privateKey.key
 Remove a passphrase from a private key
 openssl rsa -in privateKey.pem -out newPrivateKey.pem
 
+convert .crt to .pem
+openssl x509 -in mycert.crt -out mycert.pem -outform PEM
+
 Checking Using OpenSSL
 ========================
 Check a Certificate Signing Request (CSR)

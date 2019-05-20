@@ -61,3 +61,40 @@ You can add -nocerts to only output the private key or add -nokeys to only outpu
 
 Convert a PEM certificate file and a private key to PKCS#12 (.pfx .p12)
 openssl pkcs12 -export -out certificate.pfx -inkey privateKey.key -in certificate.crt -certfile CACert.crt
+
+
+To check if you have disabled the SSLv3 support
+================================================
+openssl s_client -connect example.com:443 -ssl3
+openssl s_client -connect exmaple.com:443 -tls1
+
+OR
+nmap --script ssl-enum-ciphers example.com
+nmap --script ssl-enum-ciphers -p 443 example.com
+
+
+Testing HTTPS Services Using "openssl s_client -connect" Command
+===============================================================
+openssl s_client -connect <hostname>:<port>
+openssl s_client -connect pingfederate.example.com:443 
+
+openssl s_client -connect <hostname>:<port> -showcerts
+openssl s_client -connect <hostname>:<port> -ssl2
+openssl s_client -connect <hostname>:<port> -dtls1
+openssl s_client -connect <hostname>:<port> -cipher DHE-RSA-AES256-SHA
+openssl s_client -connect poftut.com:443 -CAfile /etc/ssl/CA.crt
+openssl s_client -connect smtp.poftut.com:25 -starttls smtp
+
+Connect HTTPS Site Disabling SSL2
+=================================
+openssl s_client -connect poftut.com:443 -no_ssl2
+
+Connect HTTPS Only TLS1 or TLS2
+================================
+openssl s_client -connect poftut.com:443 -tls1_2
+
+
+Debug SSL/TLS To The HTTPS
+===========================
+openssl s_client -connect poftut.com:443 -tlsextdebug
+

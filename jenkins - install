@@ -50,3 +50,18 @@ fa07d3c817ef87304397161ed03c49b9d6d2700647556d09bd2ab8b36829d9c1  -
 
 4) start the jenkins process
 [root@rhel-master ~]# systemctl start jenkins
+
+
+Plugin used for backup:
+======================
+thinbackup plugin.
+
+Error1: 
+
+Caused by: java.lang.UnsatisfiedLinkError: /tmp/jna--1712433994/jna7387046629130767794.tmp: /tmp/jna--1712433994/jna7387046629130767794.tmp: 
+failed to map segment from shared object: Operation not permitted
+
+solution: check the permissions on /var/lib/jenkins .
+chown -R jenkins:jenkins /var/lib/jekins
+
+

@@ -1,0 +1,53 @@
+1) using jq
+===========
+[root@ip-10-178-200-24 ~]# cat test.json | jq .fruit
+"Apple"
+[root@ip-10-178-200-24 ~]# cat test.json
+{
+    "fruit": "Apple",
+    "size": "Large",
+    "color": "Red"
+}
+[root@ip-10-178-200-24 ~]# cat test.json | jq .fruit
+"Apple"
+[root@ip-10-178-200-24 ~]#
+
+Example2
+===========
+{"users":
+  [
+    {"name":"pi",
+      "gecos": "Hypriot Pirate",
+      "sudo":"ALL=(ALL) NOPASSWD:ALL",
+      "shell": "/bin/bash",
+      "groups":"users,docker,video",
+      "plain_text_passwd":"pi",
+      "lock_passwd":"false",
+      "ssh_pwauth":"true",
+      "chpasswd": {"expire": false}
+    },
+    {"name":"admin",
+      "gecos": "Hypriot Pirate",
+      "sudo":"ALL=(ALL) NOPASSWD:ALL",
+      "shell": "/bin/bash",
+      "primary-group": "users",
+      "groups":"users,docker,adm,dialout,audio,plugdev,netdev,video",
+      "ssh-import-id":"None",
+      "plain_text_passwd":"pi",
+      "lock_passwd":"true",
+      "ssh_pwauth":"true",
+      "chpasswd": "{expire: false}",
+      "ssh-authorized-keys": ["ssh-rsa abcdefg1234567890 YOUR_KEY@YOURHOST.local"]
+    }
+  ]
+  }
+  
+  
+#cat members.json | jq -r '.hits|.hits|.[]|._source|.memberId'
+
+
+2) using python
+==============
+
+cat sample.json |python -c 'import json,sys;obj=json.load(sys.stdin);print obj["tags"];
+

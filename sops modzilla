@@ -1,0 +1,22 @@
+windows
+========
+
+
+Steps to install SOPS in windows for Upload-config :
+--------------------------------------------------------
+
+1) Install golang >> https://golang.org/dl/
+2) Install make and set ENV variables >> http://gnuwin32.sourceforge.net/packages/make.htm
+3) Download and Install awscli and configure with the Jenkins2S3_User credentails >> https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html
+		$ aws configure
+4) Install the Git >> https://git-scm.com/
+		configure the Jenkins2S3_User HTTPS credentails
+5) Configure Username globally in git.
+		$ git config --global user.name "Kartheek"
+		$ git config --global user.email KartheekP1@microland.com
+6) set the SOPS_KMS_ARN env variable.
+		SOPS_KMS_ARN="arn:aws:kms:eu-central-1:549615285520:key/61d73fa6-3a56-4cbc-a6fa-05cb5a6a2acc"
+
+Linux
+======
+https://github.com/mozilla/sops

@@ -19,6 +19,3 @@ do
         printf "Adding ftp access for %s using %s ftp account...\n\n" $domain $ftpusername
 	
 done < "$file"Create a text file called /tmp/domains.txt as follows:
-/tm/domains.txt
-cyberciti.biz|202.54.1.1|/home/httpd|ftpcbzuser
-nixcraft.com|202.54.1.2|/home/httpd|ftpnixuser

@@ -98,3 +98,7 @@ Debug SSL/TLS To The HTTPS
 ===========================
 openssl s_client -connect poftut.com:443 -tlsextdebug
 
+How  to check enddate expiry date
+================================
+openssl x509 -enddate -noout -in file.pem
+

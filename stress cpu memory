@@ -1,0 +1,2 @@
+stress -cpu 8
+stress -m 1 --vm-bytes 10000M

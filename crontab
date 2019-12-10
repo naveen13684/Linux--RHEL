@@ -21,3 +21,12 @@ MAILTO=root
 # *  *  *  *  * user-name  command to be executed
 
 [nagios@server1 mnt]$
+
+List the contrab entries
+=======================
+crontab -l
+
+Edit crontab
+============
+crontab -e
+

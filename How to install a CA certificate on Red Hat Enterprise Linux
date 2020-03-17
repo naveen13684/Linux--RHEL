@@ -1,0 +1,18 @@
+openssl verify server.crt
+openssl verify -CAfile rapidSSL-ca.crt server.crt 
+
+
+yum install ca-certificates
+
+Enable the dynamic CA configuration feature by running:
+update-ca-trust enable
+
+Copy the RapidSSL Intermediate CA certificate to the directory /etc/pki/ca-trust/source/anchors/:
+cp rapidSSL-ca.crt /etc/pki/ca-trust/source/anchors/
+
+Extract and add the Intermediate CA certificate to the list of trusted CA's:
+update-ca-trust extract
+
+Verify the SSL certificate that signed by RapidSSL:
+# openssl verify  server.crt 
+server.crt : OK
